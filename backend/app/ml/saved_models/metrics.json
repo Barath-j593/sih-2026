@@ -1,0 +1,319 @@
+{
+  "model_name": "SETU Ensemble (XGBoost + Isolation Forest + Graph Centrality)",
+  "accuracy": 0.9342,
+  "precision": 0.7738,
+  "recall": 0.7906,
+  "f1_score": 0.7821,
+  "roc_auc": 0.9795,
+  "confusion_matrix": {
+    "tn": 3262,
+    "fp": 138,
+    "fn": 125,
+    "tp": 472
+  },
+  "feature_importance": [
+    {
+      "feature": "STALL_RISK_SCORE",
+      "importance": 0.2075
+    },
+    {
+      "feature": "ALLOC_ZSCORE_WORKTYPE",
+      "importance": 0.1853
+    },
+    {
+      "feature": "DUPLICATE_COUNT",
+      "importance": 0.1488
+    },
+    {
+      "feature": "IDA_MP_WORK_SHARE",
+      "importance": 0.1077
+    },
+    {
+      "feature": "IDA_WORK_COUNT",
+      "importance": 0.1064
+    },
+    {
+      "feature": "STRUCTURING_SCORE",
+      "importance": 0.0928
+    },
+    {
+      "feature": "FUZZY_SIMILARITY_SCORE",
+      "importance": 0.0467
+    },
+    {
+      "feature": "DAYS_SINCE_RECOMMENDED",
+      "importance": 0.0429
+    },
+    {
+      "feature": "ALLOCATION_AMOUNT",
+      "importance": 0.0169
+    },
+    {
+      "feature": "IDA_MP_ALLOC_SHARE",
+      "importance": 0.0163
+    },
+    {
+      "feature": "MP_TOTAL_WORKS",
+      "importance": 0.0162
+    },
+    {
+      "feature": "ALLOC_ZSCORE_STATE",
+      "importance": 0.0125
+    }
+  ],
+  "pr_curve": [
+    {
+      "threshold": 0.001,
+      "precision": 0.149,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.003,
+      "precision": 0.157,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.003,
+      "precision": 0.166,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.003,
+      "precision": 0.176,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.003,
+      "precision": 0.187,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.004,
+      "precision": 0.2,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.004,
+      "precision": 0.214,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.004,
+      "precision": 0.232,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.005,
+      "precision": 0.252,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.005,
+      "precision": 0.275,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.005,
+      "precision": 0.304,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.007,
+      "precision": 0.337,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.01,
+      "precision": 0.379,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.014,
+      "precision": 0.434,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.024,
+      "precision": 0.502,
+      "recall": 0.993
+    },
+    {
+      "threshold": 0.051,
+      "precision": 0.598,
+      "recall": 0.987
+    },
+    {
+      "threshold": 0.252,
+      "precision": 0.712,
+      "recall": 0.938
+    },
+    {
+      "threshold": 0.516,
+      "precision": 0.783,
+      "recall": 0.776
+    },
+    {
+      "threshold": 0.622,
+      "precision": 0.884,
+      "recall": 0.585
+    },
+    {
+      "threshold": 0.99,
+      "precision": 1.0,
+      "recall": 0.332
+    }
+  ],
+  "roc_curve": [
+    {
+      "threshold": Infinity,
+      "fpr": 0.0,
+      "tpr": 0.0,
+      "precision": 0.149,
+      "recall": 0.0
+    },
+    {
+      "threshold": 0.727,
+      "fpr": 0.002,
+      "tpr": 0.497,
+      "precision": 0.15,
+      "recall": 0.497
+    },
+    {
+      "threshold": 0.65,
+      "fpr": 0.01,
+      "tpr": 0.533,
+      "precision": 0.151,
+      "recall": 0.533
+    },
+    {
+      "threshold": 0.607,
+      "fpr": 0.016,
+      "tpr": 0.608,
+      "precision": 0.152,
+      "recall": 0.608
+    },
+    {
+      "threshold": 0.585,
+      "fpr": 0.02,
+      "tpr": 0.658,
+      "precision": 0.153,
+      "recall": 0.658
+    },
+    {
+      "threshold": 0.565,
+      "fpr": 0.027,
+      "tpr": 0.695,
+      "precision": 0.154,
+      "recall": 0.695
+    },
+    {
+      "threshold": 0.554,
+      "fpr": 0.031,
+      "tpr": 0.717,
+      "precision": 0.155,
+      "recall": 0.717
+    },
+    {
+      "threshold": 0.524,
+      "fpr": 0.036,
+      "tpr": 0.765,
+      "precision": 0.155,
+      "recall": 0.765
+    },
+    {
+      "threshold": 0.492,
+      "fpr": 0.042,
+      "tpr": 0.802,
+      "precision": 0.156,
+      "recall": 0.802
+    },
+    {
+      "threshold": 0.447,
+      "fpr": 0.047,
+      "tpr": 0.832,
+      "precision": 0.157,
+      "recall": 0.832
+    },
+    {
+      "threshold": 0.393,
+      "fpr": 0.054,
+      "tpr": 0.871,
+      "precision": 0.158,
+      "recall": 0.871
+    },
+    {
+      "threshold": 0.298,
+      "fpr": 0.061,
+      "tpr": 0.916,
+      "precision": 0.159,
+      "recall": 0.916
+    },
+    {
+      "threshold": 0.248,
+      "fpr": 0.067,
+      "tpr": 0.94,
+      "precision": 0.16,
+      "recall": 0.94
+    },
+    {
+      "threshold": 0.171,
+      "fpr": 0.083,
+      "tpr": 0.961,
+      "precision": 0.161,
+      "recall": 0.961
+    },
+    {
+      "threshold": 0.059,
+      "fpr": 0.11,
+      "tpr": 0.982,
+      "precision": 0.162,
+      "recall": 0.982
+    },
+    {
+      "threshold": 0.01,
+      "fpr": 0.286,
+      "tpr": 1.0,
+      "precision": 0.163,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.005,
+      "fpr": 0.486,
+      "tpr": 1.0,
+      "precision": 0.164,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.004,
+      "fpr": 0.61,
+      "tpr": 1.0,
+      "precision": 0.165,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.004,
+      "fpr": 0.66,
+      "tpr": 1.0,
+      "precision": 0.166,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.003,
+      "fpr": 0.83,
+      "tpr": 1.0,
+      "precision": 0.167,
+      "recall": 1.0
+    },
+    {
+      "threshold": 0.002,
+      "fpr": 0.963,
+      "tpr": 1.0,
+      "precision": 0.168,
+      "recall": 1.0
+    }
+  ],
+  "training_sample_size": 3997,
+  "fraud_rate": 0.1494,
+  "timestamp": "2026-09-01T15:55:12.206044",
+  "disclosure": "Models trained and evaluated on 20,000 synthetic ground-truth labeled records (overpricing, duplicate, ghost project, vendor capture, structuring). Applied to real public MPLADS records for live scoring."
+}
