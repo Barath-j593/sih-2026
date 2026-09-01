@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRole } from "../../context/RoleContext";
 import { fetchStateChoropleth, fetchDistrictDrilldown, fetchConstituencyPins } from "../../lib/api";
 import { StateChoroplethMap } from "../../components/maps/StateChoroplethMap";
 import { DistrictDrilldownMap } from "../../components/maps/DistrictDrilldownMap";

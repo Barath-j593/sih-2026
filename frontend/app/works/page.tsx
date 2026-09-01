@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRole } from "../../context/RoleContext";
 import { fetchWorks, fetchFilters } from "../../lib/api";
 import { WorkItem } from "../../lib/types";
 import { RiskBadge } from "../../components/ui/RiskBadge";
