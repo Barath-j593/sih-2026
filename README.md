@@ -14,33 +14,41 @@
 
 ```mermaid
 flowchart TD
-    subgraph Data Pipeline
-        S1[Synthetic Labeled Generator<br/>20,000 ground-truth records] -->|Supervised Training| ML1[Model Training Pipeline]
-        R1[Real Public Dataset<br/>MPLADS_cleaned_featured.csv<br/>60,356 Public Works] -->|Batch Feature Ingestion| INF[Batch ML Inference & Scoring]
+
+    subgraph DP["Data Pipeline"]
+        S1["Synthetic Labeled Generator - 20,000 ground-truth records"]
+        R1["Real Public Dataset - MPLADS_cleaned_featured.csv - 60,356 Public Works"]
+
+        S1 -->|Supervised Training| ML1["Model Training Pipeline"]
+        R1 -->|Batch Feature Ingestion| INF["Batch ML Inference & Scoring"]
     end
 
-    subgraph Multi-Signal ML Ensemble
-        ML1 --> E1[XGBoost Supervised Classifier]
-        ML1 --> E2[Isolation Forest Anomaly Detector]
-        ML1 --> E3[Local Outlier Factor LOF]
-        ML1 --> E4[NetworkX Bipartite Graph Centrality]
-        
-        E1 & E2 & E3 & E4 --> FUS[Risk Fusion Engine<br/>Calibrated 0-100 Score + Explainable Audit Traces]
+    subgraph ML["Multi-Signal ML Ensemble"]
+        ML1 --> E1["XGBoost Supervised Classifier"]
+        ML1 --> E2["Isolation Forest Anomaly Detector"]
+        ML1 --> E3["Local Outlier Factor (LOF)"]
+        ML1 --> E4["NetworkX Bipartite Graph Centrality"]
+
+        E1 --> FUS["Risk Fusion Engine - Calibrated 0-100 Score + Explainable Audit Traces"]
+        E2 --> FUS
+        E3 --> FUS
+        E4 --> FUS
+
         FUS --> INF
     end
 
-    subgraph Backend Services
-        INF --> DB[(SQLite / PostgreSQL<br/>Works, MPs, IDAs, Cases, Alerts)]
-        DB --> API[FastAPI Layer<br/>Role-Scoped Endpoints & Auth]
+    subgraph BE["Backend Services"]
+        INF --> DB["SQLite / PostgreSQL - Works, MPs, IDAs, Cases, Alerts"]
+        DB --> API["FastAPI Layer - Role-Scoped Endpoints & Auth"]
     end
 
-    subgraph Frontend Application
-        API --> UI1[Sticky Role Switcher<br/>Ministry | State | District | MP]
-        UI1 --> UI2[State & District Geospatial Maps]
-        UI1 --> UI3[MP-IDA Network Graph Visualizer]
-        UI1 --> UI4[Works Explorer & Explainability Radars]
-        UI1 --> UI5[Case Management Kanban Workflow]
-        UI1 --> UI6[Statutory PDF & CSV Compliance Exporters]
+    subgraph FE["Frontend Application"]
+        API --> UI1["Sticky Role Switcher - Ministry | State | District | MP"]
+        UI1 --> UI2["State & District Geospatial Maps"]
+        UI1 --> UI3["MP-IDA Network Graph Visualizer"]
+        UI1 --> UI4["Works Explorer & Explainability Radars"]
+        UI1 --> UI5["Case Management Kanban Workflow"]
+        UI1 --> UI6["Statutory PDF & CSV Compliance Exporters"]
     end
 ```
 
