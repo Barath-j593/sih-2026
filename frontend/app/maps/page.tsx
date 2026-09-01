@@ -8,12 +8,26 @@ import { ConstituencyMap } from "../../components/maps/ConstituencyMap";
 import { Map, Layers, Building2, MapPin } from "lucide-react";
 
 export default function MapsPage() {
-  const [activeTab, setActiveTab] = useState<"national" | "district" | "constituency">("national");
+  const { role, jurisdiction } = useRole();
+  const [activeTab, setActiveTab] = useState<"national" | "district" | "constituency">(
+    role === "state" ? "district" : (role === "district" || role === "mp") ? "constituency" : "national"
+  );
   const [stateData, setStateData] = useState<any[]>([]);
   const [districtData, setDistrictData] = useState<any[]>([]);
   const [pinsData, setPinsData] = useState<any[]>([]);
-  const [selectedState, setSelectedState] = useState("Bihar");
+  const [selectedState, setSelectedState] = useState(role === "state" ? jurisdiction : "Bihar");
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (role === "state") {
+      setSelectedState(jurisdiction);
+      setActiveTab("district");
+    } else if (role === "district" || role === "mp") {
+      setActiveTab("constituency");
+    } else {
+      setActiveTab("national");
+    }
+  }, [role, jurisdiction]);
 
   useEffect(() => {
     async function loadMaps() {

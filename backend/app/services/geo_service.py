@@ -100,10 +100,18 @@ def np_sin(x):
 
 def get_constituency_pins(db: Session, constituency_name: Optional[str] = None, mp_name: Optional[str] = None, limit: int = 150) -> List[Dict[str, Any]]:
     query = db.query(Work)
-    if constituency_name:
-        query = query.filter(func.lower(Work.constituency).like(f"%{constituency_name.lower()}%"))
-    if mp_name:
-        query = query.filter(func.lower(Work.mp_name).like(f"%{mp_name.lower()}%"))
+    if mp_name and mp_name != "National":
+        query = query.filter(func.lower(Work.mp_name).like(f"%{mp_name.strip().lower()}%"))
+    elif constituency_name and constituency_name != "National":
+        clean_c = constituency_name.strip().lower()
+        query = query.filter(
+            or_(
+                func.lower(Work.constituency).like(f"%{clean_c}%"),
+                func.lower(Work.ida).like(f"%{clean_c}%"),
+                func.lower(Work.city).like(f"%{clean_c}%"),
+                func.lower(Work.state).like(f"%{clean_c}%")
+            )
+        )
 
     works = query.order_by(desc(Work.risk_score)).limit(limit).all()
     

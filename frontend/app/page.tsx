@@ -63,7 +63,11 @@ export default function DashboardPage() {
           const grp = await fetchNetworkGraph(60, 40);
           setGraphData(grp);
         } else {
-          const pins = await fetchConstituencyPins(jurisdiction, role === "mp" ? jurisdiction : undefined);
+          const pins = await fetchConstituencyPins(
+            role === "district" ? jurisdiction : undefined,
+            role === "mp" ? jurisdiction : undefined,
+            150
+          );
           setPinsData(pins);
         }
       } catch (err: any) {

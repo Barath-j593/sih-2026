@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 export default function WorksExplorerPage() {
+  const { role, jurisdiction } = useRole();
   const [works, setWorks] = useState<WorkItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
@@ -26,11 +27,26 @@ export default function WorksExplorerPage() {
 
   // Filters
   const [search, setSearch] = useState("");
-  const [state, setState] = useState("");
+  const [state, setState] = useState(role === "state" ? jurisdiction : "");
   const [riskLevel, setRiskLevel] = useState("");
   const [fraudType, setFraudType] = useState("");
   const [sortBy, setSortBy] = useState("risk_score");
   const [sortOrder, setSortOrder] = useState("desc");
+
+  // Keep state filter synced with role switcher
+  useEffect(() => {
+    if (role === "state") {
+      setState(jurisdiction);
+      setPage(1);
+    } else if (role === "district" || role === "mp") {
+      setSearch(jurisdiction);
+      setPage(1);
+    } else if (role === "ministry") {
+      setState("");
+      setSearch("");
+      setPage(1);
+    }
+  }, [role, jurisdiction]);
 
   // Options
   const [options, setOptions] = useState<{

@@ -20,54 +20,51 @@ def get_role_scoped_dashboard(
     role: str,
     jurisdiction: Optional[str] = None
 ) -> DashboardResponse:
-    query = db.query(Work)
+    filters = []
 
-    # Apply role scoping
+    # Apply strict role scoping
     if role == "state" and jurisdiction and jurisdiction != "National":
-        query = query.filter(func.lower(Work.state) == jurisdiction.lower())
+        filters.append(func.lower(Work.state) == jurisdiction.strip().lower())
     elif role == "district" and jurisdiction and jurisdiction != "National":
-        query = query.filter(
+        clean_jur = jurisdiction.strip().lower()
+        filters.append(
             or_(
-                func.lower(Work.constituency).like(f"%{jurisdiction.lower()}%"),
-                func.lower(Work.ida).like(f"%{jurisdiction.lower()}%")
+                func.lower(Work.constituency).like(f"%{clean_jur}%"),
+                func.lower(Work.ida).like(f"%{clean_jur}%"),
+                func.lower(Work.city).like(f"%{clean_jur}%")
             )
         )
     elif role == "mp" and jurisdiction and jurisdiction != "National":
-        query = query.filter(func.lower(Work.mp_name) == jurisdiction.lower())
+        filters.append(func.lower(Work.mp_name) == jurisdiction.strip().lower())
 
-    total_works = query.count()
-    if total_works == 0:
-        # Fallback to unscoped query if jurisdiction has 0 records
-        query = db.query(Work)
-        total_works = query.count()
-
-    total_alloc = db.query(func.sum(Work.allocation_amount)).filter(query.whereclause).scalar() or 0.0
-    avg_risk = db.query(func.avg(Work.risk_score)).filter(query.whereclause).scalar() or 0.0
+    total_works = db.query(func.count(Work.id)).filter(*filters).scalar() or 0
+    total_alloc = db.query(func.sum(Work.allocation_amount)).filter(*filters).scalar() or 0.0
+    avg_risk = db.query(func.avg(Work.risk_score)).filter(*filters).scalar() or 0.0
     
     # Risk buckets
-    flagged_works_count = query.filter(Work.risk_score >= 60.0).count()
-    critical_count = query.filter(Work.risk_score >= 80.0).count()
-    high_count = query.filter(Work.risk_score >= 60.0, Work.risk_score < 80.0).count()
-    medium_count = query.filter(Work.risk_score >= 35.0, Work.risk_score < 60.0).count()
-    low_count = query.filter(Work.risk_score < 35.0).count()
+    flagged_works_count = db.query(func.count(Work.id)).filter(*filters, Work.risk_score >= 60.0).scalar() or 0
+    critical_count = db.query(func.count(Work.id)).filter(*filters, Work.risk_score >= 80.0).scalar() or 0
+    high_count = db.query(func.count(Work.id)).filter(*filters, Work.risk_score >= 60.0, Work.risk_score < 80.0).scalar() or 0
+    medium_count = db.query(func.count(Work.id)).filter(*filters, Work.risk_score >= 35.0, Work.risk_score < 60.0).scalar() or 0
+    low_count = db.query(func.count(Work.id)).filter(*filters, Work.risk_score < 35.0).scalar() or 0
 
     # Amount at risk
     amount_at_risk = db.query(func.sum(Work.allocation_amount)).filter(
-        query.whereclause,
+        *filters,
         Work.risk_score >= 60.0
     ).scalar() or 0.0
 
     # Cases
-    case_query = db.query(Case)
-    if role == "state" and jurisdiction:
-        case_query = case_query.filter(func.lower(Case.state) == jurisdiction.lower())
-    elif role == "district" and jurisdiction:
-        case_query = case_query.filter(func.lower(Case.district).like(f"%{jurisdiction.lower()}%"))
-    elif role == "mp" and jurisdiction:
-        case_query = case_query.filter(func.lower(Case.mp_name) == jurisdiction.lower())
+    case_filters = []
+    if role == "state" and jurisdiction and jurisdiction != "National":
+        case_filters.append(func.lower(Case.state) == jurisdiction.strip().lower())
+    elif role == "district" and jurisdiction and jurisdiction != "National":
+        case_filters.append(func.lower(Case.district).like(f"%{jurisdiction.strip().lower()}%"))
+    elif role == "mp" and jurisdiction and jurisdiction != "National":
+        case_filters.append(func.lower(Case.mp_name) == jurisdiction.strip().lower())
 
-    resolved_cases = case_query.filter(Case.status == "resolved").count()
-    active_alerts = db.query(Alert).filter(Alert.is_read == False).count()
+    resolved_cases = db.query(func.count(Case.id)).filter(*case_filters, Case.status == "resolved").scalar() or 0
+    active_alerts = db.query(func.count(Alert.id)).filter(Alert.is_read == False).scalar() or 0
 
     summary = SummaryCards(
         total_works=total_works,
@@ -93,7 +90,7 @@ def get_role_scoped_dashboard(
         func.count(Work.id),
         func.sum(Work.allocation_amount)
     ).filter(
-        query.whereclause,
+        *filters,
         Work.risk_score >= 50.0
     ).group_by(Work.predicted_fraud_type).all()
 
@@ -131,7 +128,7 @@ def get_role_scoped_dashboard(
             func.avg(Work.risk_score),
             func.sum(case((Work.risk_score >= 60, 1), else_=0)),
             func.sum(case((Work.risk_score >= 60, Work.allocation_amount), else_=0))
-        ).group_by(Work.state).order_by(desc(func.avg(Work.risk_score))).limit(15).all()
+        ).filter(*filters).group_by(Work.state).order_by(desc(func.avg(Work.risk_score))).limit(15).all()
 
         for st, c, tot, avg_r, flg, r_amt in state_stats:
             r_val = float(avg_r or 0.0)
@@ -156,7 +153,7 @@ def get_role_scoped_dashboard(
             func.avg(Work.risk_score),
             func.sum(case((Work.risk_score >= 60, 1), else_=0)),
             func.sum(case((Work.risk_score >= 60, Work.allocation_amount), else_=0))
-        ).filter(query.whereclause).group_by(Work.constituency).order_by(desc(func.avg(Work.risk_score))).limit(15).all()
+        ).filter(*filters).group_by(Work.constituency).order_by(desc(func.avg(Work.risk_score))).limit(15).all()
 
         for dst, c, tot, avg_r, flg, r_amt in dist_stats:
             r_val = float(avg_r or 0.0)
@@ -174,7 +171,7 @@ def get_role_scoped_dashboard(
             )
 
     # Top Flagged Works
-    top_works = query.filter(Work.risk_score >= 55.0).order_by(desc(Work.risk_score)).limit(10).all()
+    top_works = db.query(Work).filter(*filters, Work.risk_score >= 50.0).order_by(desc(Work.risk_score)).limit(10).all()
     top_flagged_works = []
     for w in top_works:
         top_flagged_works.append(
@@ -195,7 +192,15 @@ def get_role_scoped_dashboard(
         )
 
     # Recent Alerts
-    alerts = db.query(Alert).order_by(desc(Alert.created_at)).limit(5).all()
+    alert_q = db.query(Alert)
+    if role == "state" and jurisdiction and jurisdiction != "National":
+        alert_q = alert_q.filter(func.lower(Alert.state) == jurisdiction.strip().lower())
+    elif role == "district" and jurisdiction and jurisdiction != "National":
+        alert_q = alert_q.filter(func.lower(Alert.district).like(f"%{jurisdiction.strip().lower()}%"))
+    elif role == "mp" and jurisdiction and jurisdiction != "National":
+        alert_q = alert_q.filter(func.lower(Alert.mp_name) == jurisdiction.strip().lower())
+
+    alerts = alert_q.order_by(desc(Alert.created_at)).limit(5).all()
     recent_alerts = [
         {
             "id": a.id,
@@ -220,11 +225,14 @@ def get_role_scoped_dashboard(
     ]
 
     # Role-specific extra insights
+    total_active_idas = db.query(func.count(func.distinct(Work.ida))).filter(*filters).scalar() or 1
+    total_active_mps = db.query(func.count(func.distinct(Work.mp_name))).filter(*filters).scalar() or 1
+
     extra_insights = {
         "role_title": f"{role.upper()} Authority View",
         "compliance_rate": round(max(0, 100 - (flagged_works_count / max(1, total_works) * 100)), 1),
-        "total_active_idas": db.query(func.count(func.distinct(Work.ida))).filter(query.whereclause).scalar() or 1,
-        "total_active_mps": db.query(func.count(func.distinct(Work.mp_name))).filter(query.whereclause).scalar() or 1
+        "total_active_idas": total_active_idas,
+        "total_active_mps": total_active_mps
     }
 
     return DashboardResponse(
