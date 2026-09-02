@@ -22,41 +22,41 @@ export function StatCard({
   variant = "default",
 }: StatCardProps) {
   const variantStyles = {
-    default: "border-slate-800 bg-slate-900/60 text-slate-100",
-    danger: "border-red-900/40 bg-red-950/20 text-red-100",
-    warning: "border-amber-900/40 bg-amber-950/20 text-amber-100",
-    success: "border-emerald-900/40 bg-emerald-950/20 text-emerald-100",
-    accent: "border-blue-900/40 bg-blue-950/20 text-blue-100",
+    default: "border-slate-200 bg-white text-slate-900",
+    danger: "border-red-200 bg-red-50/40 text-slate-900",
+    warning: "border-amber-200 bg-amber-50/40 text-slate-900",
+    success: "border-emerald-200 bg-emerald-50/40 text-slate-900",
+    accent: "border-blue-200 bg-blue-50/40 text-slate-900",
   };
 
   const iconColors = {
-    default: "text-slate-400 bg-slate-800/80",
-    danger: "text-red-400 bg-red-900/30",
-    warning: "text-amber-400 bg-amber-900/30",
-    success: "text-emerald-400 bg-emerald-900/30",
-    accent: "text-blue-400 bg-blue-900/30",
+    default: "text-slate-700 bg-slate-100",
+    danger: "text-red-600 bg-red-100",
+    warning: "text-amber-600 bg-amber-100",
+    success: "text-emerald-600 bg-emerald-100",
+    accent: "text-blue-600 bg-blue-100",
   };
 
   return (
     <div
-      className={`relative overflow-hidden rounded-xl border p-4 sm:p-5 backdrop-blur-md transition-all duration-200 hover:border-slate-700 hover:shadow-lg ${variantStyles[variant]}`}
+      className={`relative overflow-hidden rounded-2xl border p-4 sm:p-5 shadow-xs transition-all duration-200 hover:border-slate-300 hover:shadow-md ${variantStyles[variant]}`}
     >
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs sm:text-sm font-medium text-slate-400 uppercase tracking-wider">{title}</p>
-          <p className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-white">{value}</p>
+          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{title}</p>
+          <p className="mt-1.5 text-2xl sm:text-3xl font-black tracking-tight text-slate-900 font-mono">{value}</p>
         </div>
-        <div className={`rounded-lg p-2.5 sm:p-3 ${iconColors[variant]}`}>
+        <div className={`rounded-xl p-2.5 sm:p-3 ${iconColors[variant]}`}>
           <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
         </div>
       </div>
       {(subtitle || trend) && (
-        <div className="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/60 pt-2.5">
+        <div className="mt-3 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-2.5">
           {subtitle && <span>{subtitle}</span>}
           {trend && (
             <span
-              className={`font-medium ${
-                trend.isPositive ? "text-emerald-400" : "text-red-400"
+              className={`font-semibold ${
+                trend.isPositive ? "text-emerald-600" : "text-red-600"
               }`}
             >
               {trend.value}

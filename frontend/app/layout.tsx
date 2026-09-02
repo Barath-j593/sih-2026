@@ -6,23 +6,23 @@ import { Navbar } from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
 
 export const metadata = {
-  title: "SETU — AI-Powered MPLADS Anomaly & Fraud Detection (SIH 2026)",
-  description: "Explainable multi-signal AI platform for detecting cost escalation, duplicate allocations, vendor capture, and ghost projects across Indian parliamentary constituencies.",
+  title: "SANCHAY — AI-Powered MPLADS Intelligence & Risk Monitoring (Government of India)",
+  description: "Official intelligence layer for MPLADS works, fund utilization, and project execution, helping authorities identify anomalies before they become audit findings.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-[#070c18] text-slate-100 min-h-screen flex flex-col antialiased">
+    <html lang="en" className="light">
+      <body className="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased">
         <RoleProvider>
-          {/* Sticky Demo Role Switcher at the very top */}
+          {/* Top Sticky Tier Switcher for Operational Governance */}
           <RoleSwitcher />
-          {/* Government Portal Header */}
+          {/* Official Government Navbar */}
           <Navbar />
-          {/* Main Body with Sidebar + Content */}
+          {/* Main Body Shell */}
           <div className="flex flex-1 overflow-hidden">
             <Sidebar />
-            <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-[#070c18]">
+            <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-slate-50/60">
               <div className="mx-auto max-w-7xl">{children}</div>
             </main>
           </div>
