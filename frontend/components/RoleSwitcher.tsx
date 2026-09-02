@@ -3,58 +3,97 @@
 import React from "react";
 import { useRole } from "../context/RoleContext";
 import { usePathname } from "next/navigation";
-import { Shield, Building2, MapPin, UserCheck, ChevronDown } from "lucide-react";
+import { Shield, Building2, MapPin, UserCheck, ChevronDown, Check } from "lucide-react";
 import { UserRole } from "../lib/types";
 
 const STATE_OPTIONS = [
   "Bihar",
   "Rajasthan",
   "Uttar Pradesh",
-  "Maharashtra",
-  "Madhya Pradesh",
-  "West Bengal",
-  "Tamil Nadu",
-  "Karnataka",
-  "Gujarat",
   "Odisha",
-  "Assam",
+  "Andhra Pradesh",
+  "Karnataka",
+  "Telangana",
+  "Uttarakhand",
+  "Jharkhand",
+  "Tamil Nadu",
   "Punjab",
   "Haryana",
-  "Chhattisgarh",
-  "Jharkhand",
+  "Assam",
+  "Madhya Pradesh",
+  "Gujarat",
+  "Himachal Pradesh",
+  "Meghalaya",
+  "West Bengal",
   "Kerala",
+  "Jammu And Kashmir",
+  "Arunachal Pradesh",
+  "Chhattisgarh",
+  "Maharashtra",
+  "Tripura",
   "Delhi",
-  "Uttarakhand",
-  "Andhra Pradesh",
-  "Telangana"
 ];
 
 const DISTRICT_OPTIONS = [
   "DARBHANGA",
   "DHOLPUR",
-  "BHADOHI",
-  "JALORE",
-  "JAIPUR",
+  "KARAULI-DHOLPUR(SC)",
+  "NALANDA",
   "PATNA",
-  "GAYA",
-  "KARAULI",
-  "MUZAFFARPUR",
+  "ALMORA(SC)",
+  "PEDDAPALLE",
+  "ONGOLE",
+  "ZAHIRABAD",
+  "SAMBALPUR",
+  "DUMKA(ST)",
+  "RAJMAHAL(ST)",
+  "TEHRI GARHWAL",
+  "RAJAMPET",
+  "KALAHANDI",
+  "JAGATSINGHPUR(SC)",
+  "ARUNACHAL WEST",
+  "ATTINGAL",
+  "ANANTNAG",
+  "FIROZPUR",
+  "SHILLONG",
+  "LUDHIANA",
+  "MANDI",
+  "NAINITAL UDHAM SINGH NAG.",
+  "JAIPUR",
   "VARANASI",
   "PUNE",
-  "NAGPUR"
 ];
 
 const MP_OPTIONS = [
   "Mr Gopal Jee Thakur",
   "Manoj Rajoria",
+  "Ajay Tamta",
+  "Venkatesh Netha Borlakunta",
+  "Magunta Sreenivasulu Reddy",
+  "Bheemrao Baswanthrao Patil",
+  "Nitesh Ganga Deb",
+  "Sunil Soren",
+  "Vijay Kumar Hansdak",
+  "Mala Rajya Laxmi Shah",
+  "Midhun Reddy",
   "Smt Jaya Bachchan",
-  "SHRI Rajendra Gehlot",
-  "Ram Charan Bohra"
+  "Basanta Kumar Panda",
+  "Smt Rajashree Mallick",
+  "Kiren Rijiju",
+  "Adv Adoor Prakash",
+  "Hasnain Masoodi",
+  "Sukhbir Singh Badal",
+  "Vincent H Pala",
+  "Ravneet Singh",
+  "Geeta Kora",
+  "Smt Pratibha Singh",
+  "Ajay Bhatt",
+  "Kaushalendra Kumar",
 ];
 
 export function RoleSwitcher() {
   const pathname = usePathname();
-  const { role, setRole, jurisdiction, setJurisdiction, roleConfig, availableRoles } = useRole();
+  const { role, setRole, jurisdiction, setJurisdiction, availableRoles } = useRole();
 
   // If on landing page "/", don't show sticky role switcher
   if (pathname === "/") {
@@ -64,13 +103,13 @@ export function RoleSwitcher() {
   const getIcon = (r: UserRole) => {
     switch (r) {
       case "ministry":
-        return <Shield className="h-3.5 w-3.5" />;
+        return <Shield className="h-4 w-4" />;
       case "state":
-        return <Building2 className="h-3.5 w-3.5" />;
+        return <Building2 className="h-4 w-4" />;
       case "district":
-        return <MapPin className="h-3.5 w-3.5" />;
+        return <MapPin className="h-4 w-4" />;
       case "mp":
-        return <UserCheck className="h-3.5 w-3.5" />;
+        return <UserCheck className="h-4 w-4" />;
     }
   };
 
@@ -88,29 +127,32 @@ export function RoleSwitcher() {
   };
 
   return (
-    <div className="sticky top-0 z-40 w-full border-b border-slate-200 bg-slate-50/95 px-4 py-2 text-xs backdrop-blur-md shadow-2xs">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 px-4 py-2 text-xs backdrop-blur-md shadow-xs">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
         {/* Left: Role Switcher Buttons */}
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-[10px] uppercase tracking-wider text-slate-500">
-            ACTIVE GOVERNANCE TIER:
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="font-bold text-[11px] uppercase tracking-wider text-slate-500">
+            Active Governance Tier:
           </span>
 
-          <div className="flex items-center gap-1 rounded-xl bg-slate-200/80 p-1">
+          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-slate-100 p-1 border border-slate-200/80">
             {availableRoles.map((r) => {
-              const isActive = role === r.id;
+              const isActive = role === r.role || role === r.id;
               return (
                 <button
-                  key={r.id}
-                  onClick={() => handleRoleChange(r.id)}
-                  className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition-all ${
+                  key={r.role || r.id}
+                  onClick={() => handleRoleChange(r.role || r.id)}
+                  type="button"
+                  className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
                     isActive
-                      ? "bg-slate-900 text-white shadow-xs"
-                      : "text-slate-600 hover:bg-white hover:text-slate-900"
+                      ? "bg-slate-900 text-white shadow-sm ring-1 ring-slate-900"
+                      : "bg-white text-slate-700 border border-slate-200/90 hover:bg-slate-50 hover:text-slate-900"
                   }`}
                 >
-                  {getIcon(r.id)}
-                  <span>{r.name}</span>
+                  <span className={isActive ? "text-amber-400" : "text-slate-500"}>
+                    {getIcon(r.role || r.id)}
+                  </span>
+                  <span>{r.label || r.name}</span>
                 </button>
               );
             })}
@@ -118,13 +160,16 @@ export function RoleSwitcher() {
         </div>
 
         {/* Right: Dynamic Place / Entity Selector */}
-        <div className="flex items-center gap-2">
-          <span className="text-slate-500 font-medium">Scoping:</span>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex items-center gap-1.5 text-slate-600 font-bold text-xs">
+            <span>📍 Location Scope:</span>
+          </div>
 
           {role === "ministry" && (
-            <span className="rounded-lg bg-white border border-slate-200 px-3 py-1 font-bold text-slate-800 shadow-2xs">
-              🇮🇳 All India (15,000 Works | ₹906.21 Cr)
-            </span>
+            <div className="flex items-center gap-2 rounded-lg border border-slate-300 bg-slate-50 px-3 py-1.5 font-bold text-slate-800 shadow-2xs">
+              <span className="text-base">🇮🇳</span>
+              <span>All India (60,356 Works | ₹906.2 Cr)</span>
+            </div>
           )}
 
           {role === "state" && (
@@ -132,15 +177,15 @@ export function RoleSwitcher() {
               <select
                 value={jurisdiction}
                 onChange={(e) => setJurisdiction(e.target.value)}
-                className="appearance-none rounded-lg border border-slate-300 bg-white py-1 pl-3 pr-8 text-xs font-bold text-slate-800 shadow-2xs focus:border-slate-800 focus:outline-none cursor-pointer"
+                className="appearance-none rounded-lg border border-slate-300 bg-white py-1.5 pl-3 pr-9 text-xs font-bold text-slate-900 shadow-2xs hover:border-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 focus:outline-none cursor-pointer"
               >
                 {STATE_OPTIONS.map((st) => (
                   <option key={st} value={st}>
-                    State: {st}
+                    🏛️ State: {st}
                   </option>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-2 h-3.5 w-3.5 text-slate-400" />
+              <ChevronDown className="pointer-events-none absolute right-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" />
             </div>
           )}
 
@@ -149,15 +194,15 @@ export function RoleSwitcher() {
               <select
                 value={jurisdiction}
                 onChange={(e) => setJurisdiction(e.target.value)}
-                className="appearance-none rounded-lg border border-slate-300 bg-white py-1 pl-3 pr-8 text-xs font-bold text-slate-800 shadow-2xs focus:border-slate-800 focus:outline-none cursor-pointer"
+                className="appearance-none rounded-lg border border-slate-300 bg-white py-1.5 pl-3 pr-9 text-xs font-bold text-slate-900 shadow-2xs hover:border-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 focus:outline-none cursor-pointer"
               >
                 {DISTRICT_OPTIONS.map((dst) => (
                   <option key={dst} value={dst}>
-                    District: {dst}
+                    📍 District: {dst}
                   </option>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-2 h-3.5 w-3.5 text-slate-400" />
+              <ChevronDown className="pointer-events-none absolute right-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" />
             </div>
           )}
 
@@ -166,19 +211,25 @@ export function RoleSwitcher() {
               <select
                 value={jurisdiction}
                 onChange={(e) => setJurisdiction(e.target.value)}
-                className="appearance-none rounded-lg border border-slate-300 bg-white py-1 pl-3 pr-8 text-xs font-bold text-slate-800 shadow-2xs focus:border-slate-800 focus:outline-none cursor-pointer"
+                className="appearance-none rounded-lg border border-slate-300 bg-white py-1.5 pl-3 pr-9 text-xs font-bold text-slate-900 shadow-2xs hover:border-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 focus:outline-none cursor-pointer"
               >
                 {MP_OPTIONS.map((mp) => (
                   <option key={mp} value={mp}>
-                    MP: {mp}
+                    👤 MP: {mp}
                   </option>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-2 h-3.5 w-3.5 text-slate-400" />
+              <ChevronDown className="pointer-events-none absolute right-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" />
             </div>
           )}
+
+          {/* Active scope indicator badge */}
+          <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Scoped: {jurisdiction}</span>
+          </span>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

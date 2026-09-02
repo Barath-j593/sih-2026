@@ -26,7 +26,7 @@ export default function RoadmapPage() {
       phase: "Phase 2 (Q4 2026)",
       category: "Cost Governance",
       icon: Building,
-      badgeColor: "bg-amber-950 text-amber-400 border-amber-500/30",
+      badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
       description: "Automated cross-referencing of civil work line-items against real-time State Public Works Department (PWD) official rate schedules to compute exact unit cost variance down to cement and asphalt rates.",
       architecture: [
         "Automated daily ingestion of State PWD rate gazettes via OCR & PDF extractors.",
@@ -40,7 +40,7 @@ export default function RoadmapPage() {
       phase: "Phase 2 (Q4 2026)",
       category: "Vendor Oversight",
       icon: ShieldCheck,
-      badgeColor: "bg-blue-950 text-blue-400 border-blue-500/30",
+      badgeColor: "bg-blue-100 text-blue-900 border-blue-300",
       description: "Direct integration with Government e-Marketplace (GeM), PMGSY, and state debarment registries using fuzzy PAN/GSTIN resolution to flag blacklisted contractors attempting to bid under altered entity names.",
       architecture: [
         "API webhook to GeM Central Debarment Database.",
@@ -54,7 +54,7 @@ export default function RoadmapPage() {
       phase: "Phase 3 (Q1 2027)",
       category: "Crowdsourcing & Public Audit",
       icon: Users,
-      badgeColor: "bg-emerald-950 text-emerald-400 border-emerald-500/30",
+      badgeColor: "bg-emerald-100 text-emerald-900 border-emerald-300",
       description: "Mobile PWA portal enabling local residents to snap GPS-stamped, timestamped photos of ongoing or completed works to automatically verify physical asset existence against reported expenditure.",
       architecture: [
         "PWA with strict GPS hardware verification and EXIF tamper validation.",
@@ -68,7 +68,7 @@ export default function RoadmapPage() {
       phase: "Phase 3 (Q1 2027)",
       category: "Predictive Analytics",
       icon: Activity,
-      badgeColor: "bg-purple-950 text-purple-400 border-purple-500/30",
+      badgeColor: "bg-purple-100 text-purple-900 border-purple-300",
       description: "Predictive model evaluating proposal description, requested allocation, and implementing agency historical clearance latency at the moment of recommendation before official sanction.",
       architecture: [
         "LightGBM latency prediction model trained on historical sanction duration.",
@@ -82,7 +82,7 @@ export default function RoadmapPage() {
       phase: "Phase 3 (Q1 2027)",
       category: "Macro Analytics",
       icon: FileSpreadsheet,
-      badgeColor: "bg-cyan-950 text-cyan-400 border-cyan-500/30",
+      badgeColor: "bg-cyan-100 text-cyan-900 border-cyan-300",
       description: "Cross-lok sabha tenure multi-year comparative analysis tracking repeat allocations for identical physical sites across election cycles.",
       architecture: [
         "Multi-term geospatial asset coordinate deduping engine.",
@@ -96,7 +96,7 @@ export default function RoadmapPage() {
       phase: "Phase 2 (Q4 2026)",
       category: "Accessibility",
       icon: Globe2,
-      badgeColor: "bg-rose-950 text-rose-400 border-rose-500/30",
+      badgeColor: "bg-rose-100 text-rose-900 border-rose-300",
       description: "Complete multilingual localization in Hindi and major regional state languages with native NLP translation of work descriptions.",
       architecture: [
         "Bhashini API integration for Indian language translation.",
@@ -108,18 +108,20 @@ export default function RoadmapPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="rounded bg-saffron-950 px-2 py-0.5 text-xs font-bold text-saffron-400 border border-saffron-500/30">
+            <span className="rounded-md bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-900 border border-amber-200">
               EXPANSION ARCHITECTURE
             </span>
-            <span className="text-xs text-slate-400">MoSPI Digital Infrastructure Roadmap</span>
+            <span className="text-xs text-slate-500 font-mono">MoSPI Digital Infrastructure Roadmap</span>
           </div>
-          <h1 className="mt-1 text-2xl font-black text-white sm:text-3xl">Future Implementation Architecture</h1>
-          <p className="mt-1 text-xs text-slate-400">
+          <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl tracking-tight">
+            Future Implementation Architecture
+          </h1>
+          <p className="mt-1 text-xs sm:text-sm text-slate-500">
             Transparent breakdown of upcoming integrations, civic crowdsourcing, and statutory price-ceiling modules.
           </p>
         </div>
@@ -133,11 +135,11 @@ export default function RoadmapPage() {
             <div
               key={item.title}
               onClick={() => setSelectedFeature(item)}
-              className="group rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md cursor-pointer hover:border-saffron-500/60 hover:bg-slate-900/90 transition-all flex flex-col justify-between"
+              className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-xs cursor-pointer hover:border-amber-500 hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-                  <div className="rounded-xl bg-slate-800 p-2 text-saffron-400 group-hover:bg-saffron-600 group-hover:text-white transition-colors">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div className="rounded-xl bg-slate-100 p-2 text-slate-700 group-hover:bg-amber-500 group-hover:text-white transition-colors">
                     <Icon className="h-5 w-5" />
                   </div>
                   <span className={`rounded-md border px-2 py-0.5 text-[10px] font-bold ${item.badgeColor}`}>
@@ -145,18 +147,18 @@ export default function RoadmapPage() {
                   </span>
                 </div>
 
-                <span className="mt-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+                <span className="mt-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
                   {item.category}
                 </span>
-                <h3 className="mt-1 text-sm font-bold text-white group-hover:text-saffron-400 transition-colors">
+                <h3 className="mt-1 text-sm font-bold text-slate-900 group-hover:text-amber-700 transition-colors">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                <p className="mt-2 text-xs text-slate-600 line-clamp-3 leading-relaxed">
                   {item.description}
                 </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-saffron-400 font-semibold">
+              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-amber-700 font-bold">
                 <span>View Architecture Spec</span>
                 <span>→</span>
               </div>

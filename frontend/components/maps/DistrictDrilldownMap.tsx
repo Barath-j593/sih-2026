@@ -34,31 +34,31 @@ export function DistrictDrilldownMap({
   );
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="rounded bg-amber-950 px-2 py-0.5 text-[11px] font-bold text-amber-400 border border-amber-500/30">
+            <span className="rounded bg-amber-100 px-2 py-0.5 text-[11px] font-bold text-amber-900 border border-amber-200">
               STATE NODAL VIEW
             </span>
-            <h3 className="text-base font-bold text-white">
+            <h3 className="text-base font-bold text-slate-900">
               {selectedStateName} — District & Constituency Risk Audit
             </h3>
           </div>
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-slate-500">
             Compare risk concentrations and vendor capture across districts in {selectedStateName}.
           </p>
         </div>
 
         {/* Search filter */}
-        <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-950 px-3 py-1.5 text-xs text-slate-300">
-          <Search className="h-3.5 w-3.5 text-slate-500" />
+        <div className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-700 shadow-2xs">
+          <Search className="h-3.5 w-3.5 text-slate-400" />
           <input
             type="text"
             placeholder="Filter district..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs text-white placeholder-slate-500 focus:outline-none w-36"
+            className="bg-transparent text-xs text-slate-900 placeholder-slate-400 focus:outline-none w-36"
           />
         </div>
       </div>
@@ -77,72 +77,86 @@ export function DistrictDrilldownMap({
                 }}
                 className={`flex items-center justify-between rounded-xl border p-3.5 cursor-pointer transition-all ${
                   isSelected
-                    ? "border-amber-500 bg-amber-950/20 shadow-md shadow-amber-500/10 ring-1 ring-amber-500/40"
-                    : "border-slate-800/80 bg-slate-950/50 hover:border-slate-700 hover:bg-slate-900/60"
+                    ? "border-amber-500 bg-amber-50/70 shadow-xs ring-1 ring-amber-500/30"
+                    : "border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-white"
                 }`}
               >
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-white">{d.district}</span>
+                    <span className="text-sm font-bold text-slate-900">{d.district}</span>
                     <RiskBadge score={d.avg_risk_score} level={d.risk_level} size="sm" />
                   </div>
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-slate-500">
                     {d.total_works} works • ₹{(d.total_allocation / 100000).toFixed(1)}L Total Funds
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-semibold text-red-400">
+                  <span className="text-xs font-bold text-red-700">
                     {d.flagged_works_count} Flagged
                   </span>
-                  <p className="text-[10px] text-slate-500">₹{(d.amount_at_risk / 100000).toFixed(1)}L at risk</p>
+                  <p className="text-[10px] text-slate-400">₹{(d.amount_at_risk / 100000).toFixed(1)}L at risk</p>
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Selected district summary card */}
-        <div className="lg:col-span-5 rounded-xl border border-slate-800 bg-slate-950/80 p-4.5 flex flex-col justify-between">
+        {/* Selected District Details */}
+        <div className="lg:col-span-5 rounded-xl border border-slate-200 bg-slate-50/60 p-5 space-y-4">
           {activeDistrict ? (
-            <div className="space-y-4">
-              <div className="border-b border-slate-800 pb-3">
-                <span className="text-xs text-amber-400 font-semibold uppercase tracking-wider">
-                  District Audit Scope
+            <>
+              <div className="border-b border-slate-200 pb-3">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  District Audit Dossier
                 </span>
-                <h4 className="text-lg font-bold text-white mt-1">{activeDistrict.district}</h4>
-                <p className="text-xs text-slate-400">{activeDistrict.state} State Jurisdiction</p>
+                <h4 className="text-xl font-black text-slate-900 mt-0.5">{activeDistrict.district}</h4>
+                <p className="text-xs text-slate-500">State of {selectedStateName}</p>
               </div>
 
-              <div className="space-y-2 text-xs">
-                <div className="flex justify-between rounded-lg bg-slate-900/70 p-2.5">
-                  <span className="text-slate-400">Average District Risk:</span>
-                  <span className="font-bold text-white">{activeDistrict.avg_risk_score}/100</span>
+              <div className="space-y-3 text-xs">
+                <div className="flex items-center justify-between rounded-lg bg-white p-3 border border-slate-200/80 shadow-2xs">
+                  <span className="text-slate-600 font-medium">Composite Risk Score</span>
+                  <RiskBadge score={activeDistrict.avg_risk_score} level={activeDistrict.risk_level} />
                 </div>
-                <div className="flex justify-between rounded-lg bg-slate-900/70 p-2.5">
-                  <span className="text-slate-400">High Risk Sanctions:</span>
-                  <span className="font-bold text-red-400">{activeDistrict.flagged_works_count} works</span>
-                </div>
-                <div className="flex justify-between rounded-lg bg-slate-900/70 p-2.5">
-                  <span className="text-slate-400">Total Sanctioned Value:</span>
-                  <span className="font-bold text-white">₹{activeDistrict.total_allocation.toLocaleString()}</span>
-                </div>
-              </div>
 
-              <div className="rounded-lg border border-amber-900/40 bg-amber-950/20 p-3 text-xs text-amber-200/90">
-                <p className="font-semibold text-amber-400">State Nodal Observation:</p>
-                <p className="mt-1 leading-relaxed">
-                  District Collectorate has ongoing works pending administrative clearance beyond statutory 75-day turnaround. Field audit advised.
-                </p>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="rounded-lg bg-white p-3 border border-slate-200/80 shadow-2xs">
+                    <span className="text-slate-400 block text-[10px] font-bold uppercase">Total Projects</span>
+                    <span className="font-bold font-mono text-sm text-slate-900 mt-0.5 block">{activeDistrict.total_works}</span>
+                  </div>
+                  <div className="rounded-lg bg-white p-3 border border-slate-200/80 shadow-2xs">
+                    <span className="text-slate-400 block text-[10px] font-bold uppercase">Total Allocation</span>
+                    <span className="font-bold font-mono text-sm text-slate-900 mt-0.5 block">
+                      ₹{(activeDistrict.total_allocation / 100000).toFixed(1)}L
+                    </span>
+                  </div>
+                  <div className="rounded-lg bg-red-50 p-3 border border-red-200 shadow-2xs">
+                    <span className="text-red-700 block text-[10px] font-bold uppercase">Flagged Works</span>
+                    <span className="font-bold font-mono text-sm text-red-700 mt-0.5 block">
+                      {activeDistrict.flagged_works_count}
+                    </span>
+                  </div>
+                  <div className="rounded-lg bg-amber-50 p-3 border border-amber-200 shadow-2xs">
+                    <span className="text-amber-800 block text-[10px] font-bold uppercase">Amount at Risk</span>
+                    <span className="font-bold font-mono text-sm text-amber-800 mt-0.5 block">
+                      ₹{(activeDistrict.amount_at_risk / 100000).toFixed(1)}L
+                    </span>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <a
+                    href={`/works?search=${encodeURIComponent(activeDistrict.district)}`}
+                    className="block w-full text-center rounded-xl bg-slate-900 py-2.5 text-xs font-bold text-white hover:bg-slate-800 transition-all shadow-2xs"
+                  >
+                    Inspect Works in {activeDistrict.district} →
+                  </a>
+                </div>
               </div>
-            </div>
+            </>
           ) : (
-            <p className="text-xs text-slate-500">Select a district to view details</p>
+            <p className="text-xs text-slate-400 text-center py-12">Select a district to view audit data.</p>
           )}
-
-          <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-between">
-            <span>Level: District / IDA</span>
-            <span className="text-amber-400 font-semibold">Priority Triage</span>
-          </div>
         </div>
       </div>
     </div>
