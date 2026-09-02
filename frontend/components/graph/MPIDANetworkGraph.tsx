@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Network, ShieldAlert, Users, Building, Filter, ZoomIn, ZoomOut, RefreshCw } from "lucide-react";
+import { Network, ShieldAlert, Users, Building, Filter, ZoomIn, ZoomOut, RefreshCw, ArrowRight, AlertTriangle } from "lucide-react";
 import { RiskBadge } from "../ui/RiskBadge";
 
 interface GraphNode {
@@ -52,6 +52,11 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
            nodeMap.has(typeof l.target === "string" ? l.target : (l.target as any).id)
   );
 
+  // Top monopoly links ranked
+  const monopolyRankings = [...data.links]
+    .sort((a, b) => b.share - a.share)
+    .slice(0, 4);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -63,14 +68,14 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
     canvas.width = width;
     canvas.height = height;
 
-    // Assign initial 2D circular coordinates
+    // Assign initial coordinates
     const simulationNodes = nodes.map((n, i) => {
       const angle = (i / Math.max(1, nodes.length)) * Math.PI * 2;
-      const radius = n.type === "mp" ? 120 + (i % 3) * 30 : 170 + (i % 4) * 25;
+      const radius = n.type === "mp" ? 110 + (i % 3) * 35 : 170 + (i % 4) * 25;
       return {
         ...n,
-        x: width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 40,
-        y: height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 40,
+        x: width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 30,
+        y: height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 30,
         vx: 0,
         vy: 0,
       };
@@ -78,7 +83,6 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
 
     const simMap = new Map(simulationNodes.map((n) => [n.id, n]));
 
-    // Simple continuous render loop
     let animationFrameId: number;
     let iteration = 0;
 
@@ -106,8 +110,8 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
           ctx.lineTo(targetNode.x, targetNode.y);
 
           if (l.is_high_risk || l.share > 0.60) {
-            ctx.strokeStyle = "rgba(239, 68, 68, 0.65)";
-            ctx.lineWidth = 2.2;
+            ctx.strokeStyle = "rgba(239, 68, 68, 0.75)";
+            ctx.lineWidth = 2.5;
           } else {
             ctx.strokeStyle = "rgba(100, 116, 139, 0.25)";
             ctx.lineWidth = 1;
@@ -122,10 +126,10 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
 
         const isSelected = selectedNode?.id === n.id;
         const isMP = n.type === "mp";
-        const radius = isMP ? 8 : 6;
+        const radius = isMP ? 9 : 7;
 
         ctx.beginPath();
-        ctx.arc(n.x, n.y, radius + (isSelected ? 3 : 0), 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, radius + (isSelected ? 4 : 0), 0, Math.PI * 2);
 
         if (isMP) {
           ctx.fillStyle = isSelected ? "#38bdf8" : "#0284c7";
@@ -142,7 +146,7 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
         if (isSelected || n.risk_score >= 70 || n.total_works > 50) {
           ctx.fillStyle = isSelected ? "#ffffff" : "#94a3b8";
           ctx.font = isSelected ? "bold 11px sans-serif" : "9px sans-serif";
-          ctx.fillText(n.name.substring(0, 18), n.x + 10, n.y + 3);
+          ctx.fillText(n.name.substring(0, 18), n.x + 12, n.y + 3);
         }
       });
 
@@ -182,22 +186,23 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
   }, [nodes.length, minRisk, filterType, selectedNode?.id]);
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md">
+    <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md space-y-5">
+      {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="rounded bg-cyan-950 px-2 py-0.5 text-[11px] font-bold text-cyan-400 border border-cyan-500/30">
-              NETWORK GRAPH
+              MONEY FLOW VISUALIZER
             </span>
-            <h3 className="text-base font-bold text-white">MP–Implementing Agency (IDA) Bipartite Relationship Graph</h3>
+            <h3 className="text-base font-bold text-white">MP ➔ Implementing Agency Money Flow & Monopoly Inspector</h3>
           </div>
           <p className="mt-1 text-xs text-slate-400">
-            Identifies vendor capture, monopolistic concentration, and tight-loop fund allocations.
+            Visually reveals where public funds flow from MPs to District Agencies, highlighting single-agency monopolies.
           </p>
         </div>
 
-        {/* Filters */}
-        <div className="flex items-center gap-3">
+        {/* Filter buttons */}
+        <div className="flex items-center gap-2.5">
           <div className="flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-950 p-1 text-xs">
             <button
               onClick={() => setFilterType("all")}
@@ -215,7 +220,7 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
               onClick={() => setFilterType("ida")}
               className={`rounded px-2 py-0.5 font-medium ${filterType === "ida" ? "bg-slate-800 text-white" : "text-slate-400"}`}
             >
-              IDAs
+              Agencies
             </button>
           </div>
 
@@ -236,74 +241,99 @@ export function MPIDANetworkGraph({ data }: MPIDANetworkGraphProps) {
         </div>
       </div>
 
-      <div className="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-5">
+      {/* Visual Guide Legend Banner */}
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5 rounded-xl border border-slate-800 bg-slate-950/80 p-3 text-xs">
+        <div className="flex items-center gap-2">
+          <span className="h-3.5 w-3.5 rounded-full bg-blue-500 shrink-0" />
+          <span className="text-slate-300 font-medium">🔵 Blue Circles: MPs</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="h-3.5 w-3.5 rounded-full bg-amber-500 shrink-0" />
+          <span className="text-slate-300 font-medium">🟠 Amber Circles: Normal Agencies</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="h-3.5 w-3.5 rounded-full bg-red-500 shrink-0 animate-pulse" />
+          <span className="text-red-300 font-bold">🔴 Red Circles: High-Capture Agencies</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="h-1 w-6 bg-red-500 shrink-0" />
+          <span className="text-red-400 font-bold">🔴 Red Lines: Monopoly (&gt;65%)</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Canvas visualizer */}
-        <div className="lg:col-span-8 relative rounded-xl border border-slate-800 bg-slate-950/90 overflow-hidden flex items-center justify-center min-h-[450px]">
+        <div className="lg:col-span-8 relative rounded-xl border border-slate-800 bg-slate-950/90 overflow-hidden flex items-center justify-center min-h-[440px]">
           <canvas ref={canvasRef} className="w-full h-full cursor-crosshair" />
 
-          {/* Canvas overlay legend */}
-          <div className="absolute bottom-3 left-3 rounded-lg border border-slate-800/80 bg-slate-900/80 p-2 text-[10px] text-slate-400 flex items-center gap-3 backdrop-blur-sm">
-            <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-blue-500" />
-              <span>MP Node</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
-              <span>IDA Node</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="h-0.5 w-4 bg-red-500" />
-              <span>Monopoly Link (&gt;65%)</span>
-            </div>
+          <div className="absolute top-3 left-3 rounded-lg border border-slate-800 bg-slate-900/90 px-2.5 py-1 text-[11px] text-slate-400">
+            Click on any circle to inspect fund concentration
           </div>
         </div>
 
-        {/* Node Detail Inspector */}
-        <div className="lg:col-span-4 rounded-xl border border-slate-800 bg-slate-950/80 p-4.5 flex flex-col justify-between">
+        {/* Right Side: Selected Node Inspector + Top Monopoly Findings */}
+        <div className="lg:col-span-4 space-y-3.5">
+          {/* Node Inspector */}
           {selectedNode ? (
-            <div className="space-y-4">
-              <div className="border-b border-slate-800 pb-3">
+            <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-3 shadow-xl">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                 <div className="flex items-center gap-1.5 text-xs text-saffron-400 font-semibold uppercase">
                   {selectedNode.type === "mp" ? <Users className="h-4 w-4" /> : <Building className="h-4 w-4" />}
-                  {selectedNode.type.toUpperCase()} Node Inspector
+                  {selectedNode.type === "mp" ? "Member of Parliament" : "Executing Agency"}
                 </div>
-                <h4 className="text-base font-bold text-white mt-1">{selectedNode.name}</h4>
+                <RiskBadge score={selectedNode.risk_score} size="sm" />
               </div>
 
-              <div className="space-y-2 text-xs">
-                <div className="flex justify-between rounded-lg bg-slate-900/60 p-2.5">
-                  <span className="text-slate-400">Total Works:</span>
+              <h4 className="text-sm font-bold text-white leading-snug">{selectedNode.name}</h4>
+
+              <div className="space-y-1.5 text-xs">
+                <div className="flex justify-between rounded-lg bg-slate-900/70 p-2">
+                  <span className="text-slate-400">Total Sanctioned:</span>
+                  <span className="font-bold text-white">₹{(selectedNode.total_amount / 10000000).toFixed(2)} Cr</span>
+                </div>
+                <div className="flex justify-between rounded-lg bg-slate-900/70 p-2">
+                  <span className="text-slate-400">Total Works Count:</span>
                   <span className="font-bold text-white">{selectedNode.total_works} works</span>
                 </div>
-                <div className="flex justify-between rounded-lg bg-slate-900/60 p-2.5">
-                  <span className="text-slate-400">Total Allocation:</span>
-                  <span className="font-bold text-white">₹{selectedNode.total_amount.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between rounded-lg bg-slate-900/60 p-2.5">
-                  <span className="text-slate-400">Network Risk Score:</span>
-                  <RiskBadge score={selectedNode.risk_score} size="sm" />
-                </div>
               </div>
 
-              <div className="rounded-lg border border-red-900/30 bg-red-950/20 p-3 text-xs text-red-200">
-                <p className="font-semibold text-red-400 mb-1">Graph Centrality Insight:</p>
-                <p className="leading-relaxed text-[11px]">
-                  {selectedNode.risk_score >= 60
-                    ? "High betweenness centrality and fund monopolization. The agency executes disproportionately large shares of recommended allocations."
-                    : "Standard network degree distribution and healthy diversification across implementing agencies."}
-                </p>
+              <div className="rounded-lg border border-red-900/30 bg-red-950/20 p-2.5 text-[11px] text-red-200">
+                <span className="font-bold text-red-400 block mb-0.5">Monopoly Finding:</span>
+                {selectedNode.risk_score >= 60
+                  ? "Captures disproportionately high share of funding from recommended projects."
+                  : "Diversified allocation profile across regular public works."}
               </div>
             </div>
           ) : (
-            <div className="text-center py-12 text-xs text-slate-500 space-y-2">
-              <Network className="h-8 w-8 text-slate-600 mx-auto animate-pulse" />
-              <p>Click on any MP (blue) or IDA (amber/red) node in the canvas to inspect relationship weights and vendor capture indicators.</p>
+            <div className="rounded-xl border border-slate-800 bg-slate-950/80 p-4 text-center text-xs text-slate-500">
+              Click any circle on the canvas to inspect agency allocations.
             </div>
           )}
 
-          <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-between">
-            <span>Graph Nodes: {nodes.length}</span>
-            <span>Links: {links.length}</span>
+          {/* Top Monopoly Findings Box */}
+          <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2.5">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-white border-b border-slate-800 pb-2">
+              <AlertTriangle className="h-3.5 w-3.5 text-red-400" />
+              <span>Highest Captured MP-Agency Loops</span>
+            </div>
+
+            <div className="space-y-2">
+              {monopolyRankings.map((l, i) => (
+                <div
+                  key={i}
+                  className="rounded-lg border border-red-900/40 bg-slate-900/60 p-2 text-xs space-y-1"
+                >
+                  <div className="flex justify-between font-semibold text-white text-[11px]">
+                    <span className="truncate max-w-[120px]">{typeof l.source === "string" ? l.source : (l.source as any).name}</span>
+                    <span className="text-red-400 font-bold">{Math.round(l.share * 100)}% of Funds</span>
+                  </div>
+                  <div className="text-[10px] text-slate-400 flex items-center gap-1">
+                    <ArrowRight className="h-3 w-3 text-saffron-400 shrink-0" />
+                    <span className="truncate">{typeof l.target === "string" ? l.target : (l.target as any).name}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

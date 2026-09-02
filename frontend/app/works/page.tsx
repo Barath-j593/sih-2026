@@ -15,7 +15,10 @@ import {
   ExternalLink,
   Layers,
   AlertTriangle,
-  Download
+  Download,
+  Copy,
+  Table,
+  LayoutGrid
 } from "lucide-react";
 
 export default function WorksExplorerPage() {
@@ -25,6 +28,7 @@ export default function WorksExplorerPage() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [viewMode, setViewMode] = useState<"table" | "duplicate_groups">("table");
 
   // Filters
   const [search, setSearch] = useState("");
@@ -74,7 +78,7 @@ export default function WorksExplorerPage() {
       try {
         const res = await fetchWorks({
           page,
-          limit: 25,
+          limit: viewMode === "duplicate_groups" ? 100 : 25,
           search: search || undefined,
           state: state || undefined,
           risk_level: riskLevel || undefined,
@@ -92,7 +96,36 @@ export default function WorksExplorerPage() {
       }
     }
     loadWorks();
-  }, [page, search, state, riskLevel, fraudType, sortBy, sortOrder]);
+  }, [page, search, state, riskLevel, fraudType, sortBy, sortOrder, viewMode]);
+
+  // Group works by duplicate cluster key (MP + Work Title)
+  const duplicateClusters = React.useMemo(() => {
+    const map = new Map<string, WorkItem[]>();
+    works.forEach((w) => {
+      const key = `${w.mp_name} ::: ${w.work} ::: ${w.allocation_amount}`;
+      if (!map.has(key)) {
+        map.set(key, []);
+      }
+      map.get(key)!.push(w);
+    });
+
+    return Array.from(map.entries()).map(([key, items]) => {
+      const [mp_name, workTitle, amountStr] = key.split(" ::: ");
+      return {
+        key,
+        mp_name,
+        workTitle,
+        amount: Number(amountStr),
+        items,
+        count: items.length,
+        totalAmount: Number(amountStr) * items.length,
+        avgRisk: items.reduce((acc, curr) => acc + curr.risk_score, 0) / items.length,
+        state: items[0]?.state,
+        constituency: items[0]?.constituency,
+        ida: items[0]?.ida
+      };
+    });
+  }, [works]);
 
   return (
     <div className="space-y-6">
@@ -112,6 +145,32 @@ export default function WorksExplorerPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* View Mode Toggle */}
+          <div className="flex items-center rounded-xl border border-slate-800 bg-slate-900 p-1 text-xs">
+            <button
+              onClick={() => setViewMode("table")}
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-bold transition-all ${
+                viewMode === "table"
+                  ? "bg-saffron-600 text-white shadow-md shadow-saffron-600/30"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <Table className="h-4 w-4" />
+              <span>Table View</span>
+            </button>
+            <button
+              onClick={() => setViewMode("duplicate_groups")}
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-bold transition-all ${
+                viewMode === "duplicate_groups"
+                  ? "bg-amber-600 text-white shadow-md shadow-amber-600/30"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <Copy className="h-4 w-4" />
+              <span>Group Duplicate Clusters</span>
+            </button>
+          </div>
+
           <Link
             href="/reports"
             className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900 px-3.5 py-2 text-xs font-bold text-slate-200 hover:bg-slate-800 transition-all"
@@ -214,111 +273,216 @@ export default function WorksExplorerPage() {
         </div>
       </div>
 
-      {/* Works Data Table */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-md overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="border-b border-slate-800 bg-slate-950/80 text-slate-400 uppercase tracking-wider">
-                <th className="py-3.5 pl-4">Work ID</th>
-                <th className="py-3.5">Work Recommendation</th>
-                <th className="py-3.5">MP & Jurisdiction</th>
-                <th className="py-3.5">Agency (IDA)</th>
-                <th className="py-3.5 text-right">Amount (INR)</th>
-                <th className="py-3.5 text-center">Status</th>
-                <th className="py-3.5 text-center">Risk Score</th>
-                <th className="py-3.5 pr-4 text-center">Audit Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/60">
-              {loading ? (
-                <tr>
-                  <td colSpan={8} className="py-16 text-center text-slate-400">
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="h-5 w-5 animate-spin rounded-full border-2 border-saffron-500 border-t-transparent" />
-                      <span>Loading matching records...</span>
+      {/* VIEW 1: GROUPED DUPLICATE CLUSTERS VIEW */}
+      {viewMode === "duplicate_groups" ? (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+              Identified Duplicate Recommendation Clusters
+            </span>
+            <span className="text-xs text-amber-400 font-mono font-semibold">
+              {duplicateClusters.filter((c) => c.count > 1).length} Multi-Work Clusters Found
+            </span>
+          </div>
+
+          {loading ? (
+            <div className="py-20 text-center text-slate-400">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-amber-500 border-t-transparent mx-auto mb-2" />
+              <span>Grouping duplicate recommendations...</span>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {duplicateClusters.map((cluster) => (
+                <div
+                  key={cluster.key}
+                  className={`rounded-2xl border p-5 backdrop-blur-md transition-all ${
+                    cluster.count > 1
+                      ? "border-amber-500/50 bg-gradient-to-br from-amber-950/20 via-slate-900/80 to-slate-950 shadow-xl"
+                      : "border-slate-800 bg-slate-900/50"
+                  }`}
+                >
+                  {/* Cluster Header */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div className="space-y-1 max-w-2xl">
+                      <div className="flex items-center gap-2">
+                        {cluster.count > 1 ? (
+                          <span className="rounded-md bg-amber-950 border border-amber-500/50 px-2 py-0.5 text-xs font-bold text-amber-300 flex items-center gap-1">
+                            <Copy className="h-3.5 w-3.5" /> Duplicate Cluster ({cluster.count} Identical Works)
+                          </span>
+                        ) : (
+                          <span className="rounded-md bg-slate-800 px-2 py-0.5 text-xs text-slate-400 font-medium">
+                            Single Recommendation
+                          </span>
+                        )}
+                        <span className="text-xs text-slate-400">
+                          {cluster.constituency}, {cluster.state}
+                        </span>
+                      </div>
+                      <h3 className="text-base font-bold text-white">{cluster.workTitle}</h3>
+                      <p className="text-xs text-slate-400">
+                        MP: <strong className="text-slate-200">{cluster.mp_name}</strong> • Agency:{" "}
+                        <strong className="text-slate-200">{cluster.ida}</strong>
+                      </p>
                     </div>
-                  </td>
-                </tr>
-              ) : works.length === 0 ? (
-                <tr>
-                  <td colSpan={8} className="py-16 text-center text-slate-500">
-                    No works match the selected filters.
-                  </td>
-                </tr>
-              ) : (
-                works.map((w) => (
-                  <tr key={w.id} className="hover:bg-slate-800/40 transition-colors group">
-                    <td className="py-3.5 pl-4 font-mono font-bold text-saffron-400 whitespace-nowrap">
-                      {w.id}
-                    </td>
-                    <td className="py-3.5 max-w-sm">
-                      <p className="font-semibold text-white line-clamp-1">{w.work}</p>
-                      {w.risk_reasons && w.risk_reasons.length > 0 && (
-                        <p className="text-[11px] text-red-300 line-clamp-1 mt-0.5">
-                          • {w.risk_reasons[0]}
-                        </p>
-                      )}
-                    </td>
-                    <td className="py-3.5 text-slate-300">
-                      <p className="font-bold text-white">{w.mp_name}</p>
-                      <p className="text-[10px] text-slate-500">{w.constituency}, {w.state}</p>
-                    </td>
-                    <td className="py-3.5 text-slate-400 max-w-[130px] truncate">{w.ida}</td>
-                    <td className="py-3.5 text-right font-mono font-bold text-white whitespace-nowrap">
-                      ₹{w.allocation_amount.toLocaleString()}
-                    </td>
-                    <td className="py-3.5 text-center whitespace-nowrap">
-                      <span className="rounded-md border border-slate-700 bg-slate-950 px-2 py-0.5 text-[10px] font-medium text-slate-300">
-                        {w.status}
+
+                    <div className="text-right">
+                      <span className="text-xs text-slate-400 block">Total Cloned Value</span>
+                      <span className="text-lg font-mono font-bold text-amber-400">
+                        ₹{(cluster.totalAmount / 100000).toFixed(2)} Lakhs
                       </span>
-                    </td>
-                    <td className="py-3.5 text-center whitespace-nowrap">
-                      <RiskBadge score={w.risk_score} level={w.risk_level} size="sm" />
-                    </td>
-                    <td className="py-3.5 pr-4 text-center whitespace-nowrap">
-                      <Link
-                        href={`/works/${w.id}`}
-                        className="inline-flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-1 text-xs font-semibold text-saffron-400 hover:bg-saffron-600 hover:text-white transition-all shadow-sm"
+                      <span className="text-[11px] text-slate-500 block">
+                        ₹{cluster.amount.toLocaleString()} per work
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Individual Works Inside this Cluster */}
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                    {cluster.items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="rounded-xl border border-slate-800 bg-slate-950/80 p-3 space-y-2 flex flex-col justify-between"
                       >
-                        <span>Explain Trace</span>
-                        <ExternalLink className="h-3 w-3" />
-                      </Link>
+                        <div>
+                          <div className="flex items-center justify-between">
+                            <span className="font-mono text-xs font-bold text-saffron-400">{item.id}</span>
+                            <RiskBadge score={item.risk_score} level={item.risk_level} size="sm" />
+                          </div>
+                          <p className="text-xs text-slate-300 font-medium mt-1 line-clamp-1">
+                            {item.work}
+                          </p>
+                          <span className="text-[10px] text-slate-500 block mt-0.5">
+                            Status: {item.status}
+                          </span>
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                          <span className="font-mono text-xs font-bold text-white">
+                            ₹{item.allocation_amount.toLocaleString()}
+                          </span>
+                          <Link
+                            href={`/works/${item.id}`}
+                            className="inline-flex items-center gap-1 rounded bg-slate-900 hover:bg-saffron-600 hover:text-white px-2 py-0.5 text-[11px] font-semibold text-saffron-400 transition-all"
+                          >
+                            <span>Trace</span>
+                            <ExternalLink className="h-3 w-3" />
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : (
+        /* VIEW 2: STANDARD DATA TABLE VIEW */
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-md overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead>
+                <tr className="border-b border-slate-800 bg-slate-950/80 text-slate-400 uppercase tracking-wider">
+                  <th className="py-3.5 pl-4">Work ID</th>
+                  <th className="py-3.5">Work Recommendation</th>
+                  <th className="py-3.5">MP & Jurisdiction</th>
+                  <th className="py-3.5">Agency (IDA)</th>
+                  <th className="py-3.5 text-right">Amount (INR)</th>
+                  <th className="py-3.5 text-center">Status</th>
+                  <th className="py-3.5 text-center">Risk Score</th>
+                  <th className="py-3.5 pr-4 text-center">Audit Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60">
+                {loading ? (
+                  <tr>
+                    <td colSpan={8} className="py-16 text-center text-slate-400">
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="h-5 w-5 animate-spin rounded-full border-2 border-saffron-500 border-t-transparent" />
+                        <span>Loading matching records...</span>
+                      </div>
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                ) : works.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} className="py-16 text-center text-slate-500">
+                      No works match the selected filters.
+                    </td>
+                  </tr>
+                ) : (
+                  works.map((w) => (
+                    <tr key={w.id} className="hover:bg-slate-800/40 transition-colors group">
+                      <td className="py-3.5 pl-4 font-mono font-bold text-saffron-400 whitespace-nowrap">
+                        {w.id}
+                      </td>
+                      <td className="py-3.5 max-w-sm">
+                        <p className="font-semibold text-white line-clamp-1">{w.work}</p>
+                        {w.risk_reasons && w.risk_reasons.length > 0 && (
+                          <p className="text-[11px] text-red-300 line-clamp-1 mt-0.5">
+                            • {w.risk_reasons[0]}
+                          </p>
+                        )}
+                      </td>
+                      <td className="py-3.5 text-slate-300">
+                        <p className="font-bold text-white">{w.mp_name}</p>
+                        <p className="text-[10px] text-slate-500">{w.constituency}, {w.state}</p>
+                      </td>
+                      <td className="py-3.5 text-slate-400 max-w-[130px] truncate">{w.ida}</td>
+                      <td className="py-3.5 text-right font-mono font-bold text-white whitespace-nowrap">
+                        ₹{w.allocation_amount.toLocaleString()}
+                      </td>
+                      <td className="py-3.5 text-center whitespace-nowrap">
+                        <span className="rounded-md border border-slate-700 bg-slate-950 px-2 py-0.5 text-[10px] font-medium text-slate-300">
+                          {w.status}
+                        </span>
+                      </td>
+                      <td className="py-3.5 text-center whitespace-nowrap">
+                        <RiskBadge score={w.risk_score} level={w.risk_level} size="sm" />
+                      </td>
+                      <td className="py-3.5 pr-4 text-center whitespace-nowrap">
+                        <Link
+                          href={`/works/${w.id}`}
+                          className="inline-flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-1 text-xs font-semibold text-saffron-400 hover:bg-saffron-600 hover:text-white transition-all shadow-sm"
+                        >
+                          <span>Explain Trace</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
 
-        {/* Pagination Bar */}
-        <div className="flex items-center justify-between border-t border-slate-800 bg-slate-950/80 px-4 py-3 text-xs text-slate-400">
-          <div>
-            Showing <span className="font-bold text-white">{works.length}</span> of{" "}
-            <span className="font-bold text-white">{total.toLocaleString()}</span> works
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page <= 1}
-              className="flex items-center gap-1 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 font-medium text-slate-300 hover:bg-slate-800 disabled:opacity-40"
-            >
-              <ChevronLeft className="h-4 w-4" /> Previous
-            </button>
-            <span className="font-mono text-xs">
-              Page {page} of {totalPages}
-            </span>
-            <button
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page >= totalPages}
-              className="flex items-center gap-1 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 font-medium text-slate-300 hover:bg-slate-800 disabled:opacity-40"
-            >
-              Next <ChevronRight className="h-4 w-4" />
-            </button>
+          {/* Pagination Bar */}
+          <div className="flex items-center justify-between border-t border-slate-800 bg-slate-950/80 px-4 py-3 text-xs text-slate-400">
+            <div>
+              Showing <span className="font-bold text-white">{works.length}</span> of{" "}
+              <span className="font-bold text-white">{total.toLocaleString()}</span> works
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page <= 1}
+                className="flex items-center gap-1 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 font-medium text-slate-300 hover:bg-slate-800 disabled:opacity-40"
+              >
+                <ChevronLeft className="h-4 w-4" /> Previous
+              </button>
+              <span className="font-mono text-xs">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page >= totalPages}
+                className="flex items-center gap-1 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 font-medium text-slate-300 hover:bg-slate-800 disabled:opacity-40"
+              >
+                Next <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

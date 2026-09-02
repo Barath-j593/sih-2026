@@ -10,6 +10,7 @@ import { StateChoroplethMap } from "../components/maps/StateChoroplethMap";
 import { DistrictDrilldownMap } from "../components/maps/DistrictDrilldownMap";
 import { ConstituencyMap } from "../components/maps/ConstituencyMap";
 import { MPIDANetworkGraph } from "../components/graph/MPIDANetworkGraph";
+import { FraudEvidenceVisualizer } from "../components/ui/FraudEvidenceVisualizer";
 import { ComingSoonModal } from "../components/ui/ComingSoonModal";
 
 import {
@@ -25,7 +26,9 @@ import {
   Activity,
   CheckCircle2,
   Clock,
-  ChevronRight
+  ChevronRight,
+  Info,
+  ExternalLink
 } from "lucide-react";
 import Link from "next/link";
 
@@ -49,52 +52,56 @@ export default function DashboardPage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetchDashboard(role, jurisdiction);
-        setData(res);
+        const dash = await fetchDashboard(role, jurisdiction);
+        setData(dash);
 
+        // Fetch complementary geospatial and network layers based on active role
         if (role === "ministry") {
-          const choro = await fetchStateChoropleth();
-          setStateChoropleth(choro);
-          const grp = await fetchNetworkGraph(80, 0);
-          setGraphData(grp);
+          const [st, gr] = await Promise.all([
+            fetchStateChoropleth(),
+            fetchNetworkGraph(100, 0),
+          ]);
+          setStateChoropleth(st);
+          setGraphData(gr);
         } else if (role === "state") {
-          const dist = await fetchDistrictDrilldown(jurisdiction || "Bihar");
+          const dist = await fetchDistrictDrilldown(jurisdiction);
           setDistrictData(dist);
-          const grp = await fetchNetworkGraph(60, 40);
-          setGraphData(grp);
-        } else {
-          const pins = await fetchConstituencyPins(
-            role === "district" ? jurisdiction : undefined,
-            role === "mp" ? jurisdiction : undefined,
-            150
-          );
+        } else if (role === "district") {
+          const pins = await fetchConstituencyPins(jurisdiction, undefined, 100);
+          setPinsData(pins);
+        } else if (role === "mp") {
+          const pins = await fetchConstituencyPins(undefined, jurisdiction, 100);
           setPinsData(pins);
         }
       } catch (err: any) {
         console.error(err);
-        setError(err.message || "Failed to load dashboard metrics");
+        setError(err.message || "Failed to load dashboard data");
       } finally {
         setLoading(false);
       }
     }
+
     loadData();
   }, [role, jurisdiction]);
 
   if (loading) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center space-y-4">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-saffron-500 border-t-transparent" />
-        <p className="text-sm font-semibold text-slate-400">Loading {roleConfig.title} Intelligence Feed...</p>
+      <div className="flex h-[70vh] flex-col items-center justify-center space-y-4">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-saffron-500 border-t-transparent shadow-lg shadow-saffron-500/20" />
+        <div className="text-center">
+          <p className="text-base font-bold text-white">Loading SETU Intelligence Layer</p>
+          <p className="text-xs text-slate-400">Scoping real-time audit analytics for {jurisdiction} ({role.toUpperCase()})...</p>
+        </div>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="rounded-2xl border border-red-900/40 bg-red-950/20 p-8 text-center">
-        <AlertTriangle className="mx-auto h-10 w-10 text-red-400" />
-        <h3 className="mt-3 text-lg font-bold text-white">Error Loading Data</h3>
-        <p className="mt-1 text-xs text-red-300">{error || "Could not retrieve API response."}</p>
+      <div className="rounded-2xl border border-red-900/50 bg-red-950/20 p-8 text-center">
+        <AlertTriangle className="mx-auto h-12 w-12 text-red-400 animate-bounce" />
+        <h3 className="mt-3 text-lg font-bold text-white">Error Connecting to SETU Intelligence Server</h3>
+        <p className="mt-1 text-xs text-red-300">{error || "Could not retrieve live risk telemetry."}</p>
         <button
           onClick={() => window.location.reload()}
           className="mt-4 rounded-lg bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700"
@@ -106,6 +113,7 @@ export default function DashboardPage() {
   }
 
   const { summary, risk_distribution, fraud_breakdown, top_flagged_works, recent_alerts } = data;
+  const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
 
   return (
     <div className="space-y-6">
@@ -138,6 +146,31 @@ export default function DashboardPage() {
             <ChevronRight className="h-4 w-4 text-slate-400" />
           </Link>
         </div>
+      </div>
+
+      {/* 🌟 Plain Language Executive Summary Banner */}
+      <div className="rounded-2xl border border-blue-900/40 bg-gradient-to-r from-blue-950/40 via-slate-900/60 to-slate-950 p-4.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
+        <div className="flex items-start gap-3">
+          <div className="rounded-xl bg-blue-900/50 p-2 text-blue-400 shrink-0 mt-0.5">
+            <Info className="h-5 w-5" />
+          </div>
+          <div className="space-y-0.5">
+            <h3 className="text-sm font-bold text-white">Plain-Language Audit Summary ({data.jurisdiction})</h3>
+            <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
+              SETU scanned <strong className="text-white">{summary.total_works.toLocaleString()} public projects</strong> totaling{" "}
+              <strong className="text-white">₹{(summary.total_allocation / 10000000).toFixed(2)} Cr</strong>. It identified{" "}
+              <strong className="text-red-400">{summary.flagged_works_count} suspicious works</strong> with duplicate recommendations, abnormal pricing, or contractor monopolies affecting{" "}
+              <strong className="text-amber-400">₹{(summary.amount_at_risk / 100000).toFixed(1)} Lakhs</strong>.
+            </p>
+          </div>
+        </div>
+
+        <Link
+          href="/reports"
+          className="rounded-xl border border-blue-500/30 bg-blue-950/60 px-3.5 py-1.5 text-xs font-bold text-blue-300 hover:bg-blue-900 hover:text-white transition-all shrink-0"
+        >
+          View Full Audit Report
+        </Link>
       </div>
 
       {/* 4 Summary Stat Cards */}
@@ -176,7 +209,7 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* Role-Specific Geospatial Map Component */}
+      {/* 🌟 Visual Geospatial Map Component */}
       <div>
         {role === "ministry" && stateChoropleth.length > 0 && (
           <StateChoroplethMap data={stateChoropleth} />
@@ -191,6 +224,25 @@ export default function DashboardPage() {
           />
         )}
       </div>
+
+      {/* 🌟 Visual Evidence Spotlight for Top Flagged Project */}
+      {topFlaggedWork && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <ShieldAlert className="h-4 w-4 text-red-400" />
+              Highest Risk Anomaly Spotlight ({topFlaggedWork.id})
+            </span>
+            <Link
+              href={`/works/${topFlaggedWork.id}`}
+              className="text-xs font-bold text-saffron-400 hover:underline flex items-center gap-1"
+            >
+              Inspect Full Investigation <ChevronRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <FraudEvidenceVisualizer work={topFlaggedWork} />
+        </div>
+      )}
 
       {/* Mid-section: Fraud Typologies Breakdown + Network Preview */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -233,7 +285,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div>
               <h3 className="text-base font-bold text-white">MP–IDA Concentration & Monopoly Risk</h3>
-              <p className="text-xs text-slate-400">Bipartite relationship clustering</p>
+              <p className="text-xs text-slate-400">Money flow from MPs to Executing Agencies</p>
             </div>
             <Link
               href="/graph"
@@ -261,7 +313,7 @@ export default function DashboardPage() {
           )}
 
           <div className="border-t border-slate-800 pt-3 text-[11px] text-slate-400 flex justify-between">
-            <span>Algorithm: NetworkX Degree & PageRank Centrality</span>
+            <span>Algorithm: NetworkX Degree & Monopoly Share</span>
             <span className="text-emerald-400 font-semibold">Active</span>
           </div>
         </div>

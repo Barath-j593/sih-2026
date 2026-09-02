@@ -1,6 +1,6 @@
 from typing import Optional, List, Dict, Any
 from sqlalchemy.orm import Session
-from sqlalchemy import func, desc, case
+from sqlalchemy import func, desc, case, or_
 from app.models.work import Work
 from app.models.constituency import Constituency
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { fetchWorkDetail } from "../../../lib/api";
 import { WorkDetail } from "../../../lib/types";
 import { RiskBadge } from "../../../components/ui/RiskBadge";
+import { FraudEvidenceVisualizer } from "../../../components/ui/FraudEvidenceVisualizer";
 import {
   ArrowLeft,
   ShieldAlert,
@@ -27,12 +28,6 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Cell
 } from "recharts";
 
 export default function WorkDetailPage() {
@@ -137,7 +132,10 @@ export default function WorkDetailPage() {
         </div>
       </div>
 
-      {/* Main Grid: Parameters + Risk Score Engine */}
+      {/* 🌟 1. PROMINENT VISUAL EVIDENCE DECODER AT TOP */}
+      <FraudEvidenceVisualizer work={work} />
+
+      {/* 2. Main Grid: Parameters + Risk Score Engine */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Project Parameters Card */}
         <div className="lg:col-span-4 space-y-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-md">
