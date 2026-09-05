@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 
 class MPBase(BaseModel):
@@ -15,5 +15,4 @@ class MPBase(BaseModel):
     top_idas: List[Dict[str, Any]] = []
 
 class MPResponse(MPBase):
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

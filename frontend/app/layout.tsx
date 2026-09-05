@@ -3,11 +3,11 @@ import React from "react";
 import { RoleProvider } from "../context/RoleContext";
 import { RoleSwitcher } from "../components/RoleSwitcher";
 import { Navbar } from "../components/Navbar";
-import { Sidebar } from "../components/Sidebar";
+import { AppShell } from "../components/AppShell";
 
 export const metadata = {
-  title: "SANCHAY — AI-Powered MPLADS Intelligence & Risk Monitoring (Government of India)",
-  description: "Official intelligence layer for MPLADS works, fund utilization, and project execution, helping authorities identify anomalies before they become audit findings.",
+  title: "SETU — AI-Powered MPLADS Intelligence & Risk Monitoring (Government of India)",
+  description: "SETU (Smart Expenditure Tracking & Utility) — Official intelligence layer for MPLADS works, fund utilization, and project execution, helping authorities identify anomalies before they become audit findings.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -19,13 +19,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <RoleSwitcher />
           {/* Official Government Navbar */}
           <Navbar />
-          {/* Main Body Shell */}
-          <div className="flex flex-1 overflow-hidden">
-            <Sidebar />
-            <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-slate-50/60">
-              <div className="mx-auto max-w-7xl">{children}</div>
-            </main>
-          </div>
+          {/* Main Body Shell (Dynamically handles landing vs dashboard layouts) */}
+          <AppShell>{children}</AppShell>
         </RoleProvider>
       </body>
     </html>

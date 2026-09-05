@@ -39,7 +39,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 
-export default function SanchayLandingPage() {
+export default function SetuLandingPage() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [statesData, setStatesData] = useState<any[]>([]);
   const [worksData, setWorksData] = useState<WorkItem[]>([]);
@@ -133,7 +133,7 @@ export default function SanchayLandingPage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/80 bg-amber-50 px-3.5 py-1 text-xs font-bold text-amber-900 shadow-2xs">
                 <span className="h-2 w-2 rounded-full bg-amber-500 animate-ping" />
-                <span>SANCHAY</span>
+                <span>SETU</span>
                 <span className="text-amber-400">•</span>
                 <span className="text-amber-800 uppercase tracking-wider text-[10px]">MPLADS INTELLIGENCE</span>
               </div>
@@ -170,7 +170,7 @@ export default function SanchayLandingPage() {
                   href="/dashboard"
                   className="flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-slate-800 hover:shadow-xl transition-all group"
                 >
-                  <span>OPEN SANCHAY DASHBOARD</span>
+                  <span>OPEN SETU DASHBOARD</span>
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
 
@@ -258,7 +258,7 @@ export default function SanchayLandingPage() {
               <span className="text-amber-500">TO DECISION.</span>
             </h2>
             <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-2xl">
-              SANCHAY connects project records, financial activity, execution progress, governance rules and evidence into
+              SETU connects project records, financial activity, execution progress, governance rules and evidence into
               a single risk intelligence layer.
             </p>
           </div>
@@ -381,7 +381,7 @@ export default function SanchayLandingPage() {
                 onClick={() => {}}
                 className="absolute right-2 top-2 rounded-xl bg-slate-900 px-4 py-1.5 text-xs font-bold text-white hover:bg-slate-800 transition-all flex items-center gap-1"
               >
-                <span>Ask Sanchay</span>
+                <span>Ask SETU</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -1008,7 +1008,7 @@ export default function SanchayLandingPage() {
                 <span className="text-amber-500">THOUSANDS OF WORKS.</span>
               </h2>
               <p className="text-sm sm:text-base text-slate-400 leading-relaxed font-medium">
-                SANCHAY monitors parliamentary recommendations across India, establishing a unified audit ledger from national ministry oversight down to the village level.
+                SETU monitors parliamentary recommendations across India, establishing a unified audit ledger from national ministry oversight down to the village level.
               </p>
 
               <div className="grid grid-cols-2 gap-3 pt-2">
@@ -1214,7 +1214,7 @@ export default function SanchayLandingPage() {
           className="flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-xs font-bold text-white shadow-2xl hover:bg-slate-800 transition-all border border-slate-700 group hover:scale-105"
         >
           <MessageSquare className="h-4 w-4 text-amber-400 group-hover:animate-bounce" />
-          <span>Ask SANCHAY Intelligence</span>
+          <span>Ask SETU Intelligence</span>
         </button>
       </div>
     </div>

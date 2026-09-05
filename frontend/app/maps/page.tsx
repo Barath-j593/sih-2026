@@ -6,14 +6,11 @@ import { fetchStateChoropleth, fetchDistrictDrilldown, fetchConstituencyPins } f
 import { StateChoroplethMap } from "../../components/maps/StateChoroplethMap";
 import { DistrictDrilldownMap } from "../../components/maps/DistrictDrilldownMap";
 import { ConstituencyMap } from "../../components/maps/ConstituencyMap";
-import { IndiaSvgMap } from "../../components/maps/IndiaSvgMap";
-import { Map, Layers, Building2, MapPin, Eye } from "lucide-react";
+import { Map, Layers, Building2, MapPin, Eye, ChevronRight } from "lucide-react";
 
 export default function MapsPage() {
   const { role, jurisdiction } = useRole();
-  const [activeTab, setActiveTab] = useState<"national" | "district" | "constituency">(
-    role === "state" ? "district" : (role === "district" || role === "mp") ? "constituency" : "national"
-  );
+  const [activeTab, setActiveTab] = useState<"national" | "district" | "constituency">("national");
   const [stateData, setStateData] = useState<any[]>([]);
   const [districtData, setDistrictData] = useState<any[]>([]);
   const [pinsData, setPinsData] = useState<any[]>([]);
@@ -21,13 +18,8 @@ export default function MapsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (role === "state") {
+    if (role === "state" && jurisdiction && jurisdiction !== "All India") {
       setSelectedState(jurisdiction);
-      setActiveTab("district");
-    } else if (role === "district" || role === "mp") {
-      setActiveTab("constituency");
-    } else {
-      setActiveTab("national");
     }
   }, [role, jurisdiction]);
 
@@ -121,16 +113,45 @@ export default function MapsPage() {
           <p className="text-xs font-semibold text-slate-600">Loading geospatial layers for {jurisdiction}...</p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-4">
+          {/* Interactive Hierarchical Breadcrumb Navigation */}
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 bg-white px-3.5 py-2.5 rounded-xl border border-slate-200 shadow-2xs">
+            <button
+              onClick={() => setActiveTab("national")}
+              className={`hover:text-slate-900 flex items-center gap-1 transition-colors ${
+                activeTab === "national" ? "text-slate-900 font-bold underline underline-offset-4" : ""
+              }`}
+            >
+              <Map className="h-3.5 w-3.5" />
+              <span>All India (National Map)</span>
+            </button>
+            {activeTab !== "national" && (
+              <>
+                <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                <button
+                  onClick={() => setActiveTab("district")}
+                  className={`hover:text-slate-900 flex items-center gap-1 transition-colors ${
+                    activeTab === "district" ? "text-amber-700 font-bold underline underline-offset-4" : ""
+                  }`}
+                >
+                  <Building2 className="h-3.5 w-3.5" />
+                  <span>State: {selectedState || jurisdiction}</span>
+                </button>
+              </>
+            )}
+            {activeTab === "constituency" && (
+              <>
+                <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                <span className="text-purple-700 font-bold flex items-center gap-1">
+                  <MapPin className="h-3.5 w-3.5" />
+                  <span>GPS Village Audit Pins ({jurisdiction})</span>
+                </span>
+              </>
+            )}
+          </div>
+
           {activeTab === "national" && (
             <div className="space-y-6">
-              <IndiaSvgMap
-                stateData={stateData}
-                onSelectState={(st) => {
-                  setSelectedState(st);
-                  setActiveTab("district");
-                }}
-              />
               <StateChoroplethMap
                 data={stateData}
                 onSelectState={(st) => {

@@ -17,7 +17,7 @@ def get_alerts(
         query = query.filter(Alert.is_read == is_read)
     
     alerts = query.order_by(desc(Alert.created_at)).limit(limit).all()
-    return [AlertResponse.from_orm(a) for a in alerts]
+    return [AlertResponse.model_validate(a) for a in alerts]
 
 def mark_alert_read(db: Session, alert_id: str) -> Optional[AlertResponse]:
     alert = db.query(Alert).filter(Alert.id == alert_id).first()
@@ -26,7 +26,7 @@ def mark_alert_read(db: Session, alert_id: str) -> Optional[AlertResponse]:
     alert.is_read = True
     db.commit()
     db.refresh(alert)
-    return AlertResponse.from_orm(alert)
+    return AlertResponse.model_validate(alert)
 
 def mark_all_alerts_read(db: Session) -> int:
     cnt = db.query(Alert).filter(Alert.is_read == False).update({"is_read": True})

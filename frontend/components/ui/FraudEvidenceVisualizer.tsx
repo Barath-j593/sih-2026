@@ -27,9 +27,9 @@ export interface EvidenceWorkData {
   allocation_amount: number;
   status: string;
   risk_score: number;
-  risk_level: string;
-  predicted_fraud_type: string;
-  risk_reasons: string[];
+  risk_level?: string;
+  predicted_fraud_type?: string;
+  risk_reasons?: string[];
   sub_scores?: Record<string, number>;
   duplicate_count?: number;
   days_since_recommended?: number;

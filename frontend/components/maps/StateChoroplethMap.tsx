@@ -22,10 +22,14 @@ export function StateChoroplethMap({ data, onSelectState }: StateChoroplethProps
   const handleStateClick = (stateName: string) => {
     const matched = data.find((d) => d.state.toLowerCase() === stateName.toLowerCase());
     if (matched) {
-      setSelectedState(matched);
-    }
-    if (onSelectState) {
-      onSelectState(stateName);
+      if (selectedState?.state.toLowerCase() === stateName.toLowerCase()) {
+        // Double click / re-click drills down
+        if (onSelectState) onSelectState(stateName);
+      } else {
+        setSelectedState(matched);
+      }
+    } else {
+      if (onSelectState) onSelectState(stateName);
     }
   };
 
@@ -57,7 +61,7 @@ export function StateChoroplethMap({ data, onSelectState }: StateChoroplethProps
         {/* Left Col: Interactive SVG India Map */}
         <div className="lg:col-span-6 flex flex-col items-center">
           <IndiaSvgMap
-            stateData={data}
+            data={data}
             selectedState={selectedState?.state}
             onSelectState={handleStateClick}
           />

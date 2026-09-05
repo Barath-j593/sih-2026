@@ -56,7 +56,7 @@ def get_works_paginated(db: Session, params: WorkFilterParams) -> PaginatedWorks
         page=params.page,
         limit=params.limit,
         total_pages=total_pages,
-        items=[WorkResponse.from_orm(item) for item in items]
+        items=[WorkResponse.model_validate(item) for item in items]
     )
 
 def get_work_detail(db: Session, work_id: str) -> Optional[Dict[str, Any]]:

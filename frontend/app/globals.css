@@ -7,16 +7,29 @@
   --foreground: #0f172a;
   --card-bg: #ffffff;
   --card-border: #e2e8f0;
-  --navy-primary: #0a192f;
-  --saffron-primary: #d97706;
+  --navy-950: #070b19;
+  --navy-900: #0b132b;
+  --navy-800: #14213d;
+  --saffron-500: #f97316;
+  --saffron-600: #ea580c;
+  --emerald-600: #059669;
+  --emerald-500: #10b981;
+  --crimson-600: #dc2626;
+  --crimson-500: #ef4444;
 }
 
 body {
   color: var(--foreground);
   background-color: var(--background);
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "calt" 1;
   background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 0);
   background-size: 24px 24px;
+}
+
+/* Tabular figures for financial and statistical precision */
+.font-tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
 /* National Emblem background watermark utility */
@@ -27,7 +40,7 @@ body {
   background-size: 550px 550px;
 }
 
-/* Custom scrollbars */
+/* Custom sleek scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -46,9 +59,46 @@ body {
   background: #94a3b8;
 }
 
-/* Glass card styling */
+/* Modern Glass & Panel Styling */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
-  border: 1px solid #e2e8f0;
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+.glass-card-hover {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+}
+
+.glass-dark {
+  background: rgba(11, 19, 43, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 41, 59, 0.7);
+}
+
+/* Subtle gold/saffron badge accent */
+.badge-saffron {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+.badge-navy {
+  background: #0b132b;
+  color: #ffffff;
+  border: 1px solid #1c2541;
 }

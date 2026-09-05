@@ -33,3 +33,13 @@ Thumbs.db
 # Temporary & Log files
 *.log
 scratch/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+*.tsbuildinfo
+
+
