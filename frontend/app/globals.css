@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Syne:wght@500..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -101,4 +103,34 @@ body {
   background: #0b132b;
   color: #ffffff;
   border: 1px solid #1c2541;
+}
+
+/* Sovereign Editorial Design System Utilities */
+.font-editorial {
+  font-family: 'Fraunces', Georgia, serif;
+}
+
+.font-serif-body {
+  font-family: 'Newsreader', Georgia, serif;
+}
+
+.font-display {
+  font-family: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.shadow-paper {
+  box-shadow: 0 12px 32px -4px rgba(28, 25, 23, 0.08), 0 4px 8px -2px rgba(28, 25, 23, 0.04);
+}
+
+.shadow-paper-lg {
+  box-shadow: 0 24px 48px -8px rgba(28, 25, 23, 0.14), 0 8px 16px -4px rgba(28, 25, 23, 0.06);
+}
+
+.shadow-paper-lift {
+  box-shadow: 0 16px 36px -6px rgba(17, 24, 39, 0.12), 0 6px 12px -2px rgba(17, 24, 39, 0.06);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.shadow-paper-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 52px -8px rgba(17, 24, 39, 0.18), 0 10px 20px -3px rgba(17, 24, 39, 0.08);
 }
