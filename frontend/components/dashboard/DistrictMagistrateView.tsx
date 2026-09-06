@@ -36,12 +36,17 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
   const { summary, fraud_breakdown, top_flagged_works, jurisdiction, extra_insights } = data;
   const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
 
-  // Count structuring works specifically (case-insensitive and resilient to backend enum)
+  // Count structuring works from extra_insights clusters or fraud_breakdown
+  const structuringClusters = extra_insights?.structuring_clusters || [];
   const structuringItem = fraud_breakdown.find(
     (f) => f.fraud_type?.toLowerCase().includes("structuring")
   );
-  const structuringCount = structuringItem ? structuringItem.count : 0;
-  const structuringAmount = structuringItem ? structuringItem.total_amount : 0;
+  const structuringCount = structuringClusters.length > 0
+    ? structuringClusters.length
+    : (structuringItem ? structuringItem.count : 0);
+  const structuringAmount = structuringClusters.length > 0
+    ? structuringClusters.reduce((sum: number, w: any) => sum + (w.amount || 0), 0)
+    : (structuringItem ? structuringItem.total_amount : 0);
 
   return (
     <div className="space-y-6">
@@ -104,22 +109,34 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
           variant="accent"
         />
         <StatCard
-          title="₹5L Structuring Smurfing Alarms"
-          value={structuringCount > 0 ? `${structuringCount} works` : "0 flagged"}
-          subtitle={`₹${(structuringAmount / 100000).toFixed(1)}L near tender thresholds`}
-          icon={AlertTriangle}
-          variant={structuringCount > 0 ? "danger" : "success"}
+          title="Pre-Sanction Flagged Works"
+          value={summary.flagged_works_count > 0 ? `${summary.flagged_works_count} flagged` : "0 flagged"}
+          subtitle={`₹${(summary.amount_at_risk / 100000).toFixed(1)} Lakhs in flagged works`}
+          icon={ShieldAlert}
+          variant={summary.flagged_works_count > 0 ? "danger" : "success"}
           trend={{
-            value: "Bypasses e-tender limits",
-            isPositive: false,
+            value: summary.flagged_works_count > 0 
+              ? `${((summary.flagged_works_count / Math.max(1, summary.total_works)) * 100).toFixed(0)}% anomaly rate` 
+              : "100% compliant",
+            isPositive: summary.flagged_works_count === 0,
           }}
         />
         <StatCard
-          title="Pre-Sanction Triage Queue"
-          value={`${summary.flagged_works_count} proposals`}
-          subtitle={`${summary.critical_cases_count} critical audit flags`}
-          icon={ShieldAlert}
-          variant={summary.flagged_works_count > 0 ? "warning" : "success"}
+          title="₹5L Structuring Smurfing Alarms"
+          value={structuringCount > 0 ? `${structuringCount} works` : "0 detected"}
+          subtitle={
+            structuringCount > 0 
+              ? `₹${(structuringAmount / 100000).toFixed(1)}L near tender thresholds` 
+              : `${summary.critical_cases_count} critical audit flags in queue`
+          }
+          icon={AlertTriangle}
+          variant={structuringCount > 0 ? "danger" : (summary.critical_cases_count > 0 ? "warning" : "success")}
+          trend={{
+            value: structuringCount > 0 
+              ? "Bypasses e-tender limits" 
+              : (summary.critical_cases_count > 0 ? `${summary.critical_cases_count} critical proposals` : "Rule 14.2 compliant"),
+            isPositive: structuringCount === 0 && summary.critical_cases_count === 0,
+          }}
         />
       </div>
 
