@@ -1,0 +1,730 @@
+{
+  "model_target": "FinancialAnomalyModel & PaymentAnomalyModel",
+  "total_candidate_features": 45,
+  "early_warning_features": [
+    {
+      "feature": "financial__estimated_cost",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__sanctioned_amount",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__revised_cost",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__tender_amount",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__released_amount",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__fund_utilization_ratio",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__expenditure_ratio",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_per_unit",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__peer_median_cost",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__peer_mean_cost",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__tender_estimate_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__actual_sanction_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_per_km",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_per_sqft",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_per_beneficiary",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__sor_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__market_rate_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__inflation_adjusted_cost_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_count",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__total_paid",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__average_payment",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__median_payment",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__min_payment",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__max_payment",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_amount_std",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_span_days",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__average_days_between_payments",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__median_days_between_payments",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_interval_std",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_velocity_mean",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_velocity_max",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_frequency_mean",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_concentration_max",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_timing_anomaly_count",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_timing_anomaly_rate",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__unverified_payment_count",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__unverified_payment_rate",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__round_number_payment_count",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__round_number_payment_rate",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__final_installment_amount",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__final_installment_share",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    }
+  ],
+  "retrospective_features": [
+    {
+      "feature": "financial__actual_expenditure",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "RETROSPECTIVE_ONLY",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__unspent_balance",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "RETROSPECTIVE_ONLY",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_overrun",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "RETROSPECTIVE_ONLY",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    }
+  ],
+  "features": [
+    {
+      "feature": "financial__estimated_cost",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__sanctioned_amount",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__revised_cost",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__tender_amount",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__released_amount",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__actual_expenditure",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "RETROSPECTIVE_ONLY",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__unspent_balance",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "RETROSPECTIVE_ONLY",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__fund_utilization_ratio",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__expenditure_ratio",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_per_unit",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__peer_median_cost",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__peer_mean_cost",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__tender_estimate_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__actual_sanction_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_overrun",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "RETROSPECTIVE_ONLY",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_per_km",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_per_sqft",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__cost_per_beneficiary",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__sor_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__market_rate_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "financial__inflation_adjusted_cost_deviation",
+      "subgroup": "Financial Metrics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_count",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__total_paid",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__average_payment",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__median_payment",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__min_payment",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__max_payment",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_amount_std",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_span_days",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__average_days_between_payments",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__median_days_between_payments",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_interval_std",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_velocity_mean",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_velocity_max",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_frequency_mean",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_concentration_max",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_timing_anomaly_count",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__payment_timing_anomaly_rate",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__unverified_payment_count",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__unverified_payment_rate",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__round_number_payment_count",
+      "subgroup": "Payment Dynamics",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__round_number_payment_rate",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__final_installment_amount",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "payment__final_installment_share",
+      "subgroup": "Payment Dynamics",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    }
+  ]
+}

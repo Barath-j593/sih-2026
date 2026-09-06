@@ -1,0 +1,1032 @@
+{
+  "execution_timestamp": "2026-09-06T05:52:40.561708+00:00",
+  "project_count": 5000,
+  "source_tables_loaded": 12,
+  "payment_feature_columns": 29,
+  "progress_feature_columns": 26,
+  "project_master_feature_columns": 239,
+  "projects_lost_during_joins": 0,
+  "missing_context_records": 0,
+  "label_columns_excluded": true,
+  "referential_integrity_passed": true,
+  "leakage_audit": {
+    "status": "PASS",
+    "leakage_detected": false,
+    "leaked_columns": [],
+    "master_column_count": 239,
+    "target_leakage_columns_checked": [
+      "fraud_label",
+      "is_fraud",
+      "is_anomalous",
+      "is_hard_negative",
+      "risk_level",
+      "scenario_type",
+      "scenario_name",
+      "overall_risk_score",
+      "investigation_priority"
+    ]
+  },
+  "quality_audit": {
+    "status": "PASS",
+    "expected_project_count": 5000,
+    "actual_project_count": 5000,
+    "unique_project_id_count": 5000,
+    "row_count_match": true,
+    "total_feature_columns": 239,
+    "feature_group_counts": {
+      "unprefixed": 6,
+      "project": 18,
+      "financial": 28,
+      "payment": 28,
+      "progress": 25,
+      "procurement": 22,
+      "contract": 19,
+      "contractor": 31,
+      "agency": 3,
+      "geo": 8,
+      "constituency": 1,
+      "document": 50
+    },
+    "infinite_value_columns": [],
+    "high_null_columns": [
+      {
+        "column": "project__actual_completion_date",
+        "null_pct": 84.54
+      },
+      {
+        "column": "document__asset_photo_date",
+        "null_pct": 84.54
+      }
+    ],
+    "null_statistics": {
+      "project_id": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__work_type": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__category": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__project_category": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__project_type": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__project_size": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "district_id": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "state_id": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "constituency_id": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor_id": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "agency_id": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__recommendation_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__sanction_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__start_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__expected_completion_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__target_completion_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__actual_completion_date": {
+        "null_count": 4227,
+        "null_pct": 84.54
+      },
+      "project__project_duration": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__planned_duration_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__actual_duration_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__status": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__project_status": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__project_latitude": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "project__project_longitude": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__recommended_amount": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__estimated_cost": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__sanctioned_amount": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__revised_cost": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__tender_amount": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__tender_value": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__released_amount": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__fund_released": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__actual_expenditure": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__unspent_balance": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__remaining_balance": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__fund_utilization_ratio": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__utilization_ratio": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__release_ratio": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__expenditure_ratio": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__cost_per_unit": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__peer_median_cost": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__peer_mean_cost": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__cost_deviation": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__tender_estimate_deviation": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__actual_sanction_deviation": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__cost_overrun": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__cost_per_km": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__cost_per_sqft": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__cost_per_beneficiary": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__sor_deviation": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__market_rate_deviation": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "financial__inflation_adjusted_cost_deviation": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__total_paid": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__average_payment": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__median_payment": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__min_payment": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__max_payment": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_amount_std": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__first_payment_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__last_payment_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_span_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__average_days_between_payments": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__median_days_between_payments": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_interval_std": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_velocity_mean": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_velocity_max": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_frequency_mean": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_concentration_max": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__duplicate_payment_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__duplicate_payment_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_timing_anomaly_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__payment_timing_anomaly_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__unverified_payment_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__unverified_payment_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__round_number_payment_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__round_number_payment_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__final_installment_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__final_installment_amount": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "payment__final_installment_share": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__progress_observation_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__latest_physical_progress": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__latest_financial_progress": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__latest_planned_progress": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__latest_completion_percentage": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__latest_progress_mismatch": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__latest_progress_gap": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__financial_minus_physical_progress": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__actual_vs_planned_progress": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__physical_progress_slope": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__financial_progress_slope": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__planned_progress_slope": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__progress_gap_slope": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__progress_velocity_latest": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__progress_acceleration_latest": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__latest_delay_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__max_delay_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__extension_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__planned_duration_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__actual_duration_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__duration_overrun_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__duration_overrun_ratio": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__geotag_available_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__geotag_consistency_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "progress__measurement_book_verified_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__tender_exists": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__procurement_method": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__tender_publication_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__tender_duration": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__bid_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__qualified_bid_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__single_bid_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__bid_competition_score": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__tender_type": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__winning_bid": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__winning_bid_amount": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__winning_bid_deviation": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__winning_bid_vs_lowest_bid": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__bid_price_similarity": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__bidder_disqualification_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__re_tender_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__tender_cancellation_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__tender_bypass_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__repeated_winner_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__bid_rotation_score": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__repeated_loser_score": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "procurement__procurement_compliance_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__work_order_amount": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__original_contract_value": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__final_contract_value": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__contract_value_change": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__contract_amendment_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__amendment_value": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__extension_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__extension_duration": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__award_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__original_completion_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__revised_completion_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__contract_delay_days": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__contractor_capacity": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__contract_value_to_capacity": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__external_service_provider_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__subcontractor_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__subcontractor_value_share": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__end_period_expenditure_ratio": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contract__performance_guarantee_submitted": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__registration_category": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__financial_capacity": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__base_quality_score": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__past_irregularity_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_past_irregularity_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_capacity_strain": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_project_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_total_contract_value": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_average_contract_value": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_max_contract_value": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_project_share": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_value_share": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_district_concentration": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_agency_concentration": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_constituency_concentration": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_delay_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_completion_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_cancellation_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_previous_irregularities": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_financial_capacity": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_value_to_capacity": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__repeated_agency_contractor_pair": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__shared_ownership": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__shared_directors": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__shared_shareholders": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__shared_address": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__beneficial_owner_overlap": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__contractor_financial_health": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__company_ownership_change": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__director_change": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "contractor__address_change": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "agency__agency_type": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "agency__agency_workload_ratio": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "agency__agency_geographic_concentration": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "geo__district_latitude": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "geo__district_longitude": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "geo__population": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "geo__population_density": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "geo__literacy_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "geo__poverty_rate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "geo__infrastructure_gap_index": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "geo__geographic_cluster_id": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "constituency__mp_house": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__administrative_sanction": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__technical_sanction": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__dpr": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__work_order": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__measurement_book": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__utilization_certificate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__completion_certificate": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__geo_tagged_photos": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__photo_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__required_document_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__available_document_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__missing_document_ratio": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_exists_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_type": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_date": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_amount": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_entity": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_project_reference": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_database_match_score": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_amount_mismatch": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_date_mismatch": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_entity_mismatch": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_duplicate_hash": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_version_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__document_tampering_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__ocr_confidence_score": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__data_completeness_score": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__missing_field_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__missing_critical_field_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__data_validation_status": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__data_source": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__source_system": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__last_updated_timestamp": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__record_update_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__late_data_submission_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__inconsistent_record_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__cross_source_mismatch_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_created_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_register_entry_flag": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_location": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_latitude": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_longitude": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_photo_available": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_photo_date": {
+        "null_count": 4227,
+        "null_pct": 84.54
+      },
+      "document__asset_photo_count": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_status": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_verification_status": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_project_link_match": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_geo_consistency": {
+        "null_count": 0,
+        "null_pct": 0.0
+      },
+      "document__asset_completion_evidence_score": {
+        "null_count": 0,
+        "null_pct": 0.0
+      }
+    }
+  },
+  "temporally_sensitive_features": [
+    "project__actual_completion_date",
+    "project__actual_duration_days",
+    "financial__actual_expenditure",
+    "financial__unspent_balance",
+    "financial__remaining_balance",
+    "contract__final_contract_value",
+    "contract__end_period_expenditure_ratio",
+    "progress__latest_completion_percentage",
+    "document__completion_certificate",
+    "document__asset_verification_status"
+  ]
+}
