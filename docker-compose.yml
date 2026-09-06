@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: setu-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:////app/setu_mplads.db
+      - SECRET_KEY=setu-mplads-production-secret-sih2026
+      - CORS_ORIGINS=["http://localhost:3000","http://127.0.0.1:3000","*"]
+    volumes:
+      - ./backend/setu_mplads.db:/app/setu_mplads.db
+      - ./MPLADS_cleaned_featured.csv:/MPLADS_cleaned_featured.csv
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: setu-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend

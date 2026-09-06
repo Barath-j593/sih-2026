@@ -1,0 +1,241 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import {
+  UserCheck,
+  Coins,
+  Layers,
+  Clock,
+  CheckCircle2,
+  AlertCircle,
+  MapPin,
+  ChevronRight,
+  ArrowRight,
+  ShieldCheck,
+  Send,
+  FileCheck2,
+  Sparkles,
+} from "lucide-react";
+import { DashboardData } from "../../lib/types";
+import { StatCard } from "../ui/StatCard";
+import { RiskBadge } from "../ui/RiskBadge";
+import { ConstituencyMap } from "../maps/ConstituencyMap";
+import { FraudEvidenceVisualizer } from "../ui/FraudEvidenceVisualizer";
+import { ConstituencyDeliveryPipeline } from "./visualizers/ConstituencyDeliveryPipeline";
+
+interface MPConstituencyViewProps {
+  data: DashboardData;
+  pinsData: any[];
+}
+
+export function MPConstituencyView({ data, pinsData }: MPConstituencyViewProps) {
+  const { summary, fraud_breakdown, top_flagged_works, extra_insights, jurisdiction } = data;
+  const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
+
+  // Stalled works count
+  const stalledItem = fraud_breakdown.find(
+    (f) => f.fraud_type === "ghost_project"
+  );
+  const stalledCount = stalledItem ? stalledItem.count : 0;
+  const stalledAmount = stalledItem ? stalledItem.total_amount : 0;
+
+  // Utilization calculation (% of ₹5 Crore annual allocation)
+  const annualLimit = 50000000; // ₹5 Crore
+  const utilizationPct = Math.min(100, Math.round((summary.total_allocation / annualLimit) * 100));
+
+  return (
+    <div className="space-y-6">
+      {/* MP Parliamentary Accountability Banner */}
+      <div className="relative overflow-hidden rounded-2xl border border-emerald-900/60 bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950 p-5 text-white shadow-xl">
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="rounded bg-emerald-500/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-300 border border-emerald-400/30">
+                PARLIAMENTARY CONSTITUENCY • {jurisdiction.toUpperCase()}
+              </span>
+              <span className="text-[11px] text-emerald-200">Member of Parliament Dashboard</span>
+            </div>
+            <h2 className="text-xl font-black tracking-tight text-white sm:text-2xl">
+              Constituency Fund Utilization & Progress Cockpit
+            </h2>
+            <p className="text-xs text-slate-300 max-w-2xl">
+              Monitor recommended development works, track project execution timelines, prevent stalling by implementing agencies, and showcase transparent governance to your constituents.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Link
+              href="/reports"
+              className="flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-xs font-bold text-slate-950 hover:bg-emerald-400 transition-all shadow-md hover:shadow-lg"
+            >
+              <FileCheck2 className="h-4 w-4" />
+              <span>Constituent Transparency Report</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* 4 MP Parliamentary KPI Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          title="Constituency Works Sanctioned"
+          value={summary.total_works.toLocaleString()}
+          subtitle={`Across ${pinsData.length || summary.total_works} village panchayats`}
+          icon={Layers}
+          variant="default"
+        />
+        <StatCard
+          title="₹5 Cr Annual Fund Outlay"
+          value={`₹${(summary.total_allocation / 10000000).toFixed(2)} Cr`}
+          subtitle={`${utilizationPct}% utilized of statutory allocation`}
+          icon={Coins}
+          variant="accent"
+          trend={{
+            value: `${utilizationPct}% utilized`,
+            isPositive: utilizationPct >= 60,
+          }}
+        />
+        <StatCard
+          title="Stalled / Delayed Projects"
+          value={stalledCount > 0 ? `${stalledCount} works` : "0 stalled"}
+          subtitle={`₹${(stalledAmount / 100000).toFixed(1)}L pending execution`}
+          icon={Clock}
+          variant={stalledCount > 0 ? "warning" : "success"}
+          trend={{
+            value: ">180 days in pending status",
+            isPositive: false,
+          }}
+        />
+        <StatCard
+          title="Constituency Governance Score"
+          value={`${extra_insights.compliance_rate || 94.2}%`}
+          subtitle="Audit compliance & public transparency"
+          icon={ShieldCheck}
+          variant="success"
+        />
+      </div>
+
+      {/* Local Constituency Progress Map */}
+      <div className="space-y-2">
+        <ConstituencyMap
+          pins={pinsData}
+          title={`${jurisdiction} Constituency Physical Progress & Asset Audit`}
+        />
+        {/* Bespoke MP Visualizer: Recommendation-to-Asset Pipeline & Delay Sinks */}
+        <ConstituencyDeliveryPipeline 
+          jurisdiction={jurisdiction} 
+          summary={summary} 
+          extraInsights={extra_insights} 
+        />
+      </div>
+
+      {/* Constituency Typologies & Breakdown */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Constituency Anomaly Signatures */}
+        <div className="lg:col-span-12 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h3 className="text-base font-bold text-slate-900">Constituency Risk Profile</h3>
+              <p className="text-xs text-slate-500">Anomaly signatures detected in recommended projects</p>
+            </div>
+            <span className="rounded bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-700 border border-slate-200">
+              Transparency
+            </span>
+          </div>
+
+          <div className="mt-4 space-y-3">
+            {fraud_breakdown.map((item) => (
+              <div key={item.fraud_type} className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-800">{item.label}</span>
+                  <span className="font-mono font-bold text-emerald-700">{item.count} projects</span>
+                </div>
+                <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-amber-500"
+                    style={{ width: `${Math.min(100, Math.max(8, item.percentage))}%` }}
+                  />
+                </div>
+                <div className="mt-1.5 flex justify-between text-[11px] text-slate-500">
+                  <span>₹{(item.total_amount / 100000).toFixed(1)}L allocated</span>
+                  <span>{item.percentage}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Highest Priority Project Spotlight */}
+      {topFlaggedWork && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <Sparkles className="h-4 w-4 text-emerald-600" />
+              Constituency High-Priority Project Spotlight ({topFlaggedWork.id})
+            </span>
+            <Link
+              href={`/works/${topFlaggedWork.id}`}
+              className="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1"
+            >
+              Review Execution Trace <ChevronRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <FraudEvidenceVisualizer work={topFlaggedWork} />
+        </div>
+      )}
+
+      {/* MP Constituency Works Table */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div>
+            <h3 className="text-base font-bold text-slate-900">Recommended Constituency Projects</h3>
+            <p className="text-xs text-slate-500">Track progress of physical assets for your constituents</p>
+          </div>
+          <Link
+            href="/works"
+            className="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1"
+          >
+            View All Constituency Works <ChevronRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider bg-slate-50">
+                <th className="py-3 pl-3">Work ID</th>
+                <th className="py-3">Project Title</th>
+                <th className="py-3">Block / Village</th>
+                <th className="py-3">Executing Agency (IDA)</th>
+                <th className="py-3 text-right">Outlay</th>
+                <th className="py-3 text-center">Status</th>
+                <th className="py-3 pr-3">Integrity Score</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {top_flagged_works.map((w) => (
+                <tr key={w.id} className="hover:bg-slate-50/80 transition-colors">
+                  <td className="py-3 pl-3 font-mono font-bold text-slate-900">{w.id}</td>
+                  <td className="py-3 font-medium text-slate-800 max-w-xs truncate">{w.work}</td>
+                  <td className="py-3 text-slate-600">{w.constituency}</td>
+                  <td className="py-3 text-slate-500 max-w-[140px] truncate">{w.ida}</td>
+                  <td className="py-3 text-right font-mono font-bold text-slate-900">₹{w.allocation_amount.toLocaleString()}</td>
+                  <td className="py-3 text-center">
+                    <span className="rounded px-2 py-0.5 text-[10px] font-bold bg-slate-100 text-slate-700">
+                      {w.status || "Sanctioned"}
+                    </span>
+                  </td>
+                  <td className="py-3 pr-3">
+                    <RiskBadge score={w.risk_score} level={w.risk_level} size="sm" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}

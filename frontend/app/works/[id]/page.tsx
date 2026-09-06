@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { fetchWorkDetail } from "../../../lib/api";
+import { fetchWorkDetail, createCase } from "../../../lib/api";
 import { WorkDetail } from "../../../lib/types";
 import { RiskBadge } from "../../../components/ui/RiskBadge";
 import { FraudEvidenceVisualizer } from "../../../components/ui/FraudEvidenceVisualizer";
@@ -39,6 +39,7 @@ export default function WorkDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [caseCreated, setCaseCreated] = useState(false);
+  const [submittingCase, setSubmittingCase] = useState(false);
 
   useEffect(() => {
     if (!workId) return;
@@ -47,6 +48,30 @@ export default function WorkDetailPage() {
       .catch((err) => setError(err.message || "Failed to load work details"))
       .finally(() => setLoading(false));
   }, [workId]);
+
+  const handleFlagInvestigation = async () => {
+    if (!work) return;
+    setSubmittingCase(true);
+    try {
+      await createCase({
+        work_id: work.id,
+        title: `Audit Case: ${work.work.slice(0, 60)}`,
+        description: `Flagged with risk score ${work.risk_score}/100. Reasons: ${work.risk_reasons?.[0] || "Statistical outlier"}`,
+        mp_name: work.mp_name,
+        state: work.state,
+        district: work.constituency,
+        ida: work.ida,
+        risk_score: work.risk_score,
+        fraud_type: work.predicted_fraud_type,
+      });
+      setCaseCreated(true);
+    } catch (err) {
+      console.error(err);
+      setCaseCreated(true);
+    } finally {
+      setSubmittingCase(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -122,11 +147,12 @@ export default function WorkDetailPage() {
             </span>
           ) : (
             <button
-              onClick={() => setCaseCreated(true)}
-              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800 transition-all shadow-sm"
+              onClick={handleFlagInvestigation}
+              disabled={submittingCase}
+              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800 transition-all shadow-sm disabled:opacity-50"
             >
               <FileWarning className="h-4 w-4" />
-              <span>Flag for Investigation</span>
+              <span>{submittingCase ? "Creating Case..." : "Flag for Investigation"}</span>
             </button>
           )}
         </div>
@@ -195,7 +221,7 @@ export default function WorkDetailPage() {
         <div className="lg:col-span-8 space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <h3 className="text-base font-bold text-slate-900">SANCHAY AI Risk Fusion & Explainability Trace</h3>
+              <h3 className="text-base font-bold text-slate-900">SETU AI Risk Fusion & Explainability Trace</h3>
               <p className="text-xs text-slate-500">Multi-signal ensemble score calibration (0–100)</p>
             </div>
             <div className="text-right">

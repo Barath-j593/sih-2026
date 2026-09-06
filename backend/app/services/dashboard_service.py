@@ -224,15 +224,94 @@ def get_role_scoped_dashboard(
         MonthlyTrendItem(month="Mar 2024", total_sanctions=110000000.0, flagged_amount=28500000.0, flagged_count=64),
     ]
 
-    # Role-specific extra insights
+    # Role-specific extra insights & CAG Forensic Metrics
     total_active_idas = db.query(func.count(func.distinct(Work.ida))).filter(*filters).scalar() or 1
     total_active_mps = db.query(func.count(func.distinct(Work.mp_name))).filter(*filters).scalar() or 1
+
+    # 1. Vendor Concentration & Herfindahl-Hirschman Index (HHI)
+    ida_agg = db.query(
+        Work.ida,
+        func.sum(Work.allocation_amount).label("tot_alloc"),
+        func.count(Work.id).label("w_count"),
+        func.avg(Work.risk_score).label("avg_r")
+    ).filter(*filters).group_by(Work.ida).order_by(desc("tot_alloc")).all()
+
+    tot_alloc_num = float(total_alloc) if total_alloc > 0 else 1.0
+    hhi_score = sum(((float(a.tot_alloc or 0.0) / tot_alloc_num) * 100) ** 2 for a in ida_agg) if ida_agg else 0.0
+    cr3_ratio = sum(((float(a.tot_alloc or 0.0) / tot_alloc_num) * 100) for a in ida_agg[:3]) if ida_agg else 0.0
+
+    if hhi_score >= 2500:
+        hhi_cat = "Highly Cartelized / Monopolized"
+    elif hhi_score >= 1500:
+        hhi_cat = "Moderate Concentration"
+    else:
+        hhi_cat = "Competitive Allocation Spread"
+
+    top_agencies = [
+        {
+            "name": a.ida or "Unassigned Agency",
+            "amount": float(a.tot_alloc or 0.0),
+            "works_count": int(a.w_count or 0),
+            "share_pct": round((float(a.tot_alloc or 0.0) / tot_alloc_num) * 100, 1),
+            "avg_risk": round(float(a.avg_r or 0.0), 1)
+        }
+        for a in ida_agg[:6]
+    ]
+
+    # 2. Statutory Structuring / Smurfing Clusters (clustered just below ₹5L threshold)
+    struct_works = db.query(Work).filter(
+        *filters,
+        Work.allocation_amount >= 450000.0,
+        Work.allocation_amount < 500000.0
+    ).order_by(desc(Work.allocation_amount)).limit(8).all()
+
+    structuring_clusters = [
+        {
+            "id": w.id,
+            "work": w.work[:60] + "..." if w.work else "Civil Proposal",
+            "amount": w.allocation_amount,
+            "delta": round(500000.0 - w.allocation_amount, 0),
+            "ida": w.ida or "Local IDA",
+            "mp_name": w.mp_name or "Recommending MP",
+            "risk_score": w.risk_score
+        }
+        for w in struct_works
+    ]
+
+    # 3. Agency Bottlenecks (>180 days in Action Pending)
+    bottleneck_q = db.query(
+        Work.ida,
+        func.count(Work.id).label("stalled_count"),
+        func.sum(Work.allocation_amount).label("delayed_amt"),
+        func.max(Work.days_since_recommended).label("max_days")
+    ).filter(
+        *filters,
+        Work.days_since_recommended >= 180,
+        Work.status != "Completed"
+    ).group_by(Work.ida).order_by(desc("delayed_amt")).limit(5).all()
+
+    agency_bottlenecks = [
+        {
+            "ida": b.ida or "Executing Agency",
+            "stalled_count": int(b.stalled_count or 0),
+            "delayed_amount": float(b.delayed_amt or 0.0),
+            "max_days_delayed": int(b.max_days or 180)
+        }
+        for b in bottleneck_q
+    ]
 
     extra_insights = {
         "role_title": f"{role.upper()} Authority View",
         "compliance_rate": round(max(0, 100 - (flagged_works_count / max(1, total_works) * 100)), 1),
         "total_active_idas": total_active_idas,
-        "total_active_mps": total_active_mps
+        "total_active_mps": total_active_mps,
+        "vendor_concentration_hhi": round(hhi_score, 1),
+        "hhi_category": hhi_cat,
+        "cr3_concentration_ratio": round(cr3_ratio, 1),
+        "top_agencies": top_agencies,
+        "structuring_clusters": structuring_clusters,
+        "agency_bottlenecks": agency_bottlenecks,
+        "highest_risk_ida": top_agencies[0]["name"] if top_agencies else "Local IDA"
     }
 
     return DashboardResponse(

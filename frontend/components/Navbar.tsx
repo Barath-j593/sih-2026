@@ -29,8 +29,8 @@ export function Navbar() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-base font-black tracking-tight text-slate-900">SANCHAY</span>
-              <span className="rounded bg-slate-100 border border-slate-200 px-1.5 py-0.2 text-[9px] font-mono font-bold uppercase tracking-wider text-slate-600">
+              <span className="text-base font-black tracking-tight text-slate-900">SETU</span>
+              <span className="rounded bg-amber-50 border border-amber-200 px-1.5 py-0.2 text-[9px] font-mono font-bold uppercase tracking-wider text-amber-900">
                 MPLADS INTELLIGENCE
               </span>
             </div>
@@ -86,7 +86,7 @@ export function Navbar() {
             href="/dashboard"
             className="flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800 transition-all shadow-sm hover:shadow group"
           >
-            <span>Open Sanchay Dashboard</span>
+            <span>Open SETU Dashboard</span>
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>

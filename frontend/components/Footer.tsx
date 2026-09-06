@@ -19,7 +19,7 @@ export function Footer() {
         </h2>
 
         <p className="mx-auto max-w-2xl text-xs sm:text-sm text-slate-400 leading-relaxed font-medium">
-          From project recommendation to physical completion, SANCHAY helps authorities see risk earlier,
+          From project recommendation to physical completion, SETU helps authorities see risk earlier,
           understand evidence faster and act with confidence.
         </p>
 
@@ -29,7 +29,7 @@ export function Footer() {
             href="/dashboard"
             className="flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-bold text-slate-900 hover:bg-slate-100 transition-all shadow-md group"
           >
-            <span>OPEN SANCHAY DASHBOARD</span>
+            <span>OPEN SETU DASHBOARD</span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
 
@@ -58,7 +58,7 @@ export function Footer() {
                   <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4" />
                 </svg>
               </div>
-              <span className="text-base font-black tracking-tight text-white">SANCHAY</span>
+              <span className="text-base font-black tracking-tight text-white">SETU</span>
             </div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
               AI-Powered Risk Intelligence & Investigation Decision Support for MPLADS.

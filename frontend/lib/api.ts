@@ -1,6 +1,6 @@
 import { DashboardData, WorkItem, WorkDetail, CaseItem, AlertItem, ModelMetricsData, UserRole } from "./types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
 export async function fetchDashboard(role: UserRole, jurisdiction?: string): Promise<DashboardData> {
   const url = new URL(`${API_BASE}/dashboard`);
@@ -61,17 +61,58 @@ export async function fetchDistrictDrilldown(state: string = "Bihar"): Promise<a
   return res.json();
 }
 
-export async function fetchConstituencyPins(constituency?: string, mpName?: string): Promise<any[]> {
+export async function fetchConstituencyPins(constituency?: string, mpName?: string, limit?: number): Promise<any[]> {
   const url = new URL(`${API_BASE}/geo/pins`);
   if (constituency) url.searchParams.append("constituency", constituency);
   if (mpName) url.searchParams.append("mp_name", mpName);
+  if (limit) url.searchParams.append("limit", limit.toString());
   const res = await fetch(url.toString(), { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch constituency pins");
   return res.json();
 }
 
-export async function fetchNetworkGraph(maxNodes: number = 100, minRisk: number = 0): Promise<{ nodes: any[]; links: any[] }> {
-  const res = await fetch(`${API_BASE}/graph/network?max_nodes=${maxNodes}&min_risk=${minRisk}`, { cache: "no-store" });
+export async function fetchGraphEntities(state?: string): Promise<{
+  states: string[];
+  districts: string[];
+  mps: { name: string; works_count: number; total_capital: number }[];
+}> {
+  const url = new URL(`${API_BASE}/graph/entities`);
+  if (state && state !== "All India" && state !== "National") {
+    url.searchParams.append("state", state);
+  }
+  const res = await fetch(url.toString(), { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch graph entities");
+  return res.json();
+}
+
+export async function fetchNetworkGraph(
+  maxNodes: number = 100, 
+  minRisk: number = 0,
+  state?: string,
+  district?: string,
+  mpName?: string,
+  role?: string,
+  jurisdiction?: string
+): Promise<{ nodes: any[]; links: any[]; telemetry?: any }> {
+  const url = new URL(`${API_BASE}/graph/network`);
+  url.searchParams.append("max_nodes", String(maxNodes));
+  url.searchParams.append("min_risk", String(minRisk));
+  if (state && state !== "All India" && state !== "National") {
+    url.searchParams.append("state", state);
+  }
+  if (district) {
+    url.searchParams.append("district", district);
+  }
+  if (mpName) {
+    url.searchParams.append("mp_name", mpName);
+  }
+  if (role) {
+    url.searchParams.append("role", role);
+  }
+  if (jurisdiction) {
+    url.searchParams.append("jurisdiction", jurisdiction);
+  }
+  const res = await fetch(url.toString(), { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch network graph");
   return res.json();
 }
@@ -104,6 +145,27 @@ export async function addCaseNote(caseId: string, text: string): Promise<CaseIte
   if (!res.ok) throw new Error("Failed to add case note");
   return res.json();
 }
+
+export async function createCase(payload: {
+  title: string;
+  description: string;
+  work_id?: string;
+  mp_name?: string;
+  state?: string;
+  district?: string;
+  ida?: string;
+  risk_score?: number;
+  fraud_type?: string;
+}): Promise<CaseItem> {
+  const res = await fetch(`${API_BASE}/cases`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...payload, priority: "high", assigned_to: "District Vigilance Team" }),
+  });
+  if (!res.ok) throw new Error("Failed to create case");
+  return res.json();
+}
+
 
 export async function fetchAlerts(): Promise<AlertItem[]> {
   const res = await fetch(`${API_BASE}/alerts`, { cache: "no-store" });

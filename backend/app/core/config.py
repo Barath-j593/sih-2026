@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from typing import List, Union
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 WORKSPACE_ROOT = BASE_DIR.parent
@@ -35,8 +35,6 @@ class Settings(BaseSettings):
     GEO_DATA_DIR: str = str(BASE_DIR / "data" / "geo")
     PROCESSED_DATA_DIR: str = str(BASE_DIR / "data" / "processed")
     
-    class Config:
-        case_sensitive = True
-        env_file = ".env"
+    model_config = SettingsConfigDict(case_sensitive=True, env_file=".env", extra="ignore")
 
 settings = Settings()

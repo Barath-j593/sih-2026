@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
@@ -20,6 +20,8 @@ class CaseBase(BaseModel):
     district: Optional[str] = None
     ida: Optional[str] = None
     risk_score: float = 0.0
+    risk_level: Optional[str] = "Medium"
+    amount: Optional[float] = 0.0
     fraud_type: Optional[str] = None
     assigned_to: Optional[str] = None
     notes: List[Dict[str, Any]] = []
@@ -51,5 +53,4 @@ class CaseResponse(CaseBase):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

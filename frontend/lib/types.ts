@@ -129,6 +129,8 @@ export interface CaseItem {
   district?: string;
   ida?: string;
   risk_score: number;
+  risk_level?: string;
+  amount?: number;
   fraud_type?: string;
   assigned_to?: string;
   notes: CaseNote[];

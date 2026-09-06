@@ -113,7 +113,7 @@ export default function AlertsPage() {
                 <div className="flex items-start gap-3">
                   <div
                     className={`mt-0.5 rounded-xl p-2.5 ${
-                      alert.severity === "critical"
+                      alert.severity.toLowerCase() === "critical"
                         ? "bg-red-100 text-red-600"
                         : "bg-amber-100 text-amber-600"
                     }`}
@@ -125,7 +125,7 @@ export default function AlertsPage() {
                       <span className="font-mono text-xs font-bold text-slate-500">{alert.work_id}</span>
                       <span
                         className={`rounded px-1.5 py-0.5 text-[10px] font-bold uppercase ${
-                          alert.severity === "critical"
+                          alert.severity.toLowerCase() === "critical"
                             ? "bg-red-100 text-red-800 border border-red-200"
                             : "bg-amber-100 text-amber-800 border border-amber-200"
                         }`}
