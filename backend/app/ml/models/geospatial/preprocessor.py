@@ -57,39 +57,47 @@ class GeospatialPreprocessor:
         # Convert to radians for spherical trigonometry
         coords_rad = np.radians(np.column_stack([lats, lons]))
         r_earth = self.config.earth_radius_km
-        k = min(self.config.k_nearest_neighbors, len(df) - 1)
+        # 1. Nearest Neighbors, DBSCAN, and LOF for distance and cluster metrics
+        if len(df) > 1:
+            k = min(self.config.k_nearest_neighbors, len(df) - 1)
+            nn = NearestNeighbors(n_neighbors=k + 1, metric="haversine", algorithm="ball_tree")
+            nn.fit(coords_rad)
+            distances, indices = nn.kneighbors(coords_rad)
 
-        # 1. Nearest Neighbors for distance metrics
-        nn = NearestNeighbors(n_neighbors=k + 1, metric="haversine", algorithm="ball_tree")
-        nn.fit(coords_rad)
-        distances, indices = nn.kneighbors(coords_rad)
+            # Distances in km (skip index 0 which is distance to self)
+            distances_km = distances * r_earth
+            nearest_dist = distances_km[:, 1]
+            mean_k_dist = distances_km[:, 1 : k + 1].mean(axis=1)
 
-        # Distances in km (skip index 0 which is distance to self)
-        distances_km = distances * r_earth
-        nearest_dist = distances_km[:, 1]
-        mean_k_dist = distances_km[:, 1 : k + 1].mean(axis=1)
+            # Count projects within local density radius (e.g. 25km)
+            radius_rad = self.config.local_density_radius_km / r_earth
+            radius_indices = nn.radius_neighbors(coords_rad, radius=radius_rad, return_distance=False)
+            density_in_radius = np.array([len(nbrs) for nbrs in radius_indices], dtype=float)
 
-        # Count projects within local density radius (e.g. 25km)
-        radius_rad = self.config.local_density_radius_km / r_earth
-        radius_indices = nn.radius_neighbors(coords_rad, radius=radius_rad, return_distance=False)
-        density_in_radius = np.array([len(nbrs) for nbrs in radius_indices], dtype=float)
+            # 2. Spatial DBSCAN for dense pocket / cluster detection
+            eps_rad = self.config.dbscan_eps_km / r_earth
+            db = DBSCAN(eps=eps_rad, min_samples=self.config.dbscan_min_samples, metric="haversine")
+            db_labels = db.fit_predict(coords_rad)
 
-        # 2. Spatial DBSCAN for dense pocket / cluster detection
-        eps_rad = self.config.dbscan_eps_km / r_earth
-        db = DBSCAN(eps=eps_rad, min_samples=self.config.dbscan_min_samples, metric="haversine")
-        db_labels = db.fit_predict(coords_rad)
+            is_noise = (db_labels == -1).astype(float)
+            unique_labels, counts = np.unique(db_labels, return_counts=True)
+            label_count_map = dict(zip(unique_labels, counts))
+            cluster_sizes = np.array([label_count_map[lbl] if lbl != -1 else 1 for lbl in db_labels], dtype=float)
 
-        is_noise = (db_labels == -1).astype(float)
-        # Cluster size mapping
-        unique_labels, counts = np.unique(db_labels, return_counts=True)
-        label_count_map = dict(zip(unique_labels, counts))
-        cluster_sizes = np.array([label_count_map[lbl] if lbl != -1 else 1 for lbl in db_labels], dtype=float)
-
-        # 3. Spatial Local Outlier Factor (LOF)
-        lof_k = min(self.config.lof_n_neighbors, len(df) - 1)
-        lof = LocalOutlierFactor(n_neighbors=lof_k, metric="haversine", novelty=False)
-        lof.fit(coords_rad)
-        lof_scores = -lof.negative_outlier_factor_  # ~1.0 is normal, >1.5 is isolated outlier
+            # 3. Spatial Local Outlier Factor (LOF)
+            lof_k = min(self.config.lof_n_neighbors, len(df) - 1)
+            lof = LocalOutlierFactor(n_neighbors=lof_k, metric="haversine", novelty=False)
+            lof.fit(coords_rad)
+            lof_scores = -lof.negative_outlier_factor_  # ~1.0 is normal, >1.5 is isolated outlier
+        else:
+            # Graceful single-row fallback for online proposal scoring
+            nearest_dist = np.array([12.5])
+            mean_k_dist = np.array([25.0])
+            density_in_radius = np.array([1.0])
+            db_labels = np.array([0])
+            is_noise = np.array([0.0])
+            cluster_sizes = np.array([1.0])
+            lof_scores = np.array([1.0])
 
         # 4. Contextual density alignment ratios
         pop_dens = df["geo__population_density"].values if "geo__population_density" in df.columns else np.ones(len(df))

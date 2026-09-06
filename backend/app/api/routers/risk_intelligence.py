@@ -16,6 +16,8 @@ from app.schemas.risk_intelligence import (
     LiveFusionResponse,
     ProjectRiskDetailResponse,
     RiskIntelligenceSummaryResponse,
+    RawProposalScoringRequest,
+    RawProposalScoringResponse,
 )
 
 router = APIRouter(prefix="/risk-intelligence", tags=["Risk Intelligence & ML Evidence"])
@@ -201,6 +203,15 @@ def live_fuse_signals(request: LiveFusionRequest):
     )
 
     return LiveFusionResponse(**result)
+
+
+@router.post("/score-proposal", response_model=RawProposalScoringResponse)
+def score_raw_proposal(request: RawProposalScoringRequest):
+    """Real-time scoring of an unseen project proposal across all 8 in-memory ML models (< 200ms)."""
+    from app.services.live_inference_service import LiveInferenceService
+    service = LiveInferenceService.get_instance()
+    result = service.score_raw_proposal(request.model_dump())
+    return RawProposalScoringResponse(**result)
 
 
 @router.get("/reports")

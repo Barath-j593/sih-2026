@@ -43,14 +43,17 @@ def load_real_mplads_data(db: Session, max_rows: int = None, force_reload: bool 
         db.query(Constituency).delete()
         db.commit()
 
-    # Check if data is already loaded
-    try:
+    # Check if fused 8-model intelligence CSV exists
+    fused_csv = Path(__file__).resolve().parent / "processed" / "fused_risk_intelligence.csv"
+    if fused_csv.exists():
         existing_works = db.query(Work).count()
-        if existing_works > 500 and not force_reload:
-            print(f"Database already contains {existing_works} works. Skipping reload.")
+        if existing_works == 5000 and not force_reload:
+            print(f"Database already contains {existing_works} synced 8-model works. Skipping reload.")
             return existing_works
-    except Exception:
-        pass
+        print("Synchronizing relational database with 8-model fused risk intelligence...")
+        from app.services.sync_service import sync_fused_risk_to_database
+        res = sync_fused_risk_to_database(db, force=force_reload)
+        return res["works_synced"]
 
     # Find the CSV file
     csv_candidates = [
