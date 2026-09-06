@@ -139,8 +139,8 @@ export function RoleSwitcher() {
     };
   }, []);
 
-  // If on landing page "/" or forensic audit ledger "/works", don't show sticky role switcher
-  if (pathname === "/" || pathname?.startsWith("/works")) {
+  // If on landing page "/", forensic audit ledger "/works", or graph page "/graph", don't show sticky role switcher
+  if (pathname === "/" || pathname?.startsWith("/works") || pathname?.startsWith("/graph")) {
     return null;
   }
 
