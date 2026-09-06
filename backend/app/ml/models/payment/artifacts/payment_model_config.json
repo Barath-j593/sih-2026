@@ -1,0 +1,14 @@
+{
+  "model_name": "payment_isolation_forest",
+  "version": "1.0.0",
+  "mode": "early_warning",
+  "n_estimators": 200,
+  "contamination": 0.05,
+  "random_state": 42,
+  "smurfing_thresholds": [
+    1500000.0,
+    2500000.0,
+    5000000.0
+  ],
+  "smurfing_bandwidth": 25000.0
+}
