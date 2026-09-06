@@ -61,19 +61,23 @@ def get_district_drilldown_data(db: Session, state: str) -> List[Dict[str, Any]]
     query = db.query(Work).filter(func.lower(Work.state) == state.lower())
     
     stats = db.query(
-        Work.constituency,
+        Work.city,
         func.count(Work.id).label("total_works"),
         func.sum(Work.allocation_amount).label("total_allocation"),
         func.avg(Work.risk_score).label("avg_risk_score"),
         func.sum(case((Work.risk_score >= 60, 1), else_=0)).label("flagged_count"),
         func.sum(case((Work.risk_score >= 60, Work.allocation_amount), else_=0)).label("risk_amount")
-    ).filter(func.lower(Work.state) == state.lower()).group_by(Work.constituency).all()
+    ).filter(
+        func.lower(Work.state) == state.lower(),
+        Work.city.isnot(None),
+        Work.city != ""
+    ).group_by(Work.city).all()
 
     st_coords = STATE_COORDINATES.get(state, {"lat": 20.5937, "lng": 78.9629})
     result = []
     for i, row in enumerate(stats):
         avg_r = float(row.avg_risk_score or 0.0)
-        c_name = row.constituency or "District"
+        c_name = row.city or "District"
         # Spread pins nicely around state center
         angle = (i * 360.0 / max(1, len(stats))) * (3.14159 / 180.0)
         radius = 0.5 + (i % 3) * 0.4
@@ -144,3 +148,206 @@ def get_constituency_pins(db: Session, constituency_name: Optional[str] = None, 
             "lng": round(base_coords["lng"] + d_lng, 5)
         })
     return pins
+
+def get_all_constituencies_risk_data(db: Session, state: Optional[str] = None) -> List[Dict[str, Any]]:
+    query = db.query(Constituency)
+    if state and state != "All India":
+        query = query.filter(func.lower(Constituency.state) == state.lower())
+    rows = query.all()
+
+    result = []
+    for r in rows:
+        avg_r = float(r.avg_risk_score or 0.0)
+        result.append({
+            "id": r.id,
+            "name": r.name,
+            "state": r.state,
+            "district": r.district,
+            "mp_name": r.mp_name,
+            "total_works": int(r.total_works or 0),
+            "total_allocation": float(r.total_allocation or 0.0),
+            "avg_risk_score": round(avg_r, 1),
+            "flagged_works_count": int(r.flagged_works_count or 0),
+            "risk_level": "Critical" if avg_r >= 65 else "High" if avg_r >= 50 else "Medium" if avg_r >= 35 else "Low",
+            "lat": r.latitude,
+            "lng": r.longitude
+        })
+    return sorted(result, key=lambda x: x["avg_risk_score"], reverse=True)
+
+def get_constituency_detail(db: Session, constituency_name: str) -> Optional[Dict[str, Any]]:
+    clean_name = constituency_name.strip().lower()
+    c = db.query(Constituency).filter(
+        or_(
+            func.lower(Constituency.name) == clean_name,
+            func.lower(Constituency.district) == clean_name,
+            func.lower(Constituency.name).like(f"%{clean_name}%")
+        )
+    ).first()
+
+    if not c:
+        return None
+
+    # Fetch top 5 flagged works in this constituency
+    top_works = db.query(Work).filter(
+        func.lower(Work.constituency) == func.lower(c.name)
+    ).order_by(desc(Work.risk_score)).limit(5).all()
+
+    works_list = []
+    for w in top_works:
+        works_list.append({
+            "id": w.id,
+            "work": w.work,
+            "allocation_amount": w.allocation_amount,
+            "status": w.status,
+            "risk_score": w.risk_score,
+            "risk_level": w.risk_level,
+            "ida": w.ida,
+            "reasons": w.risk_reasons or []
+        })
+
+    avg_r = float(c.avg_risk_score or 0.0)
+    return {
+        "id": c.id,
+        "name": c.name,
+        "state": c.state,
+        "district": c.district,
+        "mp_name": c.mp_name,
+        "total_works": int(c.total_works or 0),
+        "total_allocation": float(c.total_allocation or 0.0),
+        "avg_risk_score": round(avg_r, 1),
+        "flagged_works_count": int(c.flagged_works_count or 0),
+        "risk_level": "Critical" if avg_r >= 65 else "High" if avg_r >= 50 else "Medium" if avg_r >= 35 else "Low",
+        "top_works": works_list
+    }
+
+
+def get_cartel_conduits_data(db: Session, min_risk: float = 45.0, limit: int = 40) -> List[Dict[str, Any]]:
+    """
+    Identifies cross-border agency and vendor conduits where an executing agency
+    monopolizes allocations across multiple parliamentary constituencies.
+    Generates paired conduit connections for animated SVG flow arcs.
+    """
+    agency_stats = db.query(
+        Work.ida,
+        func.count(func.distinct(Work.constituency)).label("const_count"),
+        func.count(Work.id).label("total_works"),
+        func.sum(Work.allocation_amount).label("total_capital"),
+        func.avg(Work.risk_score).label("avg_risk"),
+        func.max(Work.state).label("primary_state")
+    ).filter(
+        Work.ida.isnot(None),
+        Work.ida != "",
+        Work.constituency.isnot(None),
+        ~Work.constituency.ilike("%Rajya Sabha%")
+    ).group_by(Work.ida).having(
+        func.count(func.distinct(Work.constituency)) >= 2
+    ).order_by(desc("total_capital")).all()
+
+    conduits = []
+    conduit_id = 1
+
+    for agency in agency_stats:
+        avg_r = float(agency.avg_risk or 0.0)
+        if avg_r < min_risk and float(agency.total_capital or 0) < 10000000.0:
+            continue
+
+        consts_in_agency = db.query(
+            Work.constituency,
+            func.count(Work.id).label("cnt"),
+            func.sum(Work.allocation_amount).label("amt"),
+            func.avg(Work.risk_score).label("c_risk")
+        ).filter(
+            Work.ida == agency.ida,
+            Work.constituency.isnot(None),
+            ~Work.constituency.ilike("%Rajya Sabha%")
+        ).group_by(Work.constituency).order_by(desc("amt")).all()
+
+        if len(consts_in_agency) < 2:
+            continue
+
+        hub = consts_in_agency[0]
+        for target in consts_in_agency[1:4]:
+            conduit_risk = round((float(hub.c_risk or avg_r) + float(target.c_risk or avg_r)) / 2.0, 1)
+            conduits.append({
+                "id": f"CONDUIT-{conduit_id}",
+                "agency_name": agency.ida,
+                "source_constituency": hub.constituency,
+                "target_constituency": target.constituency,
+                "state": agency.primary_state,
+                "works_count": int(hub.cnt + target.cnt),
+                "total_capital": float(hub.amt + target.amt),
+                "avg_risk": conduit_risk,
+                "risk_level": "Critical" if conduit_risk >= 65 else "High" if conduit_risk >= 50 else "Medium",
+                "pattern": f"Monopolistic conduit spanning {hub.constituency} and {target.constituency}"
+            })
+            conduit_id += 1
+            if len(conduits) >= limit:
+                break
+        if len(conduits) >= limit:
+            break
+
+    return conduits
+
+
+def get_temporal_risk_data(db: Session) -> Dict[str, Any]:
+    """
+    Returns monthly time-series risk telemetry across parliamentary constituencies,
+    demonstrating the pre-election surge and fiscal year-end March Rush.
+    """
+    monthly_rows = db.query(
+        func.substr(Work.recommended_date, 1, 7).label("ym"),
+        Work.constituency,
+        func.count(Work.id).label("works_cnt"),
+        func.sum(Work.allocation_amount).label("alloc_amt"),
+        func.avg(Work.risk_score).label("avg_r")
+    ).filter(
+        Work.recommended_date.isnot(None),
+        Work.recommended_date != "",
+        Work.constituency.isnot(None)
+    ).group_by("ym", Work.constituency).all()
+
+    national_monthly = db.query(
+        func.substr(Work.recommended_date, 1, 7).label("ym"),
+        func.count(Work.id).label("total_works"),
+        func.sum(Work.allocation_amount).label("total_capital"),
+        func.avg(Work.risk_score).label("nat_risk")
+    ).filter(
+        Work.recommended_date.isnot(None),
+        Work.recommended_date != ""
+    ).group_by("ym").order_by("ym").all()
+
+    labels = {
+        "2023-12": "Q3 Routine Sanctions & Infrastructure Baseline",
+        "2024-01": "Q4 Early Sanction Push & Vendor Concentration",
+        "2024-02": "Pre-Election Pipeline Acceleration",
+        "2024-03": "March Rush & Pre-Election Surge"
+    }
+
+    timeline = {}
+    for n in national_monthly:
+        ym = n.ym
+        if not ym or len(ym) != 7:
+            continue
+        timeline[ym] = {
+            "month": ym,
+            "label": labels.get(ym, f"MPLADS Works Cycle ({ym})"),
+            "total_works": int(n.total_works or 0),
+            "total_capital": float(n.total_capital or 0.0),
+            "national_avg_risk": round(float(n.nat_risk or 0.0), 1),
+            "is_surge": ym == "2024-03",
+            "constituencies": {}
+        }
+
+    for row in monthly_rows:
+        ym = row.ym
+        if ym in timeline and row.constituency:
+            timeline[ym]["constituencies"][row.constituency] = round(float(row.avg_r or 0.0), 1)
+
+    sorted_months = sorted(list(timeline.keys()))
+    return {
+        "months": sorted_months,
+        "timeline": timeline,
+        "current_month": sorted_months[-1] if sorted_months else None
+    }
+
+

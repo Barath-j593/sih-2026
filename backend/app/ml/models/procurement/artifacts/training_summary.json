@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "model_name": "procurement_isolation_forest",
+    "model_version": "1.0.0",
+    "mode": "early_warning",
+    "trained_at": "2026-09-06T08:43:13.124945+00:00",
+    "projects_count": 5000,
+    "features_count": 32,
+    "base_features_count": 22,
+    "engineered_features_count": 10,
+    "contamination": 0.05,
+    "random_state": 42
+  },
+  "distribution": {
+    "total_projects": 5000,
+    "flagged_anomaly_count": 251,
+    "flagged_anomaly_pct": 5.0200000000000005,
+    "mean_score": 25.428614000000003,
+    "median_score": 19.945,
+    "std_score": 21.106378246847658,
+    "min_score": 0.0,
+    "max_score": 100.0,
+    "percentile_1": 0.0,
+    "percentile_5": 3.65,
+    "percentile_10": 6.589,
+    "percentile_50": 19.945,
+    "percentile_90": 49.613000000000014,
+    "percentile_95": 85.22200000000001,
+    "percentile_99": 100.0
+  },
+  "top_tiers": {
+    "base_fraud_rate": 0.201,
+    "base_fraud_count": 1005,
+    "top_1_pct": {
+      "tier": "Top 1%",
+      "project_count": 50,
+      "fraud_count": 29,
+      "fraud_rate": 0.58,
+      "fraud_enrichment_factor": 2.8855721393034823,
+      "hard_negative_count": 21,
+      "hard_negative_rate": 0.42
+    },
+    "top_5_pct": {
+      "tier": "Top 5%",
+      "project_count": 250,
+      "fraud_count": 109,
+      "fraud_rate": 0.436,
+      "fraud_enrichment_factor": 2.1691542288557213,
+      "hard_negative_count": 141,
+      "hard_negative_rate": 0.564
+    },
+    "top_10_pct": {
+      "tier": "Top 10%",
+      "project_count": 500,
+      "fraud_count": 280,
+      "fraud_rate": 0.56,
+      "fraud_enrichment_factor": 2.7860696517412937,
+      "hard_negative_count": 177,
+      "hard_negative_rate": 0.354
+    },
+    "top_20_pct": {
+      "tier": "Top 20%",
+      "project_count": 1000,
+      "fraud_count": 462,
+      "fraud_rate": 0.462,
+      "fraud_enrichment_factor": 2.298507462686567,
+      "hard_negative_count": 230,
+      "hard_negative_rate": 0.23
+    }
+  },
+  "hard_negatives": {
+    "base_hard_negative_rate": 0.1052,
+    "base_hard_negative_count": 526,
+    "flagged_hard_negative_count": 142,
+    "flagged_hard_negative_rate": 0.5657370517928287,
+    "remote_single_bid_total": 152,
+    "remote_single_bid_flagged": 141,
+    "remote_single_bid_mean_score": 92.83506578947369,
+    "high_value_legitimate_total": 271,
+    "high_value_legitimate_flagged": 1,
+    "high_value_legitimate_mean_score": 27.088782287822877,
+    "weather_delay_total": 103,
+    "weather_delay_flagged": 0,
+    "weather_delay_mean_score": 16.950776699029124
+  },
+  "baseline_comparison": {
+    "baseline_1_single_bid_rule": {
+      "top_1_pct_fraud_rate": 0.42,
+      "top_5_pct_fraud_rate": 0.408,
+      "top_10_pct_fraud_rate": 0.298,
+      "top_10_enrichment": 1.4825870646766168
+    },
+    "baseline_2_multi_attribute_procurement_heuristic": {
+      "top_1_pct_fraud_rate": 0.58,
+      "top_5_pct_fraud_rate": 0.644,
+      "top_10_pct_fraud_rate": 0.57,
+      "top_10_enrichment": 2.835820895522388
+    },
+    "setu_stage_2d_procurement_isolation_forest": {
+      "top_1_pct_fraud_rate": 0.58,
+      "top_5_pct_fraud_rate": 0.436,
+      "top_10_pct_fraud_rate": 0.56,
+      "top_10_enrichment": 2.7860696517412937
+    }
+  }
+}

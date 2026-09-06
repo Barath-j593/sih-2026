@@ -41,8 +41,8 @@ const DEFAULT_ROLES: Record<UserRole, RoleConfig> = {
   district: {
     role: "district",
     title: "District Authority / Collector",
-    name: "District Magistrate (DARBHANGA)",
-    jurisdiction: "DARBHANGA",
+    name: "District Magistrate (Darbhanga)",
+    jurisdiction: "Darbhanga",
     department: "District Collectorate, Darbhanga",
     badgeColor: "bg-emerald-100 text-emerald-900 border-emerald-300",
   },
@@ -79,7 +79,7 @@ const AVAILABLE_ROLES: RoleOption[] = [
     name: "District Authority (DM)",
     label: "District Authority (DM)",
     desc: "Ground inspections, pending approvals & high-risk work triage",
-    defaultJurisdiction: "DARBHANGA",
+    defaultJurisdiction: "Darbhanga",
   },
   {
     id: "mp",

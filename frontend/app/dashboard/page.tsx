@@ -15,6 +15,7 @@ import { MinistryView } from "../../components/dashboard/MinistryView";
 import { StateNodalView } from "../../components/dashboard/StateNodalView";
 import { DistrictMagistrateView } from "../../components/dashboard/DistrictMagistrateView";
 import { MPConstituencyView } from "../../components/dashboard/MPConstituencyView";
+import { SpecularButton } from "../../components/ui/SpecularButton";
 
 import {
   AlertTriangle,
@@ -82,14 +83,13 @@ export default function OperationalDashboardPage() {
   if (loading) {
     return (
       <div className="flex h-[70vh] flex-col items-center justify-center space-y-4">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-amber-500 border-t-transparent shadow-md" />
-        <div className="text-center">
-          <p className="text-base font-bold text-slate-900">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#D97706] border-t-transparent shadow-sm" />
+        <div className="text-center space-y-1">
+          <p className="text-lg font-editorial font-bold text-[#1C1917]">
             Loading SETU Operational Command Center
           </p>
-          <p className="text-xs text-slate-500">
-            Scoping real-time audit telemetry for {jurisdiction} (
-            {role.toUpperCase()})...
+          <p className="text-xs font-mono text-stone-500">
+            Scoping real-time audit telemetry for {jurisdiction} ({role.toUpperCase()})...
           </p>
         </div>
       </div>
@@ -98,20 +98,22 @@ export default function OperationalDashboardPage() {
 
   if (error || !data) {
     return (
-      <div className="rounded-2xl border border-red-200 bg-red-50/50 p-8 text-center max-w-xl mx-auto my-12">
-        <AlertTriangle className="mx-auto h-12 w-12 text-red-500 animate-bounce" />
-        <h3 className="mt-3 text-lg font-bold text-slate-900">
+      <div className="rounded-xl border border-rose-200 bg-[#FFF5F5] p-8 text-center max-w-xl mx-auto my-12 shadow-sm">
+        <AlertTriangle className="mx-auto h-12 w-12 text-rose-600 animate-bounce" />
+        <h3 className="mt-3 text-lg font-editorial font-bold text-[#1C1917]">
           Error Connecting to SETU Intelligence Server
         </h3>
-        <p className="mt-1 text-xs text-red-700">
+        <p className="mt-1 text-xs text-rose-800 font-sans">
           {error || "Could not retrieve live risk telemetry."}
         </p>
-        <button
+        <SpecularButton
           onClick={() => window.location.reload()}
-          className="mt-4 rounded-xl bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 transition-all shadow"
+          variant="amber"
+          size="sm"
+          className="mt-4"
         >
           Retry Connection
-        </button>
+        </SpecularButton>
       </div>
     );
   }
@@ -135,17 +137,17 @@ export default function OperationalDashboardPage() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Top Banner Navigation back to Public Portal */}
-      <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+      <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-3">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#6E4529] hover:text-[#3D2312] transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Back to Public Transparency Portal</span>
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>← Back to Public Transparency Portal</span>
         </Link>
         <div className="flex items-center gap-2">
-          <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-          <span className="text-[11px] font-mono font-bold text-slate-500 uppercase">
+          <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] font-mono font-bold text-[#8C5D3B] uppercase tracking-wider">
             Live Telemetry Cockpit
           </span>
         </div>

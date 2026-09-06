@@ -1,0 +1,223 @@
+{
+  "model_name": "progress_isolation_forest",
+  "version": "1.0.0",
+  "mode": "early_warning",
+  "timestamp": "2026-09-06T09:09:40.201769+00:00",
+  "base_fraud_rate": 20.1,
+  "distribution_summary": {
+    "total_projects": 5000,
+    "flagged_top_5pct": 251,
+    "mean_score": 31.279578000000004,
+    "median_score": 26.545,
+    "std_score": 22.43470785461482,
+    "p50": 26.545,
+    "p90": 69.34100000000001,
+    "p95": 78.29250000000002,
+    "p99": 89.45400000000053
+  },
+  "enrichment_benchmarks": {
+    "top_1pct": {
+      "cutoff_count": 50,
+      "fraud_count": 50,
+      "fraud_rate": 100.0,
+      "enrichment_factor": 4.98,
+      "hard_negative_count": 0,
+      "hard_negative_rate": 0.0
+    },
+    "top_5pct": {
+      "cutoff_count": 250,
+      "fraud_count": 250,
+      "fraud_rate": 100.0,
+      "enrichment_factor": 4.98,
+      "hard_negative_count": 0,
+      "hard_negative_rate": 0.0
+    },
+    "top_10pct": {
+      "cutoff_count": 500,
+      "fraud_count": 500,
+      "fraud_rate": 100.0,
+      "enrichment_factor": 4.98,
+      "hard_negative_count": 0,
+      "hard_negative_rate": 0.0
+    },
+    "top_20pct": {
+      "cutoff_count": 1000,
+      "fraud_count": 824,
+      "fraud_rate": 82.4,
+      "enrichment_factor": 4.1,
+      "hard_negative_count": 19,
+      "hard_negative_rate": 1.9
+    }
+  },
+  "baseline_comparison": {
+    "baseline1": {
+      "top_1pct_fraud_rate": 100.0,
+      "top_1pct_enrichment": 4.98,
+      "top_5pct_fraud_rate": 100.0,
+      "top_5pct_enrichment": 4.98,
+      "top_10pct_fraud_rate": 100.0,
+      "top_10pct_enrichment": 4.98
+    },
+    "baseline2": {
+      "top_1pct_fraud_rate": 100.0,
+      "top_1pct_enrichment": 4.98,
+      "top_5pct_fraud_rate": 100.0,
+      "top_5pct_enrichment": 4.98,
+      "top_10pct_fraud_rate": 100.0,
+      "top_10pct_enrichment": 4.98
+    },
+    "progress_model": {
+      "top_1pct_fraud_rate": 100.0,
+      "top_1pct_enrichment": 4.98,
+      "top_5pct_fraud_rate": 100.0,
+      "top_5pct_enrichment": 4.98,
+      "top_10pct_fraud_rate": 100.0,
+      "top_10pct_enrichment": 4.98
+    }
+  },
+  "hard_negative_discrimination": {
+    "LEGITIMATE_REMOTE_SINGLE_BID": {
+      "total": 152,
+      "flagged_in_top_5pct": 0,
+      "false_alarm_rate": 0.0,
+      "mean_score": 23.71,
+      "status": "Protected"
+    },
+    "HIGH_VALUE_LEGITIMATE": {
+      "total": 271,
+      "flagged_in_top_5pct": 0,
+      "false_alarm_rate": 0.0,
+      "mean_score": 21.8,
+      "status": "Protected"
+    },
+    "LEGITIMATE_WEATHER_DELAY": {
+      "total": 103,
+      "flagged_in_top_5pct": 0,
+      "false_alarm_rate": 0.0,
+      "mean_score": 21.58,
+      "status": "Protected"
+    }
+  },
+  "scenario_coverage": {
+    "ABANDONED_WORK": {
+      "total": 76,
+      "is_fraud": true,
+      "mean_score": 67.23,
+      "median_score": 67.48,
+      "flagged_top_5pct": 1,
+      "flagged_top_5pct_rate": 1.32,
+      "flagged_top_10pct": 27,
+      "flagged_top_10pct_rate": 35.53
+    },
+    "COST_OVERRUN": {
+      "total": 218,
+      "is_fraud": true,
+      "mean_score": 60.64,
+      "median_score": 60.31,
+      "flagged_top_5pct": 1,
+      "flagged_top_5pct_rate": 0.46,
+      "flagged_top_10pct": 26,
+      "flagged_top_10pct_rate": 11.93
+    },
+    "DELAYED_WORK": {
+      "total": 154,
+      "is_fraud": true,
+      "mean_score": 80.46,
+      "median_score": 80.55,
+      "flagged_top_5pct": 107,
+      "flagged_top_5pct_rate": 69.48,
+      "flagged_top_10pct": 147,
+      "flagged_top_10pct_rate": 95.45
+    },
+    "DOCUMENTATION_DEFICIT": {
+      "total": 71,
+      "is_fraud": true,
+      "mean_score": 82.51,
+      "median_score": 82.11,
+      "flagged_top_5pct": 71,
+      "flagged_top_5pct_rate": 100.0,
+      "flagged_top_10pct": 71,
+      "flagged_top_10pct_rate": 100.0
+    },
+    "GHOST_WORK": {
+      "total": 46,
+      "is_fraud": true,
+      "mean_score": 96.72,
+      "median_score": 96.58,
+      "flagged_top_5pct": 46,
+      "flagged_top_5pct_rate": 100.0,
+      "flagged_top_10pct": 46,
+      "flagged_top_10pct_rate": 100.0
+    },
+    "HIGH_VALUE_LEGITIMATE": {
+      "total": 271,
+      "is_fraud": false,
+      "mean_score": 21.8,
+      "median_score": 19.61,
+      "flagged_top_5pct": 0,
+      "flagged_top_5pct_rate": 0.0,
+      "flagged_top_10pct": 0,
+      "flagged_top_10pct_rate": 0.0
+    },
+    "LEGITIMATE_REMOTE_SINGLE_BID": {
+      "total": 152,
+      "is_fraud": false,
+      "mean_score": 23.71,
+      "median_score": 22.6,
+      "flagged_top_5pct": 0,
+      "flagged_top_5pct_rate": 0.0,
+      "flagged_top_10pct": 0,
+      "flagged_top_10pct_rate": 0.0
+    },
+    "LEGITIMATE_WEATHER_DELAY": {
+      "total": 103,
+      "is_fraud": false,
+      "mean_score": 21.58,
+      "median_score": 19.52,
+      "flagged_top_5pct": 0,
+      "flagged_top_5pct_rate": 0.0,
+      "flagged_top_10pct": 0,
+      "flagged_top_10pct_rate": 0.0
+    },
+    "NORMAL": {
+      "total": 3469,
+      "is_fraud": false,
+      "mean_score": 23.33,
+      "median_score": 22.37,
+      "flagged_top_5pct": 0,
+      "flagged_top_5pct_rate": 0.0,
+      "flagged_top_10pct": 0,
+      "flagged_top_10pct_rate": 0.0
+    },
+    "PAYMENT_PROGRESS_MISMATCH": {
+      "total": 252,
+      "is_fraud": true,
+      "mean_score": 72.17,
+      "median_score": 71.47,
+      "flagged_top_5pct": 25,
+      "flagged_top_5pct_rate": 9.92,
+      "flagged_top_10pct": 184,
+      "flagged_top_10pct_rate": 73.02
+    },
+    "PROCUREMENT_SINGLE_BID": {
+      "total": 103,
+      "is_fraud": true,
+      "mean_score": 24.07,
+      "median_score": 24.75,
+      "flagged_top_5pct": 0,
+      "flagged_top_5pct_rate": 0.0,
+      "flagged_top_10pct": 0,
+      "flagged_top_10pct_rate": 0.0
+    },
+    "SUSPICIOUS_CONTRACTOR_MONOPOLY": {
+      "total": 85,
+      "is_fraud": true,
+      "mean_score": 23.81,
+      "median_score": 23.98,
+      "flagged_top_5pct": 0,
+      "flagged_top_5pct_rate": 0.0,
+      "flagged_top_10pct": 0,
+      "flagged_top_10pct_rate": 0.0
+    }
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRole } from "../context/RoleContext";
 import { usePathname } from "next/navigation";
 import { Shield, Building2, MapPin, UserCheck, ChevronDown, Check } from "lucide-react";
@@ -35,33 +35,30 @@ const STATE_OPTIONS = [
 ];
 
 const DISTRICT_OPTIONS = [
-  "DARBHANGA",
-  "DHOLPUR",
-  "KARAULI-DHOLPUR(SC)",
-  "NALANDA",
-  "PATNA",
-  "ALMORA(SC)",
-  "PEDDAPALLE",
-  "ONGOLE",
-  "ZAHIRABAD",
-  "SAMBALPUR",
-  "DUMKA(ST)",
-  "RAJMAHAL(ST)",
-  "TEHRI GARHWAL",
-  "RAJAMPET",
-  "KALAHANDI",
-  "JAGATSINGHPUR(SC)",
-  "ARUNACHAL WEST",
-  "ATTINGAL",
-  "ANANTNAG",
-  "FIROZPUR",
-  "SHILLONG",
-  "LUDHIANA",
-  "MANDI",
-  "NAINITAL UDHAM SINGH NAG.",
-  "JAIPUR",
-  "VARANASI",
-  "PUNE",
+  "Darbhanga",
+  "Patna Sahib",
+  "Saran",
+  "Gaya",
+  "Muzaffarpur",
+  "Bhagalpur",
+  "Chennai",
+  "Coimbatore",
+  "Madurai",
+  "Salem",
+  "Lucknow",
+  "Varanasi",
+  "Kanpur Nagar",
+  "Agra",
+  "Pune",
+  "Nagpur",
+  "Bengaluru Urban",
+  "Mysuru",
+  "Ahmedabad",
+  "Surat",
+  "Jaipur",
+  "Jodhpur",
+  "Kolkata",
+  "Howrah",
 ];
 
 const MP_OPTIONS = [
@@ -91,12 +88,63 @@ const MP_OPTIONS = [
   "Kaushalendra Kumar",
 ];
 
+import { SearchableSelect, SearchableOption } from "./ui/SearchableSelect";
+import { fetchGraphEntities } from "../lib/api";
+import { formatDistrictName } from "../lib/districts";
+
 export function RoleSwitcher() {
   const pathname = usePathname();
   const { role, setRole, jurisdiction, setJurisdiction, availableRoles } = useRole();
 
-  // If on landing page "/", don't show sticky role switcher
-  if (pathname === "/") {
+  const [districts, setDistricts] = useState<string[]>(DISTRICT_OPTIONS);
+  const [mps, setMps] = useState<SearchableOption[]>(
+    MP_OPTIONS.map((mp) => ({ label: mp, value: mp }))
+  );
+  const [states, setStates] = useState<string[]>(STATE_OPTIONS);
+
+  // Dynamically load all nationwide districts and all MPs from database
+  useEffect(() => {
+    let isMounted = true;
+    async function loadAllEntities() {
+      try {
+        const data = await fetchGraphEntities();
+        if (!isMounted) return;
+        if (data?.districts && data.districts.length > 0) {
+          setDistricts(Array.from(new Set(data.districts.map((d: string) => formatDistrictName(d)))));
+        }
+        if (data?.mps && data.mps.length > 0) {
+          setMps(
+            data.mps.map((m: any) => ({
+              label: typeof m === "string" ? m : m.name,
+              value: typeof m === "string" ? m : m.name,
+              subtitle:
+                typeof m === "object" && m.works_count
+                  ? `${m.works_count} works • ₹${((m.total_capital || 0) / 10000000).toFixed(2)} Cr`
+                  : undefined,
+            }))
+          );
+        }
+        if (data?.states && data.states.length > 0) {
+          setStates(data.states);
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic entity options, using fallback", err);
+      }
+    }
+    loadAllEntities();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Only display the governance tier switcher on pages that directly utilize role-scoped views (/dashboard and /reports)
+  const isRoleScopedPage =
+    pathname === "/dashboard" ||
+    pathname?.startsWith("/dashboard/") ||
+    pathname === "/reports" ||
+    pathname?.startsWith("/reports/");
+
+  if (!isRoleScopedPage) {
     return null;
   }
 
@@ -120,22 +168,22 @@ export function RoleSwitcher() {
     } else if (newRole === "state") {
       setJurisdiction("Bihar");
     } else if (newRole === "district") {
-      setJurisdiction("DARBHANGA");
+      setJurisdiction("Darbhanga");
     } else if (newRole === "mp") {
       setJurisdiction("Mr Gopal Jee Thakur");
     }
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 px-4 py-2 text-xs backdrop-blur-md shadow-xs">
+    <header className="sticky top-0 z-40 w-full border-b border-[#E5DFD3] bg-[#FAF7F2]/95 px-4 py-2 text-xs backdrop-blur-md shadow-[0_2px_10px_rgba(40,20,10,0.03)]">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
         {/* Left: Role Switcher Buttons */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-bold text-[11px] uppercase tracking-wider text-slate-500">
+          <span className="font-mono font-bold text-[10px] uppercase tracking-wider text-[#8C5D3B]">
             Active Governance Tier:
           </span>
 
-          <div className="flex flex-wrap items-center gap-1.5 rounded-xl bg-slate-100 p-1 border border-slate-200/80">
+          <div className="flex flex-wrap items-center gap-1.5 rounded-lg bg-[#F0ECE1] p-1 border border-[#E5DFD3]">
             {availableRoles.map((r) => {
               const isActive = role === r.role || role === r.id;
               return (
@@ -143,13 +191,13 @@ export function RoleSwitcher() {
                   key={r.role || r.id}
                   onClick={() => handleRoleChange(r.role || r.id)}
                   type="button"
-                  className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+                  className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs transition-all ${
                     isActive
-                      ? "bg-slate-900 text-white shadow-sm ring-1 ring-slate-900"
-                      : "bg-white text-slate-700 border border-slate-200/90 hover:bg-slate-50 hover:text-slate-900"
+                      ? "bg-[#6E4529] text-[#F5EBE1] shadow-xs ring-1 ring-[#5A361F] font-bold"
+                      : "bg-[#FFFDF9] text-stone-700 border border-[#E5DFD3] hover:bg-white hover:text-stone-900 font-semibold"
                   }`}
                 >
-                  <span className={isActive ? "text-amber-400" : "text-slate-500"}>
+                  <span className={isActive ? "text-[#FDE68A]" : "text-[#8C5D3B]"}>
                     {getIcon(r.role || r.id)}
                   </span>
                   <span>{r.label || r.name}</span>
@@ -161,70 +209,54 @@ export function RoleSwitcher() {
 
         {/* Right: Dynamic Place / Entity Selector */}
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="flex items-center gap-1.5 text-slate-600 font-bold text-xs">
+          <div className="flex items-center gap-1.5 text-stone-700 font-mono font-bold text-xs">
             <span>📍 Location Scope:</span>
           </div>
 
           {role === "ministry" && (
-            <div className="flex items-center gap-2 rounded-lg border border-slate-300 bg-slate-50 px-3 py-1.5 font-bold text-slate-800 shadow-2xs">
+            <div className="flex items-center gap-2 rounded-md border border-[#D9D2C5] bg-[#FFFDF9] px-3 py-1.5 font-mono font-bold text-[#1C1917] shadow-xs">
               <span className="text-base">🇮🇳</span>
-              <span>All India (60,356 Works | ₹906.2 Cr)</span>
+              <span>All India (15,000 Works | ₹223.1 Cr)</span>
             </div>
           )}
 
           {role === "state" && (
-            <div className="relative">
-              <select
-                value={jurisdiction}
-                onChange={(e) => setJurisdiction(e.target.value)}
-                className="appearance-none rounded-lg border border-slate-300 bg-white py-1.5 pl-3 pr-9 text-xs font-bold text-slate-900 shadow-2xs hover:border-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 focus:outline-none cursor-pointer"
-              >
-                {STATE_OPTIONS.map((st) => (
-                  <option key={st} value={st}>
-                    🏛️ State: {st}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" />
-            </div>
+            <SearchableSelect
+              value={jurisdiction}
+              onChange={setJurisdiction}
+              options={states}
+              prefixLabel="State:"
+              placeholder="Search state (e.g. Tamil Nadu, Bihar)..."
+              icon={<Building2 className="h-3.5 w-3.5" />}
+            />
           )}
 
           {role === "district" && (
-            <div className="relative">
-              <select
-                value={jurisdiction}
-                onChange={(e) => setJurisdiction(e.target.value)}
-                className="appearance-none rounded-lg border border-slate-300 bg-white py-1.5 pl-3 pr-9 text-xs font-bold text-slate-900 shadow-2xs hover:border-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 focus:outline-none cursor-pointer"
-              >
-                {DISTRICT_OPTIONS.map((dst) => (
-                  <option key={dst} value={dst}>
-                    📍 District: {dst}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" />
-            </div>
+            <SearchableSelect
+              value={jurisdiction}
+              onChange={setJurisdiction}
+              options={districts}
+              prefixLabel="District:"
+              placeholder="Search district (e.g. Karur, Krishnagiri)..."
+              icon={<MapPin className="h-3.5 w-3.5" />}
+              maxDisplay={120}
+            />
           )}
 
           {role === "mp" && (
-            <div className="relative">
-              <select
-                value={jurisdiction}
-                onChange={(e) => setJurisdiction(e.target.value)}
-                className="appearance-none rounded-lg border border-slate-300 bg-white py-1.5 pl-3 pr-9 text-xs font-bold text-slate-900 shadow-2xs hover:border-slate-400 focus:border-slate-900 focus:ring-1 focus:ring-slate-900 focus:outline-none cursor-pointer"
-              >
-                {MP_OPTIONS.map((mp) => (
-                  <option key={mp} value={mp}>
-                    👤 MP: {mp}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" />
-            </div>
+            <SearchableSelect
+              value={jurisdiction}
+              onChange={setJurisdiction}
+              options={mps}
+              prefixLabel="MP:"
+              placeholder="Search MP (e.g. Rudy, Shashi, Kaushalendra)..."
+              icon={<UserCheck className="h-3.5 w-3.5" />}
+              maxDisplay={120}
+            />
           )}
 
           {/* Active scope indicator badge */}
-          <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+          <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#065F46]">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Scoped: {jurisdiction}</span>
           </span>

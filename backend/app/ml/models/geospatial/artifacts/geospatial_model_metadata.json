@@ -1,0 +1,12 @@
+{
+  "model_name": "geospatial_isolation_forest",
+  "model_version": "1.0.0",
+  "mode": "early_warning",
+  "trained_at": "2026-09-06T08:30:04.149306+00:00",
+  "projects_count": 5000,
+  "features_count": 27,
+  "base_features_count": 10,
+  "engineered_features_count": 18,
+  "contamination": 0.05,
+  "random_state": 42
+}

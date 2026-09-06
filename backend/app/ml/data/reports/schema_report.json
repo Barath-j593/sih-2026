@@ -1,0 +1,3679 @@
+{
+  "01_projects.csv": {
+    "file_name": "01_projects.csv",
+    "table_name": "projects",
+    "row_count": 5000,
+    "column_count": 29,
+    "primary_key": "project_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "project_duration",
+      "planned_duration_days",
+      "actual_duration_days",
+      "project_latitude",
+      "project_longitude"
+    ],
+    "date_columns": [
+      "recommendation_date",
+      "sanction_date",
+      "start_date",
+      "expected_completion_date",
+      "target_completion_date",
+      "actual_completion_date"
+    ],
+    "categorical_columns": [
+      "project_id",
+      "work_name",
+      "title",
+      "work_type",
+      "category",
+      "project_category",
+      "project_type",
+      "project_size",
+      "district_id",
+      "district_name",
+      "state_id",
+      "state_name",
+      "constituency_id",
+      "constituency_name",
+      "contractor_id",
+      "agency_id",
+      "status",
+      "project_status"
+    ],
+    "columns": {
+      "project_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000002",
+          "MPLADS-000003"
+        ]
+      },
+      "work_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2348,
+        "sample_values": [
+          "Bituminous Road at Ward-41",
+          "Paver Block Road at Ward-03",
+          "Community Tank at Ward-78"
+        ]
+      },
+      "title": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2348,
+        "sample_values": [
+          "Bituminous Road at Ward-41",
+          "Paver Block Road at Ward-03",
+          "Community Tank at Ward-78"
+        ]
+      },
+      "work_type": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 29,
+        "sample_values": [
+          "Bituminous Road",
+          "Paver Block Road",
+          "Community Tank"
+        ]
+      },
+      "category": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 8,
+        "sample_values": [
+          "Roads & Bridges",
+          "Roads & Bridges",
+          "Drinking Water"
+        ]
+      },
+      "project_category": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 8,
+        "sample_values": [
+          "Roads & Bridges",
+          "Roads & Bridges",
+          "Drinking Water"
+        ]
+      },
+      "project_type": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 29,
+        "sample_values": [
+          "Bituminous Road",
+          "Paver Block Road",
+          "Community Tank"
+        ]
+      },
+      "project_size": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "MEDIUM",
+          "MEDIUM",
+          "SMALL"
+        ]
+      },
+      "district_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 618,
+        "sample_values": [
+          "DIST-0232",
+          "DIST-0519",
+          "DIST-0459"
+        ]
+      },
+      "district_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 618,
+        "sample_values": [
+          "TAM-District-05",
+          "ASS-District-13",
+          "TEL-District-24"
+        ]
+      },
+      "state_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 18,
+        "sample_values": [
+          "ST-06",
+          "ST-15",
+          "ST-12"
+        ]
+      },
+      "state_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 18,
+        "sample_values": [
+          "Tamil Nadu",
+          "Assam",
+          "Telangana"
+        ]
+      },
+      "constituency_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 903,
+        "sample_values": [
+          "PC-0338",
+          "PC-0758",
+          "PC-0670"
+        ]
+      },
+      "constituency_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 903,
+        "sample_values": [
+          "TAM-District-05-Seat-338",
+          "ASS-District-13-Seat-758",
+          "TEL-District-24-Seat-670"
+        ]
+      },
+      "contractor_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 400,
+        "sample_values": [
+          "CONT-0352",
+          "CONT-0102",
+          "CONT-0258"
+        ]
+      },
+      "agency_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1211,
+        "sample_values": [
+          "AGENCY-0404",
+          "AGENCY-1147",
+          "AGENCY-0258"
+        ]
+      },
+      "recommendation_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 699,
+        "sample_values": [
+          "2022-11-03",
+          "2023-07-25",
+          "2022-01-06"
+        ]
+      },
+      "sanction_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 732,
+        "sample_values": [
+          "2022-12-14",
+          "2023-08-24",
+          "2022-02-23"
+        ]
+      },
+      "start_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 738,
+        "sample_values": [
+          "2022-12-29",
+          "2023-09-06",
+          "2022-03-13"
+        ]
+      },
+      "expected_completion_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 938,
+        "sample_values": [
+          "2023-06-12",
+          "2024-02-20",
+          "2022-05-24"
+        ]
+      },
+      "target_completion_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 938,
+        "sample_values": [
+          "2023-06-12",
+          "2024-02-20",
+          "2022-05-24"
+        ]
+      },
+      "actual_completion_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 4227,
+        "null_percentage": 84.54,
+        "unique_count": 510,
+        "sample_values": [
+          "2023-07-31",
+          "2024-03-21",
+          "2022-10-13"
+        ]
+      },
+      "project_duration": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 8,
+        "sample_values": [
+          "180",
+          "180",
+          "90"
+        ]
+      },
+      "planned_duration_days": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 8,
+        "sample_values": [
+          "180",
+          "180",
+          "90"
+        ]
+      },
+      "actual_duration_days": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 262,
+        "sample_values": [
+          "214",
+          "207",
+          "103"
+        ]
+      },
+      "status": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "COMPLETED",
+          "WORK_IN_PROGRESS",
+          "WORK_IN_PROGRESS"
+        ]
+      },
+      "project_status": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "COMPLETED",
+          "WORK_IN_PROGRESS",
+          "WORK_IN_PROGRESS"
+        ]
+      },
+      "project_latitude": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4990,
+        "sample_values": [
+          "9.07608",
+          "25.73962",
+          "16.61631"
+        ]
+      },
+      "project_longitude": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4991,
+        "sample_values": [
+          "77.42841",
+          "95.11848",
+          "79.59492"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "02_financials.csv": {
+    "file_name": "02_financials.csv",
+    "table_name": "financials",
+    "row_count": 5000,
+    "column_count": 29,
+    "primary_key": "project_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "recommended_amount",
+      "estimated_cost",
+      "sanctioned_amount",
+      "revised_cost",
+      "tender_amount",
+      "tender_value",
+      "released_amount",
+      "fund_released",
+      "actual_expenditure",
+      "unspent_balance",
+      "remaining_balance",
+      "fund_utilization_ratio",
+      "utilization_ratio",
+      "release_ratio",
+      "expenditure_ratio",
+      "cost_per_unit",
+      "peer_median_cost",
+      "peer_mean_cost",
+      "cost_deviation",
+      "tender_estimate_deviation",
+      "actual_sanction_deviation",
+      "cost_overrun",
+      "cost_per_km",
+      "cost_per_sqft",
+      "cost_per_beneficiary",
+      "sor_deviation",
+      "market_rate_deviation",
+      "inflation_adjusted_cost_deviation"
+    ],
+    "date_columns": [],
+    "categorical_columns": [
+      "project_id"
+    ],
+    "columns": {
+      "project_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000002",
+          "MPLADS-000003"
+        ]
+      },
+      "recommended_amount": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3129,
+        "sample_values": [
+          "2665000.0",
+          "2440000.0",
+          "710000.0"
+        ]
+      },
+      "estimated_cost": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3129,
+        "sample_values": [
+          "2665000.0",
+          "2440000.0",
+          "710000.0"
+        ]
+      },
+      "sanctioned_amount": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3161,
+        "sample_values": [
+          "2646000.0",
+          "2475000.0",
+          "721000.0"
+        ]
+      },
+      "revised_cost": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3199,
+        "sample_values": [
+          "2646000.0",
+          "2475000.0",
+          "721000.0"
+        ]
+      },
+      "tender_amount": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3143,
+        "sample_values": [
+          "2607000.0",
+          "2441000.0",
+          "721000.0"
+        ]
+      },
+      "tender_value": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3143,
+        "sample_values": [
+          "2607000.0",
+          "2441000.0",
+          "721000.0"
+        ]
+      },
+      "released_amount": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3161,
+        "sample_values": [
+          "2646000.0",
+          "2475000.0",
+          "721000.0"
+        ]
+      },
+      "fund_released": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3161,
+        "sample_values": [
+          "2646000.0",
+          "2475000.0",
+          "721000.0"
+        ]
+      },
+      "actual_expenditure": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3085,
+        "sample_values": [
+          "2590000.0",
+          "2394000.0",
+          "643000.0"
+        ]
+      },
+      "unspent_balance": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1044,
+        "sample_values": [
+          "56000.0",
+          "81000.0",
+          "78000.0"
+        ]
+      },
+      "remaining_balance": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1044,
+        "sample_values": [
+          "56000.0",
+          "81000.0",
+          "78000.0"
+        ]
+      },
+      "fund_utilization_ratio": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1568,
+        "sample_values": [
+          "0.9788",
+          "0.9673",
+          "0.8918"
+        ]
+      },
+      "utilization_ratio": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1568,
+        "sample_values": [
+          "0.9788",
+          "0.9673",
+          "0.8918"
+        ]
+      },
+      "release_ratio": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "1.0",
+          "1.0",
+          "1.0"
+        ]
+      },
+      "expenditure_ratio": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1568,
+        "sample_values": [
+          "0.9788",
+          "0.9673",
+          "0.8918"
+        ]
+      },
+      "cost_per_unit": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4996,
+        "sample_values": [
+          "5743.84",
+          "9407.31",
+          "3083.29"
+        ]
+      },
+      "peer_median_cost": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4715,
+        "sample_values": [
+          "2665400.0",
+          "2439900.0",
+          "710100.0"
+        ]
+      },
+      "peer_mean_cost": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4717,
+        "sample_values": [
+          "2718700.0",
+          "2488700.0",
+          "724300.0"
+        ]
+      },
+      "cost_deviation": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1899,
+        "sample_values": [
+          "-0.0281",
+          "-0.0189",
+          "-0.0944"
+        ]
+      },
+      "tender_estimate_deviation": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 996,
+        "sample_values": [
+          "-0.0218",
+          "0.0004",
+          "0.0155"
+        ]
+      },
+      "actual_sanction_deviation": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1568,
+        "sample_values": [
+          "-0.0212",
+          "-0.0327",
+          "-0.1082"
+        ]
+      },
+      "cost_overrun": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 211,
+        "sample_values": [
+          "0.0",
+          "0.0",
+          "0.0"
+        ]
+      },
+      "cost_per_km": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 639,
+        "sample_values": [
+          "634614.57",
+          "1351954.79",
+          "0.0"
+        ]
+      },
+      "cost_per_sqft": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2504,
+        "sample_values": [
+          "0.0",
+          "0.0",
+          "0.0"
+        ]
+      },
+      "cost_per_beneficiary": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 651,
+        "sample_values": [
+          "0.0",
+          "0.0",
+          "882.96"
+        ]
+      },
+      "sor_deviation": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2221,
+        "sample_values": [
+          "-0.0203",
+          "0.1543",
+          "0.0847"
+        ]
+      },
+      "market_rate_deviation": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2288,
+        "sample_values": [
+          "-0.0073",
+          "0.0352",
+          "0.1305"
+        ]
+      },
+      "inflation_adjusted_cost_deviation": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1776,
+        "sample_values": [
+          "-0.0316",
+          "0.056",
+          "0.1133"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "03_payments.csv": {
+    "file_name": "03_payments.csv",
+    "table_name": "payments",
+    "row_count": 13866,
+    "column_count": 17,
+    "primary_key": "payment_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "tranche_number",
+      "payment_number",
+      "payment_amount",
+      "cumulative_payment",
+      "payment_velocity",
+      "payment_frequency",
+      "payment_concentration",
+      "is_round_number",
+      "is_final_installment",
+      "duplicate_payment_flag",
+      "payment_timing_anomaly",
+      "measurement_book_verified"
+    ],
+    "date_columns": [
+      "payment_date"
+    ],
+    "categorical_columns": [
+      "payment_id",
+      "project_id",
+      "contractor_id",
+      "voucher_number"
+    ],
+    "columns": {
+      "payment_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 13866,
+        "sample_values": [
+          "PAY-000001-01",
+          "PAY-000001-02",
+          "PAY-000001-03"
+        ]
+      },
+      "project_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000001",
+          "MPLADS-000001"
+        ]
+      },
+      "contractor_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 400,
+        "sample_values": [
+          "CONT-0352",
+          "CONT-0352",
+          "CONT-0352"
+        ]
+      },
+      "tranche_number": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "payment_number": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      "payment_amount": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4716,
+        "sample_values": [
+          "863300.0",
+          "863300.0",
+          "863400.0"
+        ]
+      },
+      "payment_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1081,
+        "sample_values": [
+          "2023-02-23",
+          "2023-05-05",
+          "2023-07-16"
+        ]
+      },
+      "voucher_number": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 13866,
+        "sample_values": [
+          "VCH-000001-01",
+          "VCH-000001-02",
+          "VCH-000001-03"
+        ]
+      },
+      "cumulative_payment": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 7624,
+        "sample_values": [
+          "863300.0",
+          "1726600.0",
+          "2590000.0"
+        ]
+      },
+      "payment_velocity": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5882,
+        "sample_values": [
+          "14388.33",
+          "14388.33",
+          "14390.0"
+        ]
+      },
+      "payment_frequency": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 12,
+        "sample_values": [
+          "60.0",
+          "60.0",
+          "60.0"
+        ]
+      },
+      "payment_concentration": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "0.3333",
+          "0.3333",
+          "0.3334"
+        ]
+      },
+      "is_round_number": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "is_final_installment": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "1"
+        ]
+      },
+      "duplicate_payment_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "payment_timing_anomaly": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "measurement_book_verified": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "04_progress.csv": {
+    "file_name": "04_progress.csv",
+    "table_name": "progress",
+    "row_count": 5000,
+    "column_count": 20,
+    "primary_key": "progress_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "physical_progress",
+      "financial_progress",
+      "planned_progress",
+      "actual_vs_planned_progress",
+      "progress_mismatch",
+      "progress_velocity",
+      "progress_acceleration",
+      "completion_percentage",
+      "physical_progress_delay",
+      "financial_physical_gap",
+      "planned_duration_days",
+      "actual_duration_days",
+      "extension_count",
+      "progress_gap",
+      "measurement_book_verified",
+      "geo_tag_available",
+      "geo_tag_progress_consistency"
+    ],
+    "date_columns": [
+      "record_date"
+    ],
+    "categorical_columns": [
+      "progress_id",
+      "project_id"
+    ],
+    "columns": {
+      "progress_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "PROG-000001",
+          "PROG-000002",
+          "PROG-000003"
+        ]
+      },
+      "project_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000002",
+          "MPLADS-000003"
+        ]
+      },
+      "record_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 923,
+        "sample_values": [
+          "2023-06-03",
+          "2024-02-05",
+          "2022-05-16"
+        ]
+      },
+      "physical_progress": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 572,
+        "sample_values": [
+          "99.1",
+          "70.5",
+          "74.8"
+        ]
+      },
+      "financial_progress": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 373,
+        "sample_values": [
+          "97.9",
+          "96.7",
+          "89.2"
+        ]
+      },
+      "planned_progress": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 201,
+        "sample_values": [
+          "93.2",
+          "89.1",
+          "84.8"
+        ]
+      },
+      "actual_vs_planned_progress": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 572,
+        "sample_values": [
+          "9.1",
+          "-19.5",
+          "-15.2"
+        ]
+      },
+      "progress_mismatch": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 632,
+        "sample_values": [
+          "1.2",
+          "26.2",
+          "14.4"
+        ]
+      },
+      "progress_velocity": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3696,
+        "sample_values": [
+          "0.4631",
+          "0.3406",
+          "0.7262"
+        ]
+      },
+      "progress_acceleration": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 700,
+        "sample_values": [
+          "0.0453",
+          "0.024",
+          "0.0475"
+        ]
+      },
+      "completion_percentage": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 572,
+        "sample_values": [
+          "99.1",
+          "70.5",
+          "74.8"
+        ]
+      },
+      "physical_progress_delay": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 943,
+        "sample_values": [
+          "0.0",
+          "26.200000000000003",
+          "14.400000000000006"
+        ]
+      },
+      "financial_physical_gap": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 772,
+        "sample_values": [
+          "-1.2",
+          "26.2",
+          "14.4"
+        ]
+      },
+      "planned_duration_days": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 8,
+        "sample_values": [
+          "180",
+          "180",
+          "90"
+        ]
+      },
+      "actual_duration_days": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 262,
+        "sample_values": [
+          "214",
+          "207",
+          "103"
+        ]
+      },
+      "extension_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "progress_gap": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 772,
+        "sample_values": [
+          "-1.2",
+          "26.2",
+          "14.4"
+        ]
+      },
+      "measurement_book_verified": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "geo_tag_available": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "geo_tag_progress_consistency": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "1",
+          "1",
+          "1"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "05_procurement.csv": {
+    "file_name": "05_procurement.csv",
+    "table_name": "procurement",
+    "row_count": 5000,
+    "column_count": 24,
+    "primary_key": "tender_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "tender_exists",
+      "tender_duration",
+      "bid_count",
+      "qualified_bid_count",
+      "single_bid_flag",
+      "bid_competition_score",
+      "winning_bid",
+      "winning_bid_amount",
+      "winning_bid_deviation",
+      "winning_bid_vs_lowest_bid",
+      "bid_price_similarity",
+      "bidder_disqualification_rate",
+      "re_tender_count",
+      "tender_cancellation_count",
+      "tender_bypass_flag",
+      "repeated_winner_flag",
+      "bid_rotation_score",
+      "repeated_loser_score",
+      "procurement_compliance_flag"
+    ],
+    "date_columns": [
+      "tender_publication_date"
+    ],
+    "categorical_columns": [
+      "tender_id",
+      "project_id",
+      "procurement_method",
+      "tender_type"
+    ],
+    "columns": {
+      "tender_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "TND-000001",
+          "TND-000002",
+          "TND-000003"
+        ]
+      },
+      "project_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000002",
+          "MPLADS-000003"
+        ]
+      },
+      "tender_exists": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "1",
+          "1",
+          "1"
+        ]
+      },
+      "procurement_method": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "Open e-Tender",
+          "Open e-Tender",
+          "Open e-Tender"
+        ]
+      },
+      "tender_publication_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 732,
+        "sample_values": [
+          "2022-11-23",
+          "2023-08-03",
+          "2022-02-02"
+        ]
+      },
+      "tender_duration": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 16,
+        "sample_values": [
+          "28",
+          "28",
+          "29"
+        ]
+      },
+      "bid_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 6,
+        "sample_values": [
+          "6",
+          "6",
+          "7"
+        ]
+      },
+      "qualified_bid_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 7,
+        "sample_values": [
+          "5",
+          "5",
+          "6"
+        ]
+      },
+      "single_bid_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "bid_competition_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5,
+        "sample_values": [
+          "1.0",
+          "1.0",
+          "1.0"
+        ]
+      },
+      "tender_type": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "Open e-Tender",
+          "Open e-Tender",
+          "Open e-Tender"
+        ]
+      },
+      "winning_bid": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3143,
+        "sample_values": [
+          "2607000.0",
+          "2441000.0",
+          "721000.0"
+        ]
+      },
+      "winning_bid_amount": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3143,
+        "sample_values": [
+          "2607000.0",
+          "2441000.0",
+          "721000.0"
+        ]
+      },
+      "winning_bid_deviation": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 996,
+        "sample_values": [
+          "-0.0218",
+          "0.0004",
+          "0.0155"
+        ]
+      },
+      "winning_bid_vs_lowest_bid": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 501,
+        "sample_values": [
+          "0.0426",
+          "0.0184",
+          "0.0062"
+        ]
+      },
+      "bid_price_similarity": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1360,
+        "sample_values": [
+          "0.9663",
+          "0.8882",
+          "0.966"
+        ]
+      },
+      "bidder_disqualification_rate": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 251,
+        "sample_values": [
+          "0.13",
+          "0.071",
+          "0.116"
+        ]
+      },
+      "re_tender_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "tender_cancellation_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "tender_bypass_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "repeated_winner_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "1",
+          "0"
+        ]
+      },
+      "bid_rotation_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 650,
+        "sample_values": [
+          "0.115",
+          "0.207",
+          "0.13"
+        ]
+      },
+      "repeated_loser_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 451,
+        "sample_values": [
+          "0.407",
+          "0.167",
+          "0.137"
+        ]
+      },
+      "procurement_compliance_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "1",
+          "1",
+          "1"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "06_contracts.csv": {
+    "file_name": "06_contracts.csv",
+    "table_name": "contracts",
+    "row_count": 5000,
+    "column_count": 22,
+    "primary_key": "contract_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "work_order_amount",
+      "original_contract_value",
+      "final_contract_value",
+      "contract_value_change",
+      "contract_amendment_count",
+      "amendment_value",
+      "extension_count",
+      "extension_duration",
+      "contract_delay_days",
+      "contractor_capacity",
+      "contract_value_to_capacity",
+      "external_service_provider_flag",
+      "subcontractor_count",
+      "subcontractor_value_share",
+      "end_period_expenditure_ratio",
+      "performance_guarantee_submitted"
+    ],
+    "date_columns": [
+      "award_date",
+      "original_completion_date",
+      "revised_completion_date"
+    ],
+    "categorical_columns": [
+      "contract_id",
+      "project_id",
+      "contractor_id"
+    ],
+    "columns": {
+      "contract_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "CNTR-000001",
+          "CNTR-000002",
+          "CNTR-000003"
+        ]
+      },
+      "project_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000002",
+          "MPLADS-000003"
+        ]
+      },
+      "contractor_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 400,
+        "sample_values": [
+          "CONT-0352",
+          "CONT-0102",
+          "CONT-0258"
+        ]
+      },
+      "work_order_amount": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3143,
+        "sample_values": [
+          "2607000.0",
+          "2441000.0",
+          "721000.0"
+        ]
+      },
+      "original_contract_value": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3143,
+        "sample_values": [
+          "2607000.0",
+          "2441000.0",
+          "721000.0"
+        ]
+      },
+      "final_contract_value": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3085,
+        "sample_values": [
+          "2590000.0",
+          "2394000.0",
+          "643000.0"
+        ]
+      },
+      "contract_value_change": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2182,
+        "sample_values": [
+          "-0.0065",
+          "-0.0193",
+          "-0.1082"
+        ]
+      },
+      "contract_amendment_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "amendment_value": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 497,
+        "sample_values": [
+          "0.0",
+          "0.0",
+          "0.0"
+        ]
+      },
+      "extension_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "extension_duration": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "award_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 732,
+        "sample_values": [
+          "2022-12-28",
+          "2023-09-07",
+          "2022-03-09"
+        ]
+      },
+      "original_completion_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 938,
+        "sample_values": [
+          "2023-06-12",
+          "2024-02-20",
+          "2022-05-24"
+        ]
+      },
+      "revised_completion_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 941,
+        "sample_values": [
+          "2023-06-12",
+          "2024-02-20",
+          "2022-05-24"
+        ]
+      },
+      "contract_delay_days": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 49,
+        "sample_values": [
+          "34",
+          "27",
+          "13"
+        ]
+      },
+      "contractor_capacity": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "100000000.0",
+          "20000000.0",
+          "5000000.0"
+        ]
+      },
+      "contract_value_to_capacity": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2916,
+        "sample_values": [
+          "0.0261",
+          "0.122",
+          "0.1442"
+        ]
+      },
+      "external_service_provider_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "subcontractor_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "0",
+          "0",
+          "1"
+        ]
+      },
+      "subcontractor_value_share": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 301,
+        "sample_values": [
+          "0.051",
+          "0.253",
+          "0.067"
+        ]
+      },
+      "end_period_expenditure_ratio": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 401,
+        "sample_values": [
+          "0.404",
+          "0.362",
+          "0.547"
+        ]
+      },
+      "performance_guarantee_submitted": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "07_contractors.csv": {
+    "file_name": "07_contractors.csv",
+    "table_name": "contractors",
+    "row_count": 400,
+    "column_count": 35,
+    "primary_key": "contractor_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "financial_capacity",
+      "base_quality_score",
+      "past_irregularity_rate",
+      "contractor_past_irregularity_rate",
+      "contractor_capacity_strain",
+      "contractor_project_count",
+      "contractor_total_contract_value",
+      "contractor_average_contract_value",
+      "contractor_max_contract_value",
+      "contractor_project_share",
+      "contractor_value_share",
+      "contractor_district_concentration",
+      "contractor_agency_concentration",
+      "contractor_constituency_concentration",
+      "contractor_delay_rate",
+      "contractor_completion_rate",
+      "contractor_cancellation_rate",
+      "contractor_previous_irregularities",
+      "contractor_financial_capacity",
+      "contractor_value_to_capacity",
+      "repeated_agency_contractor_pair",
+      "shared_ownership",
+      "shared_directors",
+      "shared_shareholders",
+      "shared_address",
+      "beneficial_owner_overlap",
+      "contractor_financial_health",
+      "company_ownership_change",
+      "director_change",
+      "address_change"
+    ],
+    "date_columns": [],
+    "categorical_columns": [
+      "contractor_id",
+      "contractor_name",
+      "home_district_id",
+      "home_state_id",
+      "registration_category"
+    ],
+    "columns": {
+      "contractor_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 400,
+        "sample_values": [
+          "CONT-0001",
+          "CONT-0002",
+          "CONT-0003"
+        ]
+      },
+      "contractor_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 383,
+        "sample_values": [
+          "Kari Enterprises",
+          "Behl Enterprises",
+          "Srinivasan, Garde and Viswanathan Infrastructure Pvt Ltd"
+        ]
+      },
+      "home_district_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 305,
+        "sample_values": [
+          "DIST-0097",
+          "DIST-0589",
+          "DIST-0193"
+        ]
+      },
+      "home_state_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 18,
+        "sample_values": [
+          "ST-02",
+          "ST-17",
+          "ST-05"
+        ]
+      },
+      "registration_category": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "Class C",
+          "Class C",
+          "Class B"
+        ]
+      },
+      "financial_capacity": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "5000000.0",
+          "5000000.0",
+          "20000000.0"
+        ]
+      },
+      "base_quality_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 208,
+        "sample_values": [
+          "0.736",
+          "0.899",
+          "0.723"
+        ]
+      },
+      "past_irregularity_rate": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 357,
+        "sample_values": [
+          "0.1993",
+          "0.1037",
+          "0.0416"
+        ]
+      },
+      "contractor_past_irregularity_rate": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 346,
+        "sample_values": [
+          "0.1597",
+          "0.0778",
+          "0.0994"
+        ]
+      },
+      "contractor_capacity_strain": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 356,
+        "sample_values": [
+          "1.403",
+          "1.02",
+          "1.677"
+        ]
+      },
+      "contractor_project_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 44,
+        "sample_values": [
+          "20",
+          "13",
+          "35"
+        ]
+      },
+      "contractor_total_contract_value": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 400,
+        "sample_values": [
+          "146478356.28359735",
+          "163994962.93879184",
+          "41982674.66344741"
+        ]
+      },
+      "contractor_average_contract_value": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 400,
+        "sample_values": [
+          "5830074.375239756",
+          "9989331.236838393",
+          "11707423.391793378"
+        ]
+      },
+      "contractor_max_contract_value": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 400,
+        "sample_values": [
+          "27028795.969871484",
+          "5467914.567956324",
+          "23833884.966649394"
+        ]
+      },
+      "contractor_project_share": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 381,
+        "sample_values": [
+          "0.2187",
+          "0.2166",
+          "0.0152"
+        ]
+      },
+      "contractor_value_share": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 381,
+        "sample_values": [
+          "0.1764",
+          "0.2966",
+          "0.2161"
+        ]
+      },
+      "contractor_district_concentration": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 306,
+        "sample_values": [
+          "0.793",
+          "0.777",
+          "0.298"
+        ]
+      },
+      "contractor_agency_concentration": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 303,
+        "sample_values": [
+          "0.609",
+          "0.241",
+          "0.347"
+        ]
+      },
+      "contractor_constituency_concentration": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 320,
+        "sample_values": [
+          "0.107",
+          "0.328",
+          "0.622"
+        ]
+      },
+      "contractor_delay_rate": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 268,
+        "sample_values": [
+          "0.278",
+          "0.219",
+          "0.153"
+        ]
+      },
+      "contractor_completion_rate": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 241,
+        "sample_values": [
+          "0.859",
+          "0.709",
+          "0.944"
+        ]
+      },
+      "contractor_cancellation_rate": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 81,
+        "sample_values": [
+          "0.073",
+          "0.034",
+          "0.053"
+        ]
+      },
+      "contractor_previous_irregularities": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4,
+        "sample_values": [
+          "0",
+          "0",
+          "1"
+        ]
+      },
+      "contractor_financial_capacity": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "20000000.0",
+          "5000000.0",
+          "20000000.0"
+        ]
+      },
+      "contractor_value_to_capacity": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 354,
+        "sample_values": [
+          "0.865",
+          "1.136",
+          "1.416"
+        ]
+      },
+      "repeated_agency_contractor_pair": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "shared_ownership": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "1",
+          "0",
+          "0"
+        ]
+      },
+      "shared_directors": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "1",
+          "0",
+          "0"
+        ]
+      },
+      "shared_shareholders": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "shared_address": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "beneficial_owner_overlap": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "contractor_financial_health": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 273,
+        "sample_values": [
+          "0.945",
+          "0.571",
+          "0.777"
+        ]
+      },
+      "company_ownership_change": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "director_change": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "address_change": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "08_agencies.csv": {
+    "file_name": "08_agencies.csv",
+    "table_name": "agencies",
+    "row_count": 1238,
+    "column_count": 7,
+    "primary_key": "agency_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "agency_workload_ratio",
+      "agency_geographic_concentration"
+    ],
+    "date_columns": [],
+    "categorical_columns": [
+      "agency_id",
+      "agency_name",
+      "district_id",
+      "state_id",
+      "agency_type"
+    ],
+    "columns": {
+      "agency_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1238,
+        "sample_values": [
+          "AGENCY-0001",
+          "AGENCY-0002",
+          "AGENCY-0003"
+        ]
+      },
+      "agency_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1030,
+        "sample_values": [
+          "MAH-District-35 - Water Supply & Sewerage Board",
+          "MAD-District-04 - Water Supply & Sewerage Board",
+          "UTT-District-24 - Public Works Department (PWD)"
+        ]
+      },
+      "district_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 532,
+        "sample_values": [
+          "DIST-0110",
+          "DIST-0176",
+          "DIST-0024"
+        ]
+      },
+      "state_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 18,
+        "sample_values": [
+          "ST-02",
+          "ST-05",
+          "ST-01"
+        ]
+      },
+      "agency_type": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5,
+        "sample_values": [
+          "Municipal Corporation (MC)",
+          "Rural Development Department (RDD)",
+          "Municipal Corporation (MC)"
+        ]
+      },
+      "agency_workload_ratio": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 865,
+        "sample_values": [
+          "1.913",
+          "2.038",
+          "2.175"
+        ]
+      },
+      "agency_geographic_concentration": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 515,
+        "sample_values": [
+          "0.445",
+          "0.966",
+          "0.877"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "09_geography.csv": {
+    "file_name": "09_geography.csv",
+    "table_name": "geography",
+    "row_count": 619,
+    "column_count": 12,
+    "primary_key": "district_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "district_latitude",
+      "district_longitude",
+      "population",
+      "population_density",
+      "literacy_rate",
+      "poverty_rate",
+      "infrastructure_gap_index"
+    ],
+    "date_columns": [],
+    "categorical_columns": [
+      "district_id",
+      "district_name",
+      "state_id",
+      "state_name",
+      "geographic_cluster_id"
+    ],
+    "columns": {
+      "district_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 619,
+        "sample_values": [
+          "DIST-0001",
+          "DIST-0002",
+          "DIST-0003"
+        ]
+      },
+      "district_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 619,
+        "sample_values": [
+          "UTT-District-01",
+          "UTT-District-02",
+          "UTT-District-03"
+        ]
+      },
+      "state_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 18,
+        "sample_values": [
+          "ST-01",
+          "ST-01",
+          "ST-01"
+        ]
+      },
+      "state_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 18,
+        "sample_values": [
+          "Uttar Pradesh",
+          "Uttar Pradesh",
+          "Uttar Pradesh"
+        ]
+      },
+      "district_latitude": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 619,
+        "sample_values": [
+          "29.03071",
+          "26.41019",
+          "28.10582"
+        ]
+      },
+      "district_longitude": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 619,
+        "sample_values": [
+          "80.29159",
+          "83.95074",
+          "82.68566"
+        ]
+      },
+      "population": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 619,
+        "sample_values": [
+          "1329323",
+          "1010961",
+          "749849"
+        ]
+      },
+      "population_density": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 599,
+        "sample_values": [
+          "1106.6",
+          "1269.6",
+          "1461.9"
+        ]
+      },
+      "literacy_rate": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 275,
+        "sample_values": [
+          "65.0",
+          "76.2",
+          "90.6"
+        ]
+      },
+      "poverty_rate": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 268,
+        "sample_values": [
+          "37.3",
+          "14.8",
+          "31.4"
+        ]
+      },
+      "infrastructure_gap_index": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 421,
+        "sample_values": [
+          "0.683",
+          "0.538",
+          "0.286"
+        ]
+      },
+      "geographic_cluster_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 25,
+        "sample_values": [
+          "GEO-CLUST-01",
+          "GEO-CLUST-02",
+          "GEO-CLUST-03"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "10_constituencies.csv": {
+    "file_name": "10_constituencies.csv",
+    "table_name": "constituencies",
+    "row_count": 913,
+    "column_count": 6,
+    "primary_key": "constituency_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [],
+    "date_columns": [],
+    "categorical_columns": [
+      "constituency_id",
+      "constituency_name",
+      "district_id",
+      "state_id",
+      "mp_name",
+      "mp_house"
+    ],
+    "columns": {
+      "constituency_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 913,
+        "sample_values": [
+          "PC-0001",
+          "PC-0002",
+          "PC-0003"
+        ]
+      },
+      "constituency_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 913,
+        "sample_values": [
+          "UTT-District-01-Seat-01",
+          "UTT-District-01-Seat-02",
+          "UTT-District-02-Seat-03"
+        ]
+      },
+      "district_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 619,
+        "sample_values": [
+          "DIST-0001",
+          "DIST-0001",
+          "DIST-0002"
+        ]
+      },
+      "state_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 18,
+        "sample_values": [
+          "ST-01",
+          "ST-01",
+          "ST-01"
+        ]
+      },
+      "mp_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 911,
+        "sample_values": [
+          "Hon. MP Isaac Bakshi",
+          "Hon. MP Anvi Konda",
+          "Hon. MP Udant Dewan"
+        ]
+      },
+      "mp_house": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "Lok Sabha",
+          "Lok Sabha",
+          "Lok Sabha"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "11_documents.csv": {
+    "file_name": "11_documents.csv",
+    "table_name": "documents",
+    "row_count": 5000,
+    "column_count": 53,
+    "primary_key": "document_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "administrative_sanction",
+      "technical_sanction",
+      "dpr",
+      "work_order",
+      "measurement_book",
+      "utilization_certificate",
+      "completion_certificate",
+      "geo_tagged_photos",
+      "photo_count",
+      "required_document_count",
+      "available_document_count",
+      "missing_document_ratio",
+      "document_exists_flag",
+      "document_amount",
+      "document_database_match_score",
+      "document_amount_mismatch",
+      "document_date_mismatch",
+      "document_entity_mismatch",
+      "document_version_count",
+      "document_tampering_flag",
+      "ocr_confidence_score",
+      "data_completeness_score",
+      "missing_field_count",
+      "missing_critical_field_flag",
+      "record_update_count",
+      "late_data_submission_flag",
+      "inconsistent_record_flag",
+      "cross_source_mismatch_flag",
+      "asset_created_flag",
+      "asset_register_entry_flag",
+      "asset_latitude",
+      "asset_longitude",
+      "asset_photo_available",
+      "asset_photo_count",
+      "asset_project_link_match",
+      "asset_geo_consistency",
+      "asset_completion_evidence_score"
+    ],
+    "date_columns": [
+      "document_date",
+      "last_updated_timestamp",
+      "asset_photo_date"
+    ],
+    "categorical_columns": [
+      "document_id",
+      "project_id",
+      "document_type",
+      "document_entity",
+      "document_project_reference",
+      "document_duplicate_hash",
+      "data_validation_status",
+      "data_source",
+      "source_system",
+      "asset_id",
+      "asset_location",
+      "asset_status",
+      "asset_verification_status"
+    ],
+    "columns": {
+      "document_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "DOC-000001",
+          "DOC-000002",
+          "DOC-000003"
+        ]
+      },
+      "project_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000002",
+          "MPLADS-000003"
+        ]
+      },
+      "administrative_sanction": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "technical_sanction": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "dpr": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "work_order": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "measurement_book": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "utilization_certificate": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "completion_certificate": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "geo_tagged_photos": {
+        "dtype": "bool",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "True",
+          "True",
+          "True"
+        ]
+      },
+      "photo_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 6,
+        "sample_values": [
+          "4",
+          "4",
+          "4"
+        ]
+      },
+      "required_document_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "5",
+          "5",
+          "5"
+        ]
+      },
+      "available_document_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "5",
+          "5",
+          "5"
+        ]
+      },
+      "missing_document_ratio": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "0.0",
+          "0.0",
+          "0.0"
+        ]
+      },
+      "document_exists_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "1",
+          "1",
+          "1"
+        ]
+      },
+      "document_type": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "PDF_BUNDLE",
+          "PDF_BUNDLE",
+          "PDF_BUNDLE"
+        ]
+      },
+      "document_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 732,
+        "sample_values": [
+          "2022-12-14",
+          "2023-08-24",
+          "2022-02-23"
+        ]
+      },
+      "document_amount": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3161,
+        "sample_values": [
+          "2646000.0",
+          "2475000.0",
+          "721000.0"
+        ]
+      },
+      "document_entity": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1011,
+        "sample_values": [
+          "KAR-District-01 - Water Supply & Sewerage Board",
+          "CHH-District-05 - Panchayati Raj Institution (PRI)",
+          "PUN-District-03 - Water Supply & Sewerage Board"
+        ]
+      },
+      "document_project_reference": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000002",
+          "MPLADS-000003"
+        ]
+      },
+      "document_database_match_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0.98",
+          "0.98",
+          "0.98"
+        ]
+      },
+      "document_amount_mismatch": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "document_date_mismatch": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "document_entity_mismatch": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "document_duplicate_hash": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "SHA256-8cc58ed85707",
+          "SHA256-c3b58dead8ca",
+          "SHA256-f9197893bc8e"
+        ]
+      },
+      "document_version_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4,
+        "sample_values": [
+          "1",
+          "1",
+          "1"
+        ]
+      },
+      "document_tampering_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "ocr_confidence_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 111,
+        "sample_values": [
+          "0.946",
+          "0.966",
+          "0.966"
+        ]
+      },
+      "data_completeness_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "1.0",
+          "1.0",
+          "1.0"
+        ]
+      },
+      "missing_field_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "missing_critical_field_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "data_validation_status": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "PASSED",
+          "PASSED",
+          "PASSED"
+        ]
+      },
+      "data_source": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "e-SAKSHI Portal",
+          "e-SAKSHI Portal",
+          "e-SAKSHI Portal"
+        ]
+      },
+      "source_system": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "MoSPI_MPLADS_V2",
+          "MoSPI_MPLADS_V2",
+          "MoSPI_MPLADS_V2"
+        ]
+      },
+      "last_updated_timestamp": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "2026-08-28T15:12:51.874520+00:00",
+          "2026-08-28T15:12:51.874980+00:00",
+          "2026-08-28T15:12:51.875352+00:00"
+        ]
+      },
+      "record_update_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "3",
+          "3",
+          "3"
+        ]
+      },
+      "late_data_submission_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "inconsistent_record_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "cross_source_mismatch_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "asset_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "ASSET-000001",
+          "ASSET-000002",
+          "ASSET-000003"
+        ]
+      },
+      "asset_created_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "1",
+          "0",
+          "0"
+        ]
+      },
+      "asset_register_entry_flag": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "1",
+          "0",
+          "0"
+        ]
+      },
+      "asset_location": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3773,
+        "sample_values": [
+          "TAM-District-05 Sector 14",
+          "ASS-District-13 Sector 14",
+          "TEL-District-24 Sector 4"
+        ]
+      },
+      "asset_latitude": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4990,
+        "sample_values": [
+          "9.07608",
+          "25.73962",
+          "16.61631"
+        ]
+      },
+      "asset_longitude": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4991,
+        "sample_values": [
+          "77.42841",
+          "95.11848",
+          "79.59492"
+        ]
+      },
+      "asset_photo_available": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "1",
+          "1",
+          "1"
+        ]
+      },
+      "asset_photo_date": {
+        "dtype": "object",
+        "inferred_type": "date",
+        "null_count": 4227,
+        "null_percentage": 84.54,
+        "unique_count": 507,
+        "sample_values": [
+          "2023-07-16",
+          "2024-03-11",
+          "2022-09-20"
+        ]
+      },
+      "asset_photo_count": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 6,
+        "sample_values": [
+          "4",
+          "4",
+          "4"
+        ]
+      },
+      "asset_status": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "OPERATIONAL",
+          "UNDER_CONSTRUCTION",
+          "UNDER_CONSTRUCTION"
+        ]
+      },
+      "asset_verification_status": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "VERIFIED",
+          "PENDING",
+          "PENDING"
+        ]
+      },
+      "asset_project_link_match": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "1",
+          "1",
+          "1"
+        ]
+      },
+      "asset_geo_consistency": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1,
+        "sample_values": [
+          "1",
+          "1",
+          "1"
+        ]
+      },
+      "asset_completion_evidence_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "1.0",
+          "1.0",
+          "1.0"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  },
+  "12_labels.csv": {
+    "file_name": "12_labels.csv",
+    "table_name": "labels",
+    "row_count": 5000,
+    "column_count": 10,
+    "primary_key": "project_id",
+    "primary_key_exists": true,
+    "primary_key_unique": true,
+    "primary_key_nulls": 0,
+    "duplicate_rows": 0,
+    "numeric_columns": [
+      "fraud_label",
+      "is_fraud",
+      "is_anomalous",
+      "is_hard_negative",
+      "overall_risk_score"
+    ],
+    "date_columns": [],
+    "categorical_columns": [
+      "project_id",
+      "risk_level",
+      "scenario_type",
+      "scenario_name",
+      "investigation_priority"
+    ],
+    "columns": {
+      "project_id": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 5000,
+        "sample_values": [
+          "MPLADS-000001",
+          "MPLADS-000002",
+          "MPLADS-000003"
+        ]
+      },
+      "fraud_label": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "is_fraud": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "is_anomalous": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "is_hard_negative": {
+        "dtype": "int64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "sample_values": [
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "risk_level": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4,
+        "sample_values": [
+          "LOW",
+          "LOW",
+          "LOW"
+        ]
+      },
+      "scenario_type": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 12,
+        "sample_values": [
+          "NORMAL",
+          "NORMAL",
+          "NORMAL"
+        ]
+      },
+      "scenario_name": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 12,
+        "sample_values": [
+          "NORMAL",
+          "NORMAL",
+          "NORMAL"
+        ]
+      },
+      "overall_risk_score": {
+        "dtype": "float64",
+        "inferred_type": "numeric",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 4,
+        "sample_values": [
+          "20.0",
+          "20.0",
+          "20.0"
+        ]
+      },
+      "investigation_priority": {
+        "dtype": "object",
+        "inferred_type": "categorical",
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 3,
+        "sample_values": [
+          "ROUTINE",
+          "ROUTINE",
+          "ROUTINE"
+        ]
+      }
+    },
+    "missing_expected_columns": [],
+    "unexpected_columns": []
+  }
+}

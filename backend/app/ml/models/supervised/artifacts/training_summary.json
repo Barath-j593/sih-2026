@@ -1,0 +1,12 @@
+{
+  "trained_at": "2026-09-06T09:45:06.597305+00:00",
+  "n_samples": 5000,
+  "n_features": 23,
+  "n_fraud": 1005,
+  "n_normal": 3995,
+  "oof_roc_auc": 0.95,
+  "oof_pr_auc": 0.9361,
+  "hard_negative_fpr": 0.0228,
+  "top_1pct_enrichment": 4.98,
+  "top_5pct_enrichment": 4.98
+}

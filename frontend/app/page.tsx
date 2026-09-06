@@ -9,6 +9,31 @@ import {
   Search, ExternalLink, Activity, ArrowUpRight, Scale, Clock, 
   MapPin, CheckCircle2, ChevronRight, FileText, Satellite, Database, Filter
 } from "lucide-react";
+import dynamic from "next/dynamic";
+import { TextPressure } from "../components/ui/TextPressure";
+import { MagicCard } from "../components/ui/MagicCard";
+import { SpecularButton } from "../components/ui/SpecularButton";
+
+const CircularText = dynamic(() => import("../components/ui/CircularText"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-[200px] h-[200px] rounded-full border border-dashed border-[#1C1917]/20 flex items-center justify-center font-mono text-xs text-[#1C1917]/40">
+      SETU
+    </div>
+  ),
+});
+
+const WarpText = dynamic(() => import("../components/ui/WarpText"), {
+  ssr: false,
+});
+
+const ShinyText = dynamic(() => import("../components/ui/ShinyText"), {
+  ssr: false,
+});
+
+const MagicBento = dynamic(() => import("../components/ui/MagicBento"), {
+  ssr: false,
+});
 
 export default function SetuLandingPage() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
@@ -53,48 +78,130 @@ export default function SetuLandingPage() {
     <div className="min-h-screen bg-[#F7F5EE] text-[#111827] selection:bg-[#D97706]/20 selection:text-[#B45309] font-sans">
       
       {/* ────────────────────────────────────────────────────────────
-          BESPOKE EDITORIAL HEADER
-          Minimalist, architectural navigation inspired by print vitrines
+          TOP IDENTITY & EMBLEM (BRAND HEADER IN #6E4529)
+          Unique signature brand color #6E4529, top editorial links,
+          SETU brand lockup, outlined action button, and rotating
+          CircularText surrounding the National Emblem medallion on
+          the ivory background.
       ──────────────────────────────────────────────────────────── */}
-      <header className="border-b border-[#1C1917]/10 bg-[#F7F5EE]/90 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
-          
-          {/* Left Nav Cluster */}
-          <nav className="hidden md:flex items-center gap-7 text-xs font-semibold tracking-wide text-[#44403C]">
-            <a href="#vitrine" className="text-[#1C1917] border-b border-[#1C1917] pb-0.5 transition-colors">
-              The Vitrine
+      <header className="w-full bg-[#6E4529] border-b border-[#4E2F1A] text-[#F5EBE1] shadow-[0_4px_24px_rgba(40,20,10,0.18)]">
+        
+        {/* Top Editorial Navigation Strip (Matching header.png in new-design-refernce) */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3 border-b border-white/15 flex items-center justify-between gap-4 text-xs">
+          {/* Left: Editorial Navigation Links */}
+          <nav className="flex items-center gap-5 font-serif text-[#F5EBE1]/85">
+            <a href="#vitrine" className="hover:text-white border-b border-[#F5EBE1] pb-0.5 transition-colors font-medium">
+              Home
             </a>
-            <a href="#ledger" className="hover:text-[#1C1917] transition-colors">
-              Statutory Ledger
+            <a href="#automated-audits" className="hover:text-white pb-0.5 hover:border-b hover:border-white/40 transition-all font-medium">
+              Work
             </a>
-            <a href="#custodians" className="hover:text-[#1C1917] transition-colors">
-              Governance Tiers
+            <a href="#custodians" className="hover:text-white pb-0.5 hover:border-b hover:border-white/40 transition-all font-medium">
+              About
             </a>
-            <a href="#directory" className="hover:text-[#1C1917] transition-colors">
-              Audit Registry
+            <a href="#directory" className="hidden sm:inline hover:text-white pb-0.5 hover:border-b hover:border-white/40 transition-all font-medium">
+              Registry
             </a>
           </nav>
 
-          {/* Center Monumental Wordmark */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="px-2 py-1 bg-[#1C1917] text-[#F7F5EE] text-xs font-display font-black tracking-widest uppercase">
-              SETU
-            </div>
-            <span className="text-xs font-display font-black tracking-widest text-[#1C1917] uppercase">
-              MPLADS FORENSICS •
+          {/* Center: Iconic Typographic Lockup (Matching DSGN DEPT• in header.png) */}
+          <div className="flex items-center gap-1.5 select-none">
+            <span className="bg-[#3D2312] text-[#F7F5EE] px-2.5 py-0.5 font-mono font-black text-xs tracking-widest uppercase rounded-[2px] shadow-sm border border-white/10">
+              <ShinyText text="SETU" speed={2.2} color="#F7F5EE" shineColor="#FDE68A" spread={90} />
             </span>
-          </Link>
+            <span className="font-editorial font-bold text-xs tracking-wider text-[#F5EBE1]">
+              DEPT •
+            </span>
+          </div>
 
-          {/* Right Ghost Button */}
+          {/* Right: Outlined Rectangular Button (Matching [ Contact ] in header.png) */}
           <div className="flex items-center gap-3">
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 px-4 py-2 border border-[#1C1917] text-xs font-bold text-[#1C1917] hover:bg-[#1C1917] hover:text-[#F7F5EE] transition-all duration-200 tracking-wider uppercase"
+              className="border border-[#F5EBE1]/70 hover:bg-[#F5EBE1] hover:text-[#6E4529] text-[#F5EBE1] px-4 py-1.5 text-xs font-mono font-bold tracking-wider uppercase transition-all duration-200 rounded-[2px] group"
             >
-              <span>Command Center</span>
-              <ArrowUpRight className="h-3.5 w-3.5" />
+              <span>Command Center ↗</span>
             </Link>
           </div>
+        </div>
+
+        {/* Main Identity & Circular Text Banner */}
+        <div className="pt-6 pb-6 px-4 sm:px-8 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          
+          {/* Left Cluster: CircularText with National Emblem Medallion & Description Phrase */}
+          <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+            {/* Circular Rotating Text Badge with National Emblem in Center */}
+            <div className="relative flex items-center justify-center shrink-0 p-1.5 rounded-full bg-[#5A361F] border border-[#8C5D3B]/40 shadow-md">
+              <CircularText
+                text="* SETU * MPLADS PUBLIC AUDIT * GOVT OF INDIA "
+                spinDuration={22}
+                onHover="speedUp"
+                className="text-[#F5EBE1]"
+              >
+                {/* National Emblem medallion placed inside circular text with user-provided ivory background (#F6F4EF) */}
+                <div 
+                  className="relative w-24 h-24 rounded-full overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.35)] border-2 border-[#E5A93C]/80 bg-[#F6F4EF] flex items-center justify-center pointer-events-auto transition-transform duration-300 hover:scale-105"
+                  title="State Emblem of India • SETU Public Audit"
+                >
+                  <img
+                    src="/national-emblem-ivory.png"
+                    alt="State Emblem of India"
+                    className="w-full h-full object-contain p-0.5 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)] select-none"
+                  />
+                </div>
+              </CircularText>
+            </div>
+
+            {/* Description Phrase & Statutory Badges */}
+            <div className="space-y-2 max-w-xl">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#52301A] border border-[#8C5D3B]/50 text-[10px] font-mono font-bold uppercase tracking-wider text-[#F5EBE1]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#F59E0B] animate-pulse" />
+                <ShinyText 
+                  text="STATUTORY ENFORCEMENT & TRANSPARENCY UNIT" 
+                  speed={2.6} 
+                  color="#E8D5C8" 
+                  shineColor="#FDE68A" 
+                  spread={110} 
+                />
+              </div>
+              
+              <h1 className="font-editorial text-2xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
+                <ShinyText 
+                  text="Smart Expenditure Tracking & Utility" 
+                  speed={3.2} 
+                  color="#FFFFFF" 
+                  shineColor="#FDE68A" 
+                  spread={120} 
+                />
+              </h1>
+              
+              <p className="font-serif-body text-xs sm:text-sm text-[#E8D5C8]/90 leading-relaxed">
+                Government of India • Ministry of Statistics &amp; Programme Implementation • Automated constitutional oversight for MPLADS public works.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Status Card (Inspired by hero-window.png / header.png) */}
+          <div className="hidden lg:flex flex-col items-end text-right space-y-1.5 font-mono text-[11px] text-[#E8D5C8]/80 border-l border-white/20 pl-6 shrink-0">
+            <div className="flex items-center gap-2 text-white font-bold text-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+              </span>
+              <ShinyText text="CAG AUDIT VIGILANCE" speed={2.4} color="#FFFFFF" shineColor="#34D399" spread={90} />
+            </div>
+            <span>28 States • 8 Union Territories</span>
+            <span>Real-Time Anomaly Scoring</span>
+            <SpecularButton 
+              href="/dashboard" 
+              variant="amber"
+              size="sm"
+              className="mt-1 font-bold"
+            >
+              <span>Explore Operational Cockpit →</span>
+            </SpecularButton>
+          </div>
+
         </div>
       </header>
 
@@ -102,7 +209,7 @@ export default function SetuLandingPage() {
           ACT I: THE FORENSIC VITRINE (SALON HERO)
           Warm vellum canvas, centered manifesto, floating physical exhibits
       ──────────────────────────────────────────────────────────── */}
-      <section id="vitrine" className="relative pt-20 pb-28 px-4 sm:px-8 max-w-7xl mx-auto overflow-hidden">
+      <section id="vitrine" className="relative pt-16 pb-28 px-4 sm:px-8 max-w-7xl mx-auto overflow-hidden">
         
         {/* Subtle Archival Watermark */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.025]">
@@ -115,33 +222,53 @@ export default function SetuLandingPage() {
         <div className="text-center max-w-4xl mx-auto relative z-10 pt-4 pb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 border border-[#1C1917]/15 bg-[#EFECE4] text-[11px] font-mono font-bold uppercase tracking-widest text-[#57534E]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#D97706] animate-pulse" />
-            CAG FISCAL SURVEILLANCE &amp; GFR 155 COMPLIANCE
+            SMART AUDIT PLATFORM • GOVERNMENT OF INDIA MPLADS SCHEME
           </div>
 
-          <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl font-light text-[#1C1917] tracking-tight leading-[1.08]">
-            Where Public Capital <br />
-            Meets <span className="italic font-normal text-[#B45309]">Statutory</span> Accountability.
-          </h1>
+          <WarpText
+            text={"Where Public Funds\nMeet Real-Time Accountability"}
+            color="#1C1917"
+            fontSize="clamp(2.2rem, 5.2vw, 4.2rem)"
+            fontWeight={700}
+            fontFamily="Fraunces, Georgia, serif"
+            warpStrength={0.06}
+            speed={0.4}
+            style={{ height: "190px", maxWidth: "900px", margin: "0 auto" }}
+          />
 
-          <p className="font-serif-body text-lg sm:text-2xl text-[#57534E] max-w-2xl mx-auto mt-6 leading-relaxed font-normal">
-            Real-time machine intelligence codifying General Financial Rules (GFR 2017) across <span className="font-semibold text-[#1C1917]">₹9,062 Crore</span> of parliamentary public works.
+          <WarpText
+            text="Auditing ₹9,062 Crore across India's parliamentary public works"
+            color="#B45309"
+            fontSize="clamp(1.05rem, 2.2vw, 1.45rem)"
+            fontWeight={600}
+            fontFamily="Newsreader, Georgia, serif"
+            warpStrength={0.035}
+            speed={0.3}
+            style={{ height: "55px", maxWidth: "800px", margin: "8px auto 0 auto" }}
+          />
+
+          <p className="font-serif-body text-base sm:text-xl text-[#57534E] max-w-2xl mx-auto mt-4 leading-relaxed font-normal">
+            SETU automatically tracks <span className="font-semibold text-[#1C1917]">₹9,062 Crore</span> in parliamentary community projects—using financial rules (GFR 2017) and satellite verification to catch delayed approvals, split tenders, and contractor monopolies.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs font-bold tracking-wider uppercase">
-            <a
+            <SpecularButton
               href="#ledger"
-              className="px-6 py-3 bg-[#1C1917] text-[#F7F5EE] hover:bg-[#B45309] transition-all inline-flex items-center gap-2 shadow-paper"
+              variant="primary"
+              size="lg"
+              className="shadow-paper"
             >
-              <span>Examine Statutory Ledger</span>
+              <span>Explore Audit Checks</span>
               <ArrowRight className="h-3.5 w-3.5" />
-            </a>
-            <Link
+            </SpecularButton>
+            <SpecularButton
               href="/graph"
-              className="px-6 py-3 border border-[#1C1917]/30 text-[#1C1917] hover:border-[#1C1917] hover:bg-[#EFECE4] transition-all inline-flex items-center gap-2"
+              variant="secondary"
+              size="lg"
             >
-              <span>Money Flow &amp; Cartels Radar</span>
+              <span>Inspect Contractor Networks</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-[#B45309]" />
-            </Link>
+            </SpecularButton>
           </div>
         </div>
 
@@ -149,14 +276,18 @@ export default function SetuLandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 relative z-10">
           
           {/* EXHIBIT 01: Parliamentary Sanction Order */}
-          <div 
+          <MagicCard 
             onClick={() => setActiveExhibit(1)}
-            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift transition-all ${
+            glowColor="245, 158, 11"
+            enableTilt={true}
+            enableBorderGlow={true}
+            clickEffect={true}
+            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift rounded-xl transition-all ${
               activeExhibit === 1 ? "ring-2 ring-[#B45309] border-transparent" : ""
             }`}
           >
             <div className="flex items-center justify-between border-b border-[#1C1917]/10 pb-2.5 text-[10px] font-mono uppercase tracking-wider text-[#78716C]">
-              <span>EXHIBIT 01 / DOCKET</span>
+              <span>CASE 01 / WORK ORDER</span>
               <span className="text-[#B45309] font-bold">W-23167</span>
             </div>
             <div className="mt-3">
@@ -164,102 +295,114 @@ export default function SetuLandingPage() {
                 Construction of PCC Road from Main Road to Harijan Tola
               </span>
               <span className="text-[11px] text-[#78716C] mt-1 block">
-                Darbhanga, Bihar • Mr Gopal Jee Thakur
+                Darbhanga, Bihar • Recommended by MP Gopal Jee Thakur
               </span>
             </div>
             <div className="mt-4 pt-3 border-t border-dashed border-[#1C1917]/15 flex items-baseline justify-between">
               <div>
-                <span className="text-[10px] text-[#A8A29E] block uppercase font-mono">Sanction</span>
+                <span className="text-[10px] text-[#A8A29E] block uppercase font-mono">Approved Budget</span>
                 <span className="text-base font-black text-[#1C1917] font-mono">₹43.90 L</span>
               </div>
               <span className="px-2 py-0.5 text-[10px] font-mono font-bold bg-rose-50 text-rose-800 border border-rose-200">
-                100d Delay
+                100d Past Limit
               </span>
             </div>
-          </div>
+          </MagicCard>
 
           {/* EXHIBIT 02: Satellite Ground-Truth Orthophoto */}
-          <div 
+          <MagicCard 
             onClick={() => setActiveExhibit(2)}
-            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift transition-all ${
+            glowColor="16, 185, 129"
+            enableTilt={true}
+            enableBorderGlow={true}
+            clickEffect={true}
+            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift rounded-xl transition-all ${
               activeExhibit === 2 ? "ring-2 ring-[#B45309] border-transparent" : ""
             }`}
           >
             <div className="flex items-center justify-between border-b border-[#1C1917]/10 pb-2.5 text-[10px] font-mono uppercase tracking-wider text-[#78716C]">
-              <span>EXHIBIT 02 / SATELLITE</span>
-              <span className="text-cyan-800 font-bold">ORTHO-GIS</span>
+              <span>CASE 02 / SATELLITE CHECK</span>
+              <span className="text-cyan-800 font-bold">GIS MAP</span>
             </div>
             <div className="mt-3">
               <div className="h-16 w-full bg-[#1C251C] rounded border border-[#1C1917]/20 relative overflow-hidden flex items-center justify-center text-[10px] font-mono text-emerald-400">
                 <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:8px_8px] opacity-20" />
                 <div className="relative z-10 text-center">
                   <span>[ 26.1542° N, 85.8918° E ]</span>
-                  <span className="block text-[9px] text-amber-400 mt-0.5">GROUND TRUTH: 0% PHYSICAL</span>
+                  <span className="block text-[9px] text-amber-400 mt-0.5">SATELLITE: NO ROAD DETECTED</span>
                 </div>
               </div>
             </div>
             <div className="mt-3 pt-2 flex items-center justify-between text-[11px]">
-              <span className="text-[#78716C]">Disbursed: <strong className="text-[#1C1917]">₹21.5 L</strong></span>
-              <span className="text-rose-700 font-bold font-mono">Ghost Asset</span>
+              <span className="text-[#78716C]">Paid Out: <strong className="text-[#1C1917]">₹21.5 L</strong></span>
+              <span className="text-rose-700 font-bold font-mono">Ghost Project</span>
             </div>
-          </div>
+          </MagicCard>
 
           {/* EXHIBIT 03: GFR Rule 155 Smurfing Radar */}
-          <div 
+          <MagicCard 
             onClick={() => setActiveExhibit(3)}
-            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift transition-all ${
+            glowColor="239, 68, 68"
+            enableTilt={true}
+            enableBorderGlow={true}
+            clickEffect={true}
+            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift rounded-xl transition-all ${
               activeExhibit === 3 ? "ring-2 ring-[#B45309] border-transparent" : ""
             }`}
           >
             <div className="flex items-center justify-between border-b border-[#1C1917]/10 pb-2.5 text-[10px] font-mono uppercase tracking-wider text-[#78716C]">
-              <span>EXHIBIT 03 / SMURFING</span>
-              <span className="text-rose-700 font-bold font-mono">GFR §155</span>
+              <span>CASE 03 / SPLIT CONTRACTS</span>
+              <span className="text-rose-700 font-bold font-mono">RULE 155</span>
             </div>
             <div className="mt-3 space-y-1">
               <div className="flex justify-between text-[11px] font-mono">
-                <span className="text-[#78716C]">Sub-Project A:</span>
+                <span className="text-[#78716C]">Part 1:</span>
                 <span className="font-bold text-[#1C1917]">₹4,95,000</span>
               </div>
               <div className="flex justify-between text-[11px] font-mono">
-                <span className="text-[#78716C]">Sub-Project B:</span>
+                <span className="text-[#78716C]">Part 2:</span>
                 <span className="font-bold text-[#1C1917]">₹4,92,000</span>
               </div>
               <div className="flex justify-between text-[11px] font-mono">
-                <span className="text-[#78716C]">Sub-Project C:</span>
+                <span className="text-[#78716C]">Part 3:</span>
                 <span className="font-bold text-[#1C1917]">₹4,98,000</span>
               </div>
             </div>
             <div className="mt-3 pt-2.5 border-t border-[#1C1917]/10 text-[10px] text-rose-800 font-bold uppercase font-mono">
-              ⚠ Split Under ₹5.00 Lakh Tender Cap
+              ⚠ Split to bypass open public tenders
             </div>
-          </div>
+          </MagicCard>
 
           {/* EXHIBIT 04: Federal HHI Cartel Barometer */}
-          <div 
+          <MagicCard 
             onClick={() => setActiveExhibit(4)}
-            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift transition-all ${
+            glowColor="245, 158, 11"
+            enableTilt={true}
+            enableBorderGlow={true}
+            clickEffect={true}
+            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift rounded-xl transition-all ${
               activeExhibit === 4 ? "ring-2 ring-[#B45309] border-transparent" : ""
             }`}
           >
             <div className="flex items-center justify-between border-b border-[#1C1917]/10 pb-2.5 text-[10px] font-mono uppercase tracking-wider text-[#78716C]">
-              <span>EXHIBIT 04 / CONCENTRATION</span>
-              <span className="text-amber-800 font-bold font-mono">HHI 10,000</span>
+              <span>CASE 04 / CONTRACTOR MONOPOLY</span>
+              <span className="text-amber-800 font-bold font-mono">HHI SCORE</span>
             </div>
             <div className="mt-3">
               <span className="text-[11px] font-bold text-[#1C1917] block">
-                District Implementing Monopoly
+                Single Agency Monopoly
               </span>
               <span className="text-[11px] text-[#78716C] mt-1 block">
-                Single agency captured 100% of works in block
+                1 agency won 100% of contracts in this block
               </span>
             </div>
             <div className="mt-4 pt-3 border-t border-[#1C1917]/10 flex items-center justify-between">
-              <span className="text-xs font-mono font-black text-rose-700">100% Monopolized</span>
+              <span className="text-xs font-mono font-black text-rose-700">Zero Competition</span>
               <Link href="/graph" className="text-[11px] font-bold text-[#B45309] hover:underline flex items-center gap-0.5">
                 Inspect ➔
               </Link>
             </div>
-          </div>
+          </MagicCard>
         </div>
       </section>
 
@@ -272,120 +415,47 @@ export default function SetuLandingPage() {
           
           <div className="max-w-3xl mb-16">
             <span className="text-[11px] font-mono uppercase tracking-widest text-[#F59E0B] block mb-3">
-              ACT II • THE STATUTORY LEDGER
+              ACT II • AUTOMATED AUDIT CHECKS
             </span>
-            <h2 className="font-editorial text-3xl sm:text-5xl font-light text-[#F7F5EE] leading-tight">
-              We detect public procurement capture before recommendations harden into audit reprimands.
-            </h2>
+            <WarpText
+              text={"Catching Procurement Violations\nBefore Public Funds Are Lost"}
+              color="#F7F5EE"
+              fontSize="clamp(1.8rem, 3.8vw, 3.2rem)"
+              fontWeight={700}
+              fontFamily="Fraunces, Georgia, serif"
+              warpStrength={0.07}
+              speed={0.45}
+              style={{ height: "150px", maxWidth: "800px" }}
+            />
+            <WarpText
+              text="Real-time compliance checks across General Financial Rules and contractor cartels"
+              color="#94A3B8"
+              fontSize="clamp(0.95rem, 1.8vw, 1.3rem)"
+              fontWeight={400}
+              fontFamily="Newsreader, serif"
+              warpStrength={0.035}
+              speed={0.3}
+              style={{ height: "50px", maxWidth: "750px", marginTop: "8px" }}
+            />
             <p className="font-serif-body text-base sm:text-lg text-slate-400 mt-4 leading-relaxed">
-              Every parliamentary sanction is cross-referenced in real-time against General Financial Rules, public works rate manuals, and bipartite vendor concentration indices.
+              Whenever a Member of Parliament (MP) recommends a project, SETU automatically cross-references it against India&apos;s General Financial Rules (GFR), official construction rate manuals, and contractor bidding patterns.
             </p>
           </div>
 
-          {/* 2-Column Ledger Directory with Hairline Rules */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-0 border-t border-white/15">
-            
-            {/* Capability 01 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  01 / GFR 155 Structuring Radar
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">RULE §155</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Detects artificial contract smurfing designed to keep project values just below the ₹5.00 Lakh threshold, evading open competitive e-tendering.
-              </p>
-              <Link href="/alerts" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>View Flagged Structuring Cases</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 02 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  02 / Bipartite Monopoly Cartels
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">HHI METRIC</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Computes the Herfindahl-Hirschman Index across executing agencies to uncover single-contractor capture and uncompetitive public works distribution.
-              </p>
-              <Link href="/graph" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Inspect Bipartite Graph</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 03 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  03 / Statutory Dwell Sinks
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">45-DAY LIMIT</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Enforces Section 4.2 of revised MPLADS guidelines, tracking administrative approval delays where District Magistrates exceed the mandatory 45-day sanction window.
-              </p>
-              <Link href="/dashboard" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Check Administrative Dwell Times</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 04 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  04 / Multi-Spectral Ground Truth
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">ISRO / GIS</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Cross-validates claimed completion certificates against multi-temporal satellite imagery to ensure funds are not disbursed for non-existent civil structures.
-              </p>
-              <Link href="/maps" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Open Geospatial Map</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 05 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  05 / 4-Tier Governance Scoping
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">CONSTITUTIONAL</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Strict data scoping engineered for each constitutional tier: MoSPI Ministry, State Nodal Authority, District Magistrate, and Member of Parliament.
-              </p>
-              <Link href="/dashboard" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Switch Authority View</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 06 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  06 / Forensic Case Dossiers
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">AUDIT-READY</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Generates court-admissible audit briefs combining GFR violations, contractor capture scores, and satellite coordinates for immediate CAG and Lokpal action.
-              </p>
-              <Link href="/cases" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Review Active Case Dossiers</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
+          {/* Interactive Sovereign Magic Bento Grid */}
+          <div className="border-t border-white/10 pt-8">
+            <MagicBento
+              textAutoHide={true}
+              enableStars={true}
+              enableSpotlight={true}
+              enableBorderGlow={true}
+              enableTilt={true}
+              enableMagnetism={true}
+              clickEffect={true}
+              spotlightRadius={320}
+              particleCount={10}
+              glowColor="245, 158, 11"
+            />
           </div>
         </div>
       </section>
@@ -400,74 +470,85 @@ export default function SetuLandingPage() {
           {/* Left Column: Narrative & Interactive Tiers */}
           <div className="lg:col-span-7 space-y-6">
             <span className="text-[11px] font-mono uppercase tracking-widest text-[#B45309] font-bold">
-              ACT III • CONSTITUTIONAL CUSTODIANS
+              ACT III • 4 TIERS OF GOVERNMENT
             </span>
 
-            <h2 className="font-editorial text-3xl sm:text-5xl font-light text-[#1C1917] leading-tight">
-              Architected for Every Tier of Sovereign Governance.
-            </h2>
+            <WarpText
+              text={"Built for Every Level of\nPublic Administration"}
+              color="#1C1917"
+              fontSize="clamp(1.8rem, 3.8vw, 3.2rem)"
+              fontWeight={700}
+              fontFamily="Fraunces, Georgia, serif"
+              warpStrength={0.07}
+              speed={0.45}
+              style={{ height: "150px" }}
+            />
+
+            <WarpText
+              text="Four constitutional tiers of authority, from national ministry to district magistrate"
+              color="#57534E"
+              fontSize="clamp(0.95rem, 1.8vw, 1.25rem)"
+              fontWeight={500}
+              fontFamily="Newsreader, serif"
+              warpStrength={0.035}
+              speed={0.3}
+              style={{ height: "50px", marginTop: "4px" }}
+            />
 
             <p className="font-serif-body text-base sm:text-lg text-[#57534E] leading-relaxed">
-              Public spending transparency is not a one-size-fits-all dashboard. SETU tailors its forensic surveillance to the exact constitutional jurisdiction of each authority.
+              Public spending cannot be audited with a one-size-fits-all dashboard. In the Indian administrative system, different officials hold different legal responsibilities. SETU tailors its data and alerts to each specific role—from national central planners down to local village roads.
             </p>
 
             {/* Interactive Tier Buttons */}
             <div className="flex flex-wrap gap-2 pt-2">
-              <button
+              <SpecularButton
                 onClick={() => setActiveTier("mospi")}
-                className={`px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${
-                  activeTier === "mospi"
-                    ? "bg-[#1C1917] text-[#F7F5EE] shadow-paper"
-                    : "bg-[#FAF9F5] text-[#57534E] border border-[#1C1917]/15 hover:border-[#1C1917]"
-                }`}
+                variant={activeTier === "mospi" ? "primary" : "secondary"}
+                size="sm"
               >
-                🏛️ MoSPI (National)
-              </button>
-              <button
+                🏛️ Central Ministry (MoSPI)
+              </SpecularButton>
+              <SpecularButton
                 onClick={() => setActiveTier("sna")}
-                className={`px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${
-                  activeTier === "sna"
-                    ? "bg-[#1C1917] text-[#F7F5EE] shadow-paper"
-                    : "bg-[#FAF9F5] text-[#57534E] border border-[#1C1917]/15 hover:border-[#1C1917]"
-                }`}
+                variant={activeTier === "sna" ? "primary" : "secondary"}
+                size="sm"
               >
-                ⚖️ State Nodal (SNA)
-              </button>
-              <button
+                ⚖️ State Government (SNA)
+              </SpecularButton>
+              <SpecularButton
                 onClick={() => setActiveTier("da")}
-                className={`px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${
-                  activeTier === "da"
-                    ? "bg-[#1C1917] text-[#F7F5EE] shadow-paper"
-                    : "bg-[#FAF9F5] text-[#57534E] border border-[#1C1917]/15 hover:border-[#1C1917]"
-                }`}
+                variant={activeTier === "da" ? "primary" : "secondary"}
+                size="sm"
               >
-                🛡️ District DM
-              </button>
-              <button
+                🛡️ District Magistrate (DM)
+              </SpecularButton>
+              <SpecularButton
                 onClick={() => setActiveTier("mp")}
-                className={`px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${
-                  activeTier === "mp"
-                    ? "bg-[#1C1917] text-[#F7F5EE] shadow-paper"
-                    : "bg-[#FAF9F5] text-[#57534E] border border-[#1C1917]/15 hover:border-[#1C1917]"
-                }`}
+                variant={activeTier === "mp" ? "primary" : "secondary"}
+                size="sm"
               >
-                🗳️ Member of Parliament
-              </button>
+                🗳️ Member of Parliament (MP)
+              </SpecularButton>
             </div>
 
             {/* Dynamic Active Tier Dossier */}
-            <div className="border border-[#1C1917]/15 bg-[#FAF9F5] p-6 shadow-paper mt-4 space-y-3">
+            <MagicCard 
+              enableBorderGlow={true}
+              enableTilt={true}
+              glowColor="180, 83, 9"
+              className="border border-[#1C1917]/15 bg-[#FAF9F5] p-6 shadow-paper mt-4 space-y-3 rounded-2xl"
+            >
               {activeTier === "mospi" && (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold font-mono text-[#B45309] uppercase">Jurisdiction: All India</span>
+                    <span className="text-xs font-bold font-mono text-[#B45309] uppercase">Jurisdiction: All India • Central Government</span>
                     <span className="text-xs font-mono font-bold text-[#1C1917]">₹9,062 Cr Monitored</span>
                   </div>
                   <h4 className="font-editorial text-xl font-bold text-[#1C1917]">
-                    Ministry of Statistics &amp; Programme Implementation
+                    Ministry of Statistics &amp; Programme Implementation (MoSPI)
                   </h4>
                   <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed">
-                    Monitors macro federal fund distribution across all 28 states and 8 union territories. Detects cross-state cartel syndicates and enforces national parity guidelines.
+                    The central government ministry responsible for the nationwide MPLADS scheme. MoSPI monitors how ₹9,062 Crore is distributed across all 28 states and 8 union territories. It ensures funds are released on schedule, spots cross-state contractor syndicates, and enforces national financial guidelines.
                   </p>
                 </>
               )}
@@ -475,14 +556,14 @@ export default function SetuLandingPage() {
               {activeTier === "sna" && (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold font-mono text-[#B45309] uppercase">Jurisdiction: State Secretariats</span>
-                    <span className="text-xs font-mono font-bold text-[#1C1917]">38 Districts in Bihar</span>
+                    <span className="text-xs font-bold font-mono text-[#B45309] uppercase">Jurisdiction: State Planning Department • 38 Districts in Bihar</span>
+                    <span className="text-xs font-mono font-bold text-[#1C1917]">State-Level Coordination</span>
                   </div>
                   <h4 className="font-editorial text-xl font-bold text-[#1C1917]">
                     State Nodal Authority (SNA)
                   </h4>
                   <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed">
-                    Tracks inter-district allocation equity and evaluates dominant state implementing agencies (e.g., Bihar Rajya Pul Nirman Nigam) through live vendor treemaps.
+                    The state-level department that monitors whether development funds are divided fairly across all districts. It oversees major state-run engineering agencies (such as state bridge and road corporations) to make sure public works contracts are not monopolized by one favorite agency.
                   </p>
                 </>
               )}
@@ -490,14 +571,14 @@ export default function SetuLandingPage() {
               {activeTier === "da" && (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold font-mono text-[#B45309] uppercase">Jurisdiction: District Magistrate</span>
-                    <span className="text-xs font-mono font-bold text-[#1C1917]">DARBHANGA Implementation Pool</span>
+                    <span className="text-xs font-bold font-mono text-[#B45309] uppercase">Jurisdiction: District Magistrate / Collector • Darbhanga District</span>
+                    <span className="text-xs font-mono font-bold text-[#1C1917]">Local Execution Authority</span>
                   </div>
                   <h4 className="font-editorial text-xl font-bold text-[#1C1917]">
-                    District Authority &amp; Triage Command
+                    District Authority (District Magistrate / Collector)
                   </h4>
                   <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed">
-                    Direct operational triage over single-agency monopoly lock-in, tender smurfing under GFR Rule 155, and administrative dwell times before work orders are sanctioned.
+                    The District Magistrate (DM or Collector) is the key administrative officer responsible for approving project estimates, hiring contractors, and inspecting works on the ground. SETU helps the DM immediately spot unapproved delays, tenders split to bypass bidding rules, and contractor monopolies in their district.
                   </p>
                 </>
               )}
@@ -505,14 +586,14 @@ export default function SetuLandingPage() {
               {activeTier === "mp" && (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold font-mono text-[#B45309] uppercase">Jurisdiction: Parliamentary Recommender</span>
-                    <span className="text-xs font-mono font-bold text-[#1C1917]">Gopal Jee Thakur • 128 Works</span>
+                    <span className="text-xs font-bold font-mono text-[#B45309] uppercase">Jurisdiction: Lok Sabha / Rajya Sabha MP • Gopal Jee Thakur (128 Works)</span>
+                    <span className="text-xs font-mono font-bold text-[#1C1917]">Elected Representative</span>
                   </div>
                   <h4 className="font-editorial text-xl font-bold text-[#1C1917]">
-                    Member of Parliament (Constituency Flow)
+                    Member of Parliament (MP Constituency Portal)
                   </h4>
                   <p className="text-xs sm:text-sm text-[#57534E] leading-relaxed">
-                    Tracks the 4-stage statutory lifecycle from parliamentary recommendation to ground asset delivery, highlighting block distribution equity and administrative delay accountability.
+                    Members of Parliament recommend development projects based on the urgent needs of their local constituents (such as village roads, community halls, and drinking water). This portal tracks their recommendations across all four legal stages—from the initial proposal to administrative approval, contractor bidding, and final construction on the ground.
                   </p>
                 </>
               )}
@@ -526,18 +607,23 @@ export default function SetuLandingPage() {
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
-            </div>
+            </MagicCard>
           </div>
 
           {/* Right Column: Architectural Heritage & Provenance Frame */}
           <div className="lg:col-span-5">
-            <div className="border border-[#1C1917]/20 bg-[#FAF9F5] p-8 shadow-paper space-y-6 relative overflow-hidden">
+            <MagicCard 
+              enableBorderGlow={true}
+              enableTilt={true}
+              glowColor="180, 83, 9"
+              className="border border-[#1C1917]/20 bg-[#FAF9F5] p-8 shadow-paper space-y-6 relative overflow-hidden rounded-2xl"
+            >
               <div className="border-b border-[#1C1917]/10 pb-4">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#78716C] block">
-                  STATUTORY CODIFICATION
+                  LEGAL STANDARDS WE ENFORCE
                 </span>
                 <h3 className="font-editorial text-2xl text-[#1C1917] mt-1 font-light">
-                  Constitutional Foundations
+                  Official Rules &amp; Guidelines
                 </h3>
               </div>
 
@@ -546,7 +632,7 @@ export default function SetuLandingPage() {
                   <div className="h-2 w-2 rounded-full bg-[#B45309] mt-1 shrink-0" />
                   <div>
                     <strong className="text-[#1C1917] block font-mono">GFR 2017 • Rule 155</strong>
-                    <span className="text-[#78716C]">Mandatory e-tendering for works exceeding ₹5,00,000.</span>
+                    <span className="text-[#78716C]">Requires open, competitive online tenders for any public work over ₹5,00,000 to prevent officials from privately handpicking favored contractors.</span>
                   </div>
                 </div>
 
@@ -554,7 +640,7 @@ export default function SetuLandingPage() {
                   <div className="h-2 w-2 rounded-full bg-[#B45309] mt-1 shrink-0" />
                   <div>
                     <strong className="text-[#1C1917] block font-mono">MPLADS Guidelines 2023 • §4.2</strong>
-                    <span className="text-[#78716C]">45-day statutory window for District Authority sanction.</span>
+                    <span className="text-[#78716C]">District Magistrates must evaluate and decide on an MP&apos;s project recommendation within 45 days so urgent community works are not delayed.</span>
                   </div>
                 </div>
 
@@ -562,16 +648,16 @@ export default function SetuLandingPage() {
                   <div className="h-2 w-2 rounded-full bg-[#B45309] mt-1 shrink-0" />
                   <div>
                     <strong className="text-[#1C1917] block font-mono">CAG Performance Audit Standards</strong>
-                    <span className="text-[#78716C]">Automated verification of physical asset formation via GIS.</span>
+                    <span className="text-[#78716C]">Requires physical verification of assets via satellite so contractors cannot collect public money for non-existent or incomplete projects.</span>
                   </div>
                 </div>
               </div>
 
               <div className="pt-4 border-t border-[#1C1917]/10 flex items-center justify-between text-[11px] font-mono text-[#78716C]">
-                <span>Status: <strong className="text-emerald-700">Enforced</strong></span>
-                <span>Audit Trail: <strong className="text-[#1C1917]">Immutable</strong></span>
+                <span>Status: <strong className="text-emerald-700">Enforced by Code</strong></span>
+                <span>Audit Trail: <strong className="text-[#1C1917]">Tamper-Proof &amp; Verifiable</strong></span>
               </div>
-            </div>
+            </MagicCard>
           </div>
         </div>
       </section>
@@ -585,13 +671,30 @@ export default function SetuLandingPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <span className="text-[11px] font-mono uppercase tracking-widest text-[#B45309] font-bold block mb-2">
-              ACT IV • LIVE STATUTORY DIRECTORY
+              ACT IV • LIVE PROJECT REGISTRY
             </span>
-            <h2 className="font-editorial text-3xl sm:text-5xl font-light text-[#1C1917] leading-tight">
-              Real-Time National Project Registry.
-            </h2>
-            <p className="font-serif-body text-base text-[#57534E] mt-2">
-              Directly queries monitored public works from the central database. Filter by statutory risk severity or search by project ID.
+            <WarpText
+              text="Real-Time National Project Registry"
+              color="#1C1917"
+              fontSize="clamp(1.8rem, 3.5vw, 3rem)"
+              fontWeight={700}
+              fontFamily="Fraunces, Georgia, serif"
+              warpStrength={0.06}
+              speed={0.4}
+              style={{ height: "85px" }}
+            />
+            <WarpText
+              text="Live parliamentary public works evaluated by financial rules, satellites, and timelines"
+              color="#57534E"
+              fontSize="clamp(0.95rem, 1.8vw, 1.2rem)"
+              fontWeight={500}
+              fontFamily="Newsreader, serif"
+              warpStrength={0.035}
+              speed={0.3}
+              style={{ height: "45px", marginTop: "4px" }}
+            />
+            <p className="font-serif-body text-base text-[#57534E] mt-3">
+              Browse live parliamentary works from across India. Every project is checked against financial rules, satellite progress, and approval deadlines. Filter by risk severity or search for a specific project.
             </p>
           </div>
 
@@ -618,7 +721,7 @@ export default function SetuLandingPage() {
           <Search className="absolute left-4 top-3.5 h-4 w-4 text-[#78716C]" />
           <input
             type="text"
-            placeholder="Search by Work ID (e.g. W-23167), title, constituency, or executing agency..."
+            placeholder="Search by Project ID (e.g. W-23167), project name, constituency, or contractor..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-[#FAF9F5] border border-[#1C1917]/20 pl-11 pr-4 py-3 text-xs text-[#1C1917] placeholder-[#A8A29E] focus:outline-none focus:border-[#B45309] shadow-xs font-medium"
@@ -632,10 +735,10 @@ export default function SetuLandingPage() {
               <tr className="border-b border-[#1C1917]/15 bg-[#EFECE4] text-[11px] font-mono text-[#78716C] uppercase">
                 <th className="p-4 font-bold">Project ID &amp; Work Description</th>
                 <th className="p-4 font-bold">Constituency &amp; State</th>
-                <th className="p-4 font-bold text-right">Sanction Outlay</th>
-                <th className="p-4 font-bold">Executing Agency</th>
-                <th className="p-4 font-bold text-center">Risk Index</th>
-                <th className="p-4 font-bold text-right">Dossier</th>
+                <th className="p-4 font-bold text-right">Approved Budget</th>
+                <th className="p-4 font-bold">Contractor / Agency</th>
+                <th className="p-4 font-bold text-center">Risk Score</th>
+                <th className="p-4 font-bold text-right">Audit File</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#1C1917]/10">
@@ -679,7 +782,7 @@ export default function SetuLandingPage() {
                         href={`/works/${item.id}`}
                         className="inline-flex items-center gap-1 font-bold text-xs text-[#B45309] hover:underline"
                       >
-                        <span>Audit</span>
+                        <span>Inspect</span>
                         <ArrowUpRight className="h-3 w-3" />
                       </Link>
                     </td>
@@ -692,7 +795,7 @@ export default function SetuLandingPage() {
 
         {/* View All Works Footer Callout */}
         <div className="mt-4 flex items-center justify-between text-xs text-[#78716C]">
-          <span>Displaying 6 live parliamentary works from active monitoring registry.</span>
+          <span>Displaying 6 live parliamentary works from the central monitoring registry.</span>
           <Link href="/works" className="font-bold text-[#1C1917] hover:underline flex items-center gap-1">
             <span>Explore All 60,356 Monitored Projects</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -700,42 +803,81 @@ export default function SetuLandingPage() {
         </div>
 
         {/* ────────────────────────────────────────────────────────────
-            ARCHITECTURAL FOOTER
-            3-Column Site Index and Monumental Screen-Spanning Watermark
+            MONUMENTAL VARIABLE FONT PRESSURE EXHIBIT (REACT BITS)
+            Dynamic variable font responds to cursor proximity
         ──────────────────────────────────────────────────────────── */}
-        <footer className="mt-32 pt-16 border-t border-[#1C1917]/15 relative">
+        <div className="mt-28 pt-16 pb-12 border-t border-[#1C1917]/15 text-center overflow-hidden">
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 border border-[#1C1917]/15 bg-[#EFECE4] text-[10px] font-mono font-bold uppercase tracking-widest text-[#57534E]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#B45309]" />
+            <span>SETU • STATUTORY ENFORCEMENT &amp; TRANSPARENCY UNIT</span>
+          </div>
+
+          <div className="max-w-xl mx-auto mb-6 px-4">
+            <h4 className="font-editorial text-base sm:text-lg font-bold text-[#1C1917] tracking-tight mb-1">
+              National Platform for Public Fund Integrity &amp; Transparency
+            </h4>
+            <p className="font-serif-body text-xs sm:text-sm text-[#78716C] leading-relaxed">
+              Making parliamentary development funds open, fair, and accountable • Hover your cursor to interact with the responsive typography
+            </p>
+          </div>
+
+          {/* Centered, gracefully proportioned interactive stage */}
+          <div className="mx-auto max-w-xl h-28 sm:h-36 md:h-40 w-full overflow-hidden flex items-center justify-center px-4">
+            <TextPressure
+              text="SETU"
+              flex={true}
+              center={true}
+              alpha={false}
+              stroke={false}
+              width={true}
+              weight={true}
+              italic={true}
+              textColor="#1C1917"
+              strokeColor="#B45309"
+              minFontSize={36}
+              maxFontSize={84}
+              className="select-none tracking-normal"
+            />
+          </div>
+        </div>
+
+        {/* ────────────────────────────────────────────────────────────
+            ARCHITECTURAL FOOTER
+            3-Column Site Index and Official Mandate Note
+        ──────────────────────────────────────────────────────────── */}
+        <footer className="pt-16 border-t border-[#1C1917]/15 relative">
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 text-xs">
             <div>
               <span className="font-editorial text-base font-bold text-[#1C1917] block mb-4">
-                Sovereign Portals
+                Platform Portals
               </span>
               <ul className="space-y-2.5 text-[#57534E]">
                 <li><Link href="/dashboard" className="hover:text-[#1C1917] hover:underline">Operational Command Center</Link></li>
                 <li><Link href="/works" className="hover:text-[#1C1917] hover:underline">MPLADS Works Explorer</Link></li>
                 <li><Link href="/maps" className="hover:text-[#1C1917] hover:underline">Geospatial Risk Visualizer</Link></li>
-                <li><Link href="/graph" className="hover:text-[#1C1917] hover:underline">Money Flow &amp; Cartels Radar</Link></li>
+                <li><Link href="/graph" className="hover:text-[#1C1917] hover:underline">Money Flow &amp; Contractor Network</Link></li>
               </ul>
             </div>
 
             <div>
               <span className="font-editorial text-base font-bold text-[#1C1917] block mb-4">
-                Forensic Intelligence Models
+                Audit &amp; Risk Detectors
               </span>
               <ul className="space-y-2.5 text-[#57534E]">
-                <li><Link href="/alerts" className="hover:text-[#1C1917] hover:underline">GFR Rule 155 Smurfing Radar</Link></li>
-                <li><Link href="/graph" className="hover:text-[#1C1917] hover:underline">Herfindahl Agency Monopoly (HHI)</Link></li>
-                <li><Link href="/dashboard" className="hover:text-[#1C1917] hover:underline">45-Day Statutory Dwell Matrix</Link></li>
-                <li><Link href="/cases" className="hover:text-[#1C1917] hover:underline">FIR-Ready Forensic Dossiers</Link></li>
+                <li><Link href="/alerts" className="hover:text-[#1C1917] hover:underline">GFR Rule 155 Split-Contract Radar</Link></li>
+                <li><Link href="/graph" className="hover:text-[#1C1917] hover:underline">Contractor Monopoly Index (HHI)</Link></li>
+                <li><Link href="/dashboard" className="hover:text-[#1C1917] hover:underline">45-Day Approval Delay Matrix</Link></li>
+                <li><Link href="/cases" className="hover:text-[#1C1917] hover:underline">Audit-Ready Case Files</Link></li>
               </ul>
             </div>
 
             <div>
               <span className="font-editorial text-base font-bold text-[#1C1917] block mb-4">
-                Statutory Standards
+                Official Guidelines Enforced
               </span>
               <ul className="space-y-2.5 text-[#57534E]">
-                <li className="text-[#78716C]">Comptroller &amp; Auditor General (CAG) 2023</li>
+                <li className="text-[#78716C]">Comptroller &amp; Auditor General (CAG) Standards</li>
                 <li className="text-[#78716C]">General Financial Rules (GFR 2017)</li>
                 <li className="text-[#78716C]">MPLADS Revised Guidelines 2023 §4.2</li>
                 <li className="text-[#78716C]">Ministry of Statistics &amp; Programme Implementation</li>
@@ -743,18 +885,12 @@ export default function SetuLandingPage() {
             </div>
           </div>
 
-          {/* Monumental Architectural Watermark (Inspired by DSGN DEPT footer) */}
-          <div className="pt-8 pb-4 border-t border-[#1C1917]/10 text-center overflow-hidden">
-            <span className="font-display text-[10vw] sm:text-[12vw] font-black tracking-tighter text-[#1C1917]/[0.05] pointer-events-none select-none uppercase block leading-none w-full">
-              SETU • MPLADS FORENSICS
-            </span>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between pt-4 text-[11px] text-[#78716C] border-t border-[#1C1917]/5 font-mono">
-            <span>© 2026 SETU — Statutory Enforcement &amp; Transparency Unit</span>
+          <div className="flex flex-col sm:flex-row items-center justify-between pt-6 text-[11px] text-[#78716C] border-t border-[#1C1917]/10 font-mono">
+            <span>© 2026 SETU — Smart Expenditure Tracking &amp; Utility • Statutory Enforcement &amp; Transparency Unit</span>
             <span className="mt-2 sm:mt-0">Government of India • Ministry of Statistics &amp; Programme Implementation</span>
           </div>
         </footer>
+
       </section>
     </div>
   );

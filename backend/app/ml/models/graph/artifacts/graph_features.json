@@ -1,0 +1,30 @@
+{
+  "features": [
+    "contractor__repeated_agency_contractor_pair",
+    "contractor__shared_ownership",
+    "contractor__shared_directors",
+    "contractor__shared_shareholders",
+    "contractor__shared_address",
+    "contractor__beneficial_owner_overlap",
+    "contractor__contractor_district_concentration",
+    "contractor__contractor_agency_concentration",
+    "contractor__contractor_constituency_concentration",
+    "contractor__company_ownership_change",
+    "contractor__director_change",
+    "agency__agency_workload_ratio",
+    "agency__agency_geographic_concentration",
+    "graph__contractor_degree",
+    "graph__agency_degree",
+    "graph__constituency_degree",
+    "graph__contractor_pagerank",
+    "graph__agency_pagerank",
+    "graph__pair_project_count",
+    "graph__triad_project_count",
+    "graph__agency_contractor_hhi",
+    "graph__contractor_constituency_hhi",
+    "graph__corporate_ties_composite",
+    "graph__community_size",
+    "graph__peer_pair_count_z"
+  ],
+  "count": 25
+}

@@ -1,0 +1,10 @@
+{
+  "model_name": "financial_isolation_forest",
+  "model_version": "1.0.0",
+  "mode": "early_warning",
+  "training_timestamp": "2026-09-06T06:13:26.213488+00:00",
+  "total_training_projects": 5000,
+  "total_features": 40,
+  "contamination": 0.05,
+  "random_state": 42
+}

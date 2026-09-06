@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-09-06T09:49:31.749474+00:00",
+  "total_projects_evaluated": 5000,
+  "risk_tier_distribution": {
+    "LOW": 4075,
+    "CRITICAL": 804,
+    "HIGH": 102,
+    "MEDIUM": 19
+  },
+  "investigation_priority_distribution": {
+    "ROUTINE": 4094,
+    "IMMEDIATE": 804,
+    "PRIORITY": 102
+  },
+  "typology_distribution": {
+    "NORMAL": 4089,
+    "PAYMENT_PROGRESS_MISMATCH": 252,
+    "COST_OVERRUN": 212,
+    "DELAYED_WORK": 154,
+    "ABANDONED_WORK": 76,
+    "DOCUMENTATION_DEFICIT": 71,
+    "ANOMALOUS_PROFILE": 54,
+    "PROCUREMENT_SINGLE_BID": 46,
+    "GHOST_WORK": 46
+  },
+  "risk_score_statistics": {
+    "mean": 24.66,
+    "median": 12.5,
+    "std": 26.33,
+    "min": 3.6,
+    "max": 91.2
+  }
+}

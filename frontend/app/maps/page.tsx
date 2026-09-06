@@ -6,6 +6,7 @@ import { fetchStateChoropleth, fetchDistrictDrilldown, fetchConstituencyPins } f
 import { StateChoroplethMap } from "../../components/maps/StateChoroplethMap";
 import { DistrictDrilldownMap } from "../../components/maps/DistrictDrilldownMap";
 import { ConstituencyMap } from "../../components/maps/ConstituencyMap";
+import { MagicCard } from "../../components/ui/MagicCard";
 import { Map, Layers, Building2, MapPin, Eye, ChevronRight } from "lucide-react";
 
 export default function MapsPage() {
@@ -115,7 +116,7 @@ export default function MapsPage() {
       ) : (
         <div className="space-y-4">
           {/* Interactive Hierarchical Breadcrumb Navigation */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 bg-white px-3.5 py-2.5 rounded-xl border border-slate-200 shadow-2xs">
+          <MagicCard glowColor="245, 158, 11" className="flex items-center gap-2 text-xs font-semibold text-slate-500 bg-white px-3.5 py-2.5 rounded-xl border border-slate-200 shadow-2xs">
             <button
               onClick={() => setActiveTab("national")}
               className={`hover:text-slate-900 flex items-center gap-1 transition-colors ${
@@ -148,7 +149,7 @@ export default function MapsPage() {
                 </span>
               </>
             )}
-          </div>
+          </MagicCard>
 
           {activeTab === "national" && (
             <div className="space-y-6">
@@ -164,28 +165,28 @@ export default function MapsPage() {
 
           {activeTab === "district" && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between rounded-xl bg-white border border-slate-200 p-3 shadow-2xs">
+              <MagicCard glowColor="245, 158, 11" className="flex items-center justify-between rounded-xl bg-white border border-slate-200 p-3 shadow-2xs">
                 <span className="text-xs font-bold text-slate-700">
                   Inspecting State: <span className="text-amber-700">{selectedState}</span>
                 </span>
                 <span className="text-xs text-slate-500 font-mono">
                   {districtData.length} Districts Analyzed
                 </span>
-              </div>
+              </MagicCard>
               <DistrictDrilldownMap districts={districtData} selectedStateName={selectedState} />
             </div>
           )}
 
           {activeTab === "constituency" && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between rounded-xl bg-white border border-slate-200 p-3 shadow-2xs">
+              <MagicCard glowColor="168, 85, 247" className="flex items-center justify-between rounded-xl bg-white border border-slate-200 p-3 shadow-2xs">
                 <span className="text-xs font-bold text-slate-700">
                   Live GPS Audit Coordinates for: <span className="text-amber-700">{jurisdiction}</span>
                 </span>
                 <span className="text-xs text-slate-500 font-mono">
                   {pinsData.length} Geo-tagged works plotted
                 </span>
-              </div>
+              </MagicCard>
               <ConstituencyMap
                 pins={pinsData}
                 title={`GPS Location Verification & Progress (${jurisdiction})`}

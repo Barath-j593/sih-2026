@@ -97,10 +97,19 @@ def get_role_scoped_dashboard(
     fraud_breakdown = []
     label_map = {
         "overpricing": "Cost Escalation & Overpricing",
+        "cost_overrun": "Cost Overrun & Escalation",
         "duplicate": "Duplicate & Clustered Works",
         "ghost_project": "Stalled / Ghost Projects",
+        "ghost_work": "Ghost / Non-Existent Project",
         "vendor_capture": "Vendor / IDA Capture",
+        "procurement_single_bid": "Single-Bid Procurement",
         "structuring": "Contract Structuring / Smurfing",
+        "payment_structuring": "Contract Structuring / Smurfing",
+        "payment_progress_mismatch": "Payment vs Progress Mismatch",
+        "delayed_work": "Delayed Execution",
+        "abandoned_work": "Abandoned Project",
+        "documentation_deficit": "Documentation Deficit",
+        "anomalous_profile": "Multi-Signal Anomaly",
         "none": "Other Anomalies"
     }
     for f_type, cnt, amt in fraud_counts:
@@ -110,9 +119,32 @@ def get_role_scoped_dashboard(
         fraud_breakdown.append(
             FraudTypeBreakdownItem(
                 fraud_type=f_type,
-                label=label_map.get(f_type, f_type.title()),
+                label=label_map.get(f_type, f_type.replace("_", " ").title()),
                 count=int(cnt),
                 total_amount=float(amt or 0.0),
+                percentage=round(pct, 1)
+            )
+        )
+
+    # Also detect statutory structuring works in this jurisdiction if not already in breakdown
+    struct_count = db.query(func.count(Work.id)).filter(
+        *filters,
+        Work.allocation_amount >= 450000.0,
+        Work.allocation_amount < 500000.0
+    ).scalar() or 0
+    if struct_count > 0 and not any("structuring" in f.fraud_type.lower() for f in fraud_breakdown):
+        struct_amt = db.query(func.sum(Work.allocation_amount)).filter(
+            *filters,
+            Work.allocation_amount >= 450000.0,
+            Work.allocation_amount < 500000.0
+        ).scalar() or 0.0
+        pct = (struct_count / max(1, flagged_works_count)) * 100
+        fraud_breakdown.append(
+            FraudTypeBreakdownItem(
+                fraud_type="payment_structuring",
+                label="Contract Structuring / Smurfing",
+                count=int(struct_count),
+                total_amount=float(struct_amt),
                 percentage=round(pct, 1)
             )
         )

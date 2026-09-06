@@ -1,0 +1,340 @@
+{
+  "execution_timestamp": "2026-09-06T14:06:19.620412+00:00",
+  "primary_key_validation": {
+    "all_passed": true,
+    "tables": {
+      "01_projects.csv": {
+        "primary_key": "project_id",
+        "row_count": 5000,
+        "unique_count": 5000,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "02_financials.csv": {
+        "primary_key": "project_id",
+        "row_count": 5000,
+        "unique_count": 5000,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "03_payments.csv": {
+        "primary_key": "payment_id",
+        "row_count": 13866,
+        "unique_count": 13866,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "04_progress.csv": {
+        "primary_key": "progress_id",
+        "row_count": 5000,
+        "unique_count": 5000,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "05_procurement.csv": {
+        "primary_key": "tender_id",
+        "row_count": 5000,
+        "unique_count": 5000,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "06_contracts.csv": {
+        "primary_key": "contract_id",
+        "row_count": 5000,
+        "unique_count": 5000,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "07_contractors.csv": {
+        "primary_key": "contractor_id",
+        "row_count": 400,
+        "unique_count": 400,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "08_agencies.csv": {
+        "primary_key": "agency_id",
+        "row_count": 1238,
+        "unique_count": 1238,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "09_geography.csv": {
+        "primary_key": "district_id",
+        "row_count": 619,
+        "unique_count": 619,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "10_constituencies.csv": {
+        "primary_key": "constituency_id",
+        "row_count": 913,
+        "unique_count": 913,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "11_documents.csv": {
+        "primary_key": "document_id",
+        "row_count": 5000,
+        "unique_count": 5000,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      },
+      "12_labels.csv": {
+        "primary_key": "project_id",
+        "row_count": 5000,
+        "unique_count": 5000,
+        "null_count": 0,
+        "duplicate_count": 0,
+        "status": "PASS"
+      }
+    }
+  },
+  "referential_integrity": {
+    "all_passed": true,
+    "relationship_count": 16,
+    "relationships": [
+      {
+        "relationship": "01_projects.contractor_id -> 07_contractors.contractor_id",
+        "child_table": "01_projects.csv",
+        "parent_table": "07_contractors.csv",
+        "foreign_key": "contractor_id",
+        "parent_primary_key": "contractor_id",
+        "child_rows": 5000,
+        "parent_rows": 400,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "01_projects.agency_id -> 08_agencies.agency_id",
+        "child_table": "01_projects.csv",
+        "parent_table": "08_agencies.csv",
+        "foreign_key": "agency_id",
+        "parent_primary_key": "agency_id",
+        "child_rows": 5000,
+        "parent_rows": 1238,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "01_projects.district_id -> 09_geography.district_id",
+        "child_table": "01_projects.csv",
+        "parent_table": "09_geography.csv",
+        "foreign_key": "district_id",
+        "parent_primary_key": "district_id",
+        "child_rows": 5000,
+        "parent_rows": 619,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "01_projects.constituency_id -> 10_constituencies.constituency_id",
+        "child_table": "01_projects.csv",
+        "parent_table": "10_constituencies.csv",
+        "foreign_key": "constituency_id",
+        "parent_primary_key": "constituency_id",
+        "child_rows": 5000,
+        "parent_rows": 913,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "02_financials.project_id -> 01_projects.project_id",
+        "child_table": "02_financials.csv",
+        "parent_table": "01_projects.csv",
+        "foreign_key": "project_id",
+        "parent_primary_key": "project_id",
+        "child_rows": 5000,
+        "parent_rows": 5000,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "1:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "03_payments.project_id -> 01_projects.project_id",
+        "child_table": "03_payments.csv",
+        "parent_table": "01_projects.csv",
+        "foreign_key": "project_id",
+        "parent_primary_key": "project_id",
+        "child_rows": 13866,
+        "parent_rows": 5000,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "03_payments.contractor_id -> 07_contractors.contractor_id",
+        "child_table": "03_payments.csv",
+        "parent_table": "07_contractors.csv",
+        "foreign_key": "contractor_id",
+        "parent_primary_key": "contractor_id",
+        "child_rows": 13866,
+        "parent_rows": 400,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "04_progress.project_id -> 01_projects.project_id",
+        "child_table": "04_progress.csv",
+        "parent_table": "01_projects.csv",
+        "foreign_key": "project_id",
+        "parent_primary_key": "project_id",
+        "child_rows": 5000,
+        "parent_rows": 5000,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "1:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "05_procurement.project_id -> 01_projects.project_id",
+        "child_table": "05_procurement.csv",
+        "parent_table": "01_projects.csv",
+        "foreign_key": "project_id",
+        "parent_primary_key": "project_id",
+        "child_rows": 5000,
+        "parent_rows": 5000,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "1:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "06_contracts.project_id -> 01_projects.project_id",
+        "child_table": "06_contracts.csv",
+        "parent_table": "01_projects.csv",
+        "foreign_key": "project_id",
+        "parent_primary_key": "project_id",
+        "child_rows": 5000,
+        "parent_rows": 5000,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "1:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "06_contracts.contractor_id -> 07_contractors.contractor_id",
+        "child_table": "06_contracts.csv",
+        "parent_table": "07_contractors.csv",
+        "foreign_key": "contractor_id",
+        "parent_primary_key": "contractor_id",
+        "child_rows": 5000,
+        "parent_rows": 400,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "07_contractors.home_district_id -> 09_geography.district_id",
+        "child_table": "07_contractors.csv",
+        "parent_table": "09_geography.csv",
+        "foreign_key": "home_district_id",
+        "parent_primary_key": "district_id",
+        "child_rows": 400,
+        "parent_rows": 619,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "08_agencies.district_id -> 09_geography.district_id",
+        "child_table": "08_agencies.csv",
+        "parent_table": "09_geography.csv",
+        "foreign_key": "district_id",
+        "parent_primary_key": "district_id",
+        "child_rows": 1238,
+        "parent_rows": 619,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "10_constituencies.district_id -> 09_geography.district_id",
+        "child_table": "10_constituencies.csv",
+        "parent_table": "09_geography.csv",
+        "foreign_key": "district_id",
+        "parent_primary_key": "district_id",
+        "child_rows": 913,
+        "parent_rows": 619,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "MANY:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "11_documents.project_id -> 01_projects.project_id",
+        "child_table": "11_documents.csv",
+        "parent_table": "01_projects.csv",
+        "foreign_key": "project_id",
+        "parent_primary_key": "project_id",
+        "child_rows": 5000,
+        "parent_rows": 5000,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "1:1",
+        "status": "PASS"
+      },
+      {
+        "relationship": "12_labels.project_id -> 01_projects.project_id",
+        "child_table": "12_labels.csv",
+        "parent_table": "01_projects.csv",
+        "foreign_key": "project_id",
+        "parent_primary_key": "project_id",
+        "child_rows": 5000,
+        "parent_rows": 5000,
+        "null_fk_count": 0,
+        "orphan_count": 0,
+        "sample_orphans": [],
+        "cardinality": "1:1",
+        "status": "PASS"
+      }
+    ]
+  },
+  "numeric_and_temporal_validation": {
+    "status": "PASS",
+    "findings_count": 0,
+    "findings": []
+  },
+  "overall_integrity_status": "PASS"
+}
