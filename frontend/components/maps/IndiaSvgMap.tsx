@@ -346,7 +346,7 @@ export function IndiaSvgMap({
   // Zoom In / Out Handlers (centered on map center)
   const handleZoomIn = () => {
     setZoom((prevZoom) => {
-      const nextZoom = Math.min(5.0, Number((prevZoom * 1.3).toFixed(2)));
+      const nextZoom = Math.min(12.0, Number((prevZoom * 1.3).toFixed(2)));
       setPan((prevPan) => {
         const gx = (400 - prevPan.x) / prevZoom;
         const gy = (460 - prevPan.y) / prevZoom;
@@ -469,7 +469,7 @@ export function IndiaSvgMap({
 
       const zoomFactor = e.deltaY < 0 ? 1.15 : 0.88;
       setZoom((prevZoom) => {
-        const nextZoom = Math.min(4.5, Math.max(1.0, Number((prevZoom * zoomFactor).toFixed(2))));
+        const nextZoom = Math.min(12.0, Math.max(1.0, Number((prevZoom * zoomFactor).toFixed(2))));
         if (nextZoom <= 1.0) {
           setPan({ x: 0, y: 0 });
           return 1.0;
@@ -793,7 +793,13 @@ export function IndiaSvgMap({
                           ? "#FFFFFF"
                           : "transparent"
                       }
-                      strokeWidth={isSelected ? 2.5 : isHovered ? 1.8 : 0.4}
+                      strokeWidth={
+                        isSelected
+                          ? Math.max(1.0, 2.5 / Math.sqrt(zoom))
+                          : isHovered
+                          ? Math.max(0.7, 1.8 / Math.sqrt(zoom))
+                          : Math.max(0.15, 0.4 / Math.sqrt(zoom))
+                      }
                       strokeLinejoin="round"
                       strokeLinecap="round"
                       className="cursor-pointer transition-all duration-150 hover:brightness-105"
@@ -867,13 +873,27 @@ export function IndiaSvgMap({
                 })}
               </g>
 
-              {/* LAYER 3: CONSTITUENCY LABELS (Visible at Zoom >= 2.1) */}
-              {showLabels && zoom >= 2.1 && (
+              {/* LAYER 3: CONSTITUENCY LABELS (Visible at Zoom >= 2.0 with dynamic zoom-adaptive transparency) */}
+              {showLabels && zoom >= 2.0 && (
                 <g id="constituencyLabelsLayer" className="pointer-events-none select-none">
                   {svgDataset.constituencies.map((c) => {
                     const isSelected =
                       selectedConstituency &&
                       normalizeKey(selectedConstituency) === normalizeKey(c.name);
+
+                    // Dynamic Transparency: as user zooms closer, increase label transparency (lower opacity)
+                    // so high-zoom forensic polygon geometry and micro-features are not occluded
+                    const labelOpacity = isSelected
+                      ? 0.95
+                      : Math.max(0.18, Math.min(0.9, 1.0 - (zoom - 2.0) * 0.1));
+
+                    const dynamicFontSize = isSelected
+                      ? Math.max(4.8, 9.0 / Math.pow(zoom, 0.42))
+                      : Math.max(3.6, 7.2 / Math.pow(zoom, 0.42));
+
+                    const dynamicStroke = isSelected
+                      ? Math.max(0.8, 2.2 / Math.sqrt(zoom))
+                      : Math.max(0.5, 1.5 / Math.sqrt(zoom));
 
                     return (
                       <text
@@ -881,15 +901,17 @@ export function IndiaSvgMap({
                         x={c.centroid[0]}
                         y={c.centroid[1]}
                         textAnchor="middle"
-                        className={`text-[8px] font-mono font-bold ${
+                        opacity={Number(labelOpacity.toFixed(2))}
+                        className={`font-mono font-bold transition-opacity duration-200 ${
                           isSelected
                             ? "fill-[#1C1917] drop-shadow-sm font-black"
                             : "fill-stone-800"
                         }`}
                         style={{
+                          fontSize: `${dynamicFontSize.toFixed(1)}px`,
                           paintOrder: "stroke",
                           stroke: "#FFFDF9",
-                          strokeWidth: "2.5px",
+                          strokeWidth: `${dynamicStroke.toFixed(1)}px`,
                           strokeLinejoin: "round",
                         }}
                       >
