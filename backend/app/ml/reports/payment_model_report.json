@@ -1,0 +1,223 @@
+{
+  "model_name": "payment_isolation_forest",
+  "version": "1.0.0",
+  "mode": "early_warning",
+  "timestamp": "2026-09-06T08:55:28.104728+00:00",
+  "base_fraud_rate": 20.1,
+  "distribution_summary": {
+    "total_projects": 5000,
+    "flagged_top_5pct": 251,
+    "mean_score": 33.754078,
+    "median_score": 30.965,
+    "std_score": 22.884671853227783,
+    "p50": 30.965,
+    "p90": 68.66300000000001,
+    "p95": 77.531,
+    "p99": 86.0502
+  },
+  "enrichment_benchmarks": {
+    "top_1pct": {
+      "cutoff_count": 50,
+      "fraud_count": 46,
+      "fraud_rate": 92.0,
+      "enrichment_factor": 4.58,
+      "hard_negative_count": 1,
+      "hard_negative_rate": 2.0
+    },
+    "top_5pct": {
+      "cutoff_count": 250,
+      "fraud_count": 200,
+      "fraud_rate": 80.0,
+      "enrichment_factor": 3.98,
+      "hard_negative_count": 4,
+      "hard_negative_rate": 1.6
+    },
+    "top_10pct": {
+      "cutoff_count": 500,
+      "fraud_count": 375,
+      "fraud_rate": 75.0,
+      "enrichment_factor": 3.73,
+      "hard_negative_count": 27,
+      "hard_negative_rate": 5.4
+    },
+    "top_20pct": {
+      "cutoff_count": 1000,
+      "fraud_count": 657,
+      "fraud_rate": 65.7,
+      "enrichment_factor": 3.27,
+      "hard_negative_count": 101,
+      "hard_negative_rate": 10.1
+    }
+  },
+  "baseline_comparison": {
+    "baseline1": {
+      "top_1pct_fraud_rate": 100.0,
+      "top_1pct_enrichment": 4.98,
+      "top_5pct_fraud_rate": 99.2,
+      "top_5pct_enrichment": 4.94,
+      "top_10pct_fraud_rate": 77.2,
+      "top_10pct_enrichment": 3.84
+    },
+    "baseline2": {
+      "top_1pct_fraud_rate": 100.0,
+      "top_1pct_enrichment": 4.98,
+      "top_5pct_fraud_rate": 100.0,
+      "top_5pct_enrichment": 4.98,
+      "top_10pct_fraud_rate": 79.4,
+      "top_10pct_enrichment": 3.95
+    },
+    "payment_model": {
+      "top_1pct_fraud_rate": 92.0,
+      "top_1pct_enrichment": 4.58,
+      "top_5pct_fraud_rate": 80.0,
+      "top_5pct_enrichment": 3.98,
+      "top_10pct_fraud_rate": 75.0,
+      "top_10pct_enrichment": 3.73
+    }
+  },
+  "hard_negative_discrimination": {
+    "LEGITIMATE_REMOTE_SINGLE_BID": {
+      "total": 152,
+      "flagged_in_top_5pct": 1,
+      "false_alarm_rate": 0.66,
+      "mean_score": 26.37,
+      "status": "Protected"
+    },
+    "HIGH_VALUE_LEGITIMATE": {
+      "total": 271,
+      "flagged_in_top_5pct": 3,
+      "false_alarm_rate": 1.11,
+      "mean_score": 46.27,
+      "status": "Protected"
+    },
+    "LEGITIMATE_WEATHER_DELAY": {
+      "total": 103,
+      "flagged_in_top_5pct": 0,
+      "false_alarm_rate": 0.0,
+      "mean_score": 25.89,
+      "status": "Protected"
+    }
+  },
+  "scenario_coverage": {
+    "ABANDONED_WORK": {
+      "total": 76,
+      "is_fraud": true,
+      "mean_score": 67.0,
+      "median_score": 66.43,
+      "flagged_top_5pct": 17,
+      "flagged_top_5pct_rate": 22.37,
+      "flagged_top_10pct": 34,
+      "flagged_top_10pct_rate": 44.74
+    },
+    "COST_OVERRUN": {
+      "total": 218,
+      "is_fraud": true,
+      "mean_score": 63.94,
+      "median_score": 62.48,
+      "flagged_top_5pct": 28,
+      "flagged_top_5pct_rate": 12.84,
+      "flagged_top_10pct": 70,
+      "flagged_top_10pct_rate": 32.11
+    },
+    "DELAYED_WORK": {
+      "total": 154,
+      "is_fraud": true,
+      "mean_score": 51.29,
+      "median_score": 52.61,
+      "flagged_top_5pct": 5,
+      "flagged_top_5pct_rate": 3.25,
+      "flagged_top_10pct": 16,
+      "flagged_top_10pct_rate": 10.39
+    },
+    "DOCUMENTATION_DEFICIT": {
+      "total": 71,
+      "is_fraud": true,
+      "mean_score": 74.79,
+      "median_score": 76.39,
+      "flagged_top_5pct": 33,
+      "flagged_top_5pct_rate": 46.48,
+      "flagged_top_10pct": 48,
+      "flagged_top_10pct_rate": 67.61
+    },
+    "GHOST_WORK": {
+      "total": 46,
+      "is_fraud": true,
+      "mean_score": 77.67,
+      "median_score": 75.05,
+      "flagged_top_5pct": 20,
+      "flagged_top_5pct_rate": 43.48,
+      "flagged_top_10pct": 43,
+      "flagged_top_10pct_rate": 93.48
+    },
+    "HIGH_VALUE_LEGITIMATE": {
+      "total": 271,
+      "is_fraud": false,
+      "mean_score": 46.27,
+      "median_score": 44.45,
+      "flagged_top_5pct": 3,
+      "flagged_top_5pct_rate": 1.11,
+      "flagged_top_10pct": 20,
+      "flagged_top_10pct_rate": 7.38
+    },
+    "LEGITIMATE_REMOTE_SINGLE_BID": {
+      "total": 152,
+      "is_fraud": false,
+      "mean_score": 26.37,
+      "median_score": 25.41,
+      "flagged_top_5pct": 1,
+      "flagged_top_5pct_rate": 0.66,
+      "flagged_top_10pct": 4,
+      "flagged_top_10pct_rate": 2.63
+    },
+    "LEGITIMATE_WEATHER_DELAY": {
+      "total": 103,
+      "is_fraud": false,
+      "mean_score": 25.89,
+      "median_score": 21.6,
+      "flagged_top_5pct": 0,
+      "flagged_top_5pct_rate": 0.0,
+      "flagged_top_10pct": 3,
+      "flagged_top_10pct_rate": 2.91
+    },
+    "NORMAL": {
+      "total": 3469,
+      "is_fraud": false,
+      "mean_score": 25.98,
+      "median_score": 23.92,
+      "flagged_top_5pct": 46,
+      "flagged_top_5pct_rate": 1.33,
+      "flagged_top_10pct": 98,
+      "flagged_top_10pct_rate": 2.83
+    },
+    "PAYMENT_PROGRESS_MISMATCH": {
+      "total": 252,
+      "is_fraud": true,
+      "mean_score": 73.57,
+      "median_score": 73.03,
+      "flagged_top_5pct": 92,
+      "flagged_top_5pct_rate": 36.51,
+      "flagged_top_10pct": 158,
+      "flagged_top_10pct_rate": 62.7
+    },
+    "PROCUREMENT_SINGLE_BID": {
+      "total": 103,
+      "is_fraud": true,
+      "mean_score": 27.36,
+      "median_score": 25.31,
+      "flagged_top_5pct": 3,
+      "flagged_top_5pct_rate": 2.91,
+      "flagged_top_10pct": 4,
+      "flagged_top_10pct_rate": 3.88
+    },
+    "SUSPICIOUS_CONTRACTOR_MONOPOLY": {
+      "total": 85,
+      "is_fraud": true,
+      "mean_score": 26.7,
+      "median_score": 28.82,
+      "flagged_top_5pct": 3,
+      "flagged_top_5pct_rate": 3.53,
+      "flagged_top_10pct": 3,
+      "flagged_top_10pct_rate": 3.53
+    }
+  }
+}

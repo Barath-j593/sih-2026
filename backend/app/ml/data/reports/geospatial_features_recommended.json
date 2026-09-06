@@ -1,0 +1,122 @@
+{
+  "model_target": "GeospatialAnomalyModel & ContextualNormalizer",
+  "total_candidate_features": 7,
+  "spatial_features": [
+    {
+      "feature": "project__project_latitude",
+      "subgroup": "Spatial Coordinates",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "project__project_longitude",
+      "subgroup": "Spatial Coordinates",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    }
+  ],
+  "context_features": [
+    {
+      "feature": "geo__population",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__population_density",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__literacy_rate",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__poverty_rate",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__infrastructure_gap_index",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    }
+  ],
+  "features": [
+    {
+      "feature": "project__project_latitude",
+      "subgroup": "Spatial Coordinates",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "project__project_longitude",
+      "subgroup": "Spatial Coordinates",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__population",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "int64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__population_density",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__literacy_rate",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__poverty_rate",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    },
+    {
+      "feature": "geo__infrastructure_gap_index",
+      "subgroup": "Socio-Economic Context",
+      "data_type": "float64",
+      "temporal_status": "SAFE_EARLY_WARNING",
+      "missing_pct": 0.0,
+      "recommended_use": "PRIMARY_NUMERICAL_FEATURE"
+    }
+  ]
+}

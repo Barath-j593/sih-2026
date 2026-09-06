@@ -1,0 +1,237 @@
+{
+  "distribution": {
+    "total_projects": 5000,
+    "flagged_anomaly_count": 251,
+    "flagged_anomaly_pct": 5.0200000000000005,
+    "mean_score": 25.760602000000002,
+    "median_score": 19.18,
+    "std_score": 22.446212725036624,
+    "min_score": 0.0,
+    "max_score": 100.0,
+    "percentile_1": 0.0,
+    "percentile_5": 2.48,
+    "percentile_10": 4.59,
+    "percentile_50": 19.18,
+    "percentile_90": 61.87,
+    "percentile_95": 77.62000000000003,
+    "percentile_99": 99.98020000000001
+  },
+  "fraud_enrichment": {
+    "base_fraud_rate": 0.201,
+    "base_fraud_count": 1005,
+    "top_1_pct": {
+      "tier": "Top 1%",
+      "project_count": 50,
+      "fraud_count": 15,
+      "fraud_rate": 0.3,
+      "fraud_enrichment_factor": 1.4925373134328357,
+      "hard_negative_count": 35,
+      "hard_negative_rate": 0.7
+    },
+    "top_5_pct": {
+      "tier": "Top 5%",
+      "project_count": 250,
+      "fraud_count": 130,
+      "fraud_rate": 0.52,
+      "fraud_enrichment_factor": 2.587064676616915,
+      "hard_negative_count": 120,
+      "hard_negative_rate": 0.48
+    },
+    "top_10_pct": {
+      "tier": "Top 10%",
+      "project_count": 500,
+      "fraud_count": 297,
+      "fraud_rate": 0.594,
+      "fraud_enrichment_factor": 2.9552238805970146,
+      "hard_negative_count": 199,
+      "hard_negative_rate": 0.398
+    },
+    "top_20_pct": {
+      "tier": "Top 20%",
+      "project_count": 1000,
+      "fraud_count": 534,
+      "fraud_rate": 0.534,
+      "fraud_enrichment_factor": 2.656716417910448,
+      "hard_negative_count": 283,
+      "hard_negative_rate": 0.283
+    }
+  },
+  "hard_negatives": {
+    "base_hard_negative_rate": 0.1052,
+    "base_hard_negative_count": 526,
+    "flagged_hard_negative_count": 120,
+    "flagged_hard_negative_rate": 0.47808764940239046,
+    "high_value_legitimate_total": 271,
+    "high_value_legitimate_flagged": 120,
+    "high_value_legitimate_mean_score": 74.49774907749078
+  },
+  "scenarios": {
+    "ABANDONED_WORK": {
+      "total_projects": 76,
+      "is_fraud_scenario": true,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 64.24302631578948,
+      "median_anomaly_score": 63.71,
+      "flagged_at_top5_count": 19,
+      "flagged_at_top5_rate": 0.25,
+      "flagged_at_top10_count": 42,
+      "flagged_at_top10_rate": 0.5526315789473685
+    },
+    "COST_OVERRUN": {
+      "total_projects": 218,
+      "is_fraud_scenario": true,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 74.86321100917431,
+      "median_anomaly_score": 74.865,
+      "flagged_at_top5_count": 93,
+      "flagged_at_top5_rate": 0.42660550458715596,
+      "flagged_at_top10_count": 178,
+      "flagged_at_top10_rate": 0.8165137614678899
+    },
+    "DELAYED_WORK": {
+      "total_projects": 154,
+      "is_fraud_scenario": true,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 60.98350649350649,
+      "median_anomaly_score": 60.455,
+      "flagged_at_top5_count": 18,
+      "flagged_at_top5_rate": 0.11688311688311688,
+      "flagged_at_top10_count": 73,
+      "flagged_at_top10_rate": 0.474025974025974
+    },
+    "DOCUMENTATION_DEFICIT": {
+      "total_projects": 71,
+      "is_fraud_scenario": true,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 30.48098591549296,
+      "median_anomaly_score": 30.19,
+      "flagged_at_top5_count": 0,
+      "flagged_at_top5_rate": 0.0,
+      "flagged_at_top10_count": 0,
+      "flagged_at_top10_rate": 0.0
+    },
+    "GHOST_WORK": {
+      "total_projects": 46,
+      "is_fraud_scenario": true,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 32.2504347826087,
+      "median_anomaly_score": 25.595,
+      "flagged_at_top5_count": 1,
+      "flagged_at_top5_rate": 0.021739130434782608,
+      "flagged_at_top10_count": 2,
+      "flagged_at_top10_rate": 0.043478260869565216
+    },
+    "HIGH_VALUE_LEGITIMATE": {
+      "total_projects": 271,
+      "is_fraud_scenario": false,
+      "is_hard_negative_scenario": true,
+      "mean_anomaly_score": 74.49774907749078,
+      "median_anomaly_score": 74.17,
+      "flagged_at_top5_count": 120,
+      "flagged_at_top5_rate": 0.44280442804428044,
+      "flagged_at_top10_count": 199,
+      "flagged_at_top10_rate": 0.7343173431734318
+    },
+    "LEGITIMATE_REMOTE_SINGLE_BID": {
+      "total_projects": 152,
+      "is_fraud_scenario": false,
+      "is_hard_negative_scenario": true,
+      "mean_anomaly_score": 17.088815789473685,
+      "median_anomaly_score": 15.32,
+      "flagged_at_top5_count": 0,
+      "flagged_at_top5_rate": 0.0,
+      "flagged_at_top10_count": 0,
+      "flagged_at_top10_rate": 0.0
+    },
+    "LEGITIMATE_WEATHER_DELAY": {
+      "total_projects": 103,
+      "is_fraud_scenario": false,
+      "is_hard_negative_scenario": true,
+      "mean_anomaly_score": 16.989029126213588,
+      "median_anomaly_score": 16.31,
+      "flagged_at_top5_count": 0,
+      "flagged_at_top5_rate": 0.0,
+      "flagged_at_top10_count": 0,
+      "flagged_at_top10_rate": 0.0
+    },
+    "NORMAL": {
+      "total_projects": 3469,
+      "is_fraud_scenario": false,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 17.119259152493512,
+      "median_anomaly_score": 15.47,
+      "flagged_at_top5_count": 0,
+      "flagged_at_top5_rate": 0.0,
+      "flagged_at_top10_count": 4,
+      "flagged_at_top10_rate": 0.0011530700490054772
+    },
+    "PAYMENT_PROGRESS_MISMATCH": {
+      "total_projects": 252,
+      "is_fraud_scenario": true,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 28.52781746031746,
+      "median_anomaly_score": 26.345,
+      "flagged_at_top5_count": 0,
+      "flagged_at_top5_rate": 0.0,
+      "flagged_at_top10_count": 2,
+      "flagged_at_top10_rate": 0.007936507936507936
+    },
+    "PROCUREMENT_SINGLE_BID": {
+      "total_projects": 103,
+      "is_fraud_scenario": true,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 18.794757281553398,
+      "median_anomaly_score": 16.77,
+      "flagged_at_top5_count": 0,
+      "flagged_at_top5_rate": 0.0,
+      "flagged_at_top10_count": 1,
+      "flagged_at_top10_rate": 0.009708737864077669
+    },
+    "SUSPICIOUS_CONTRACTOR_MONOPOLY": {
+      "total_projects": 85,
+      "is_fraud_scenario": true,
+      "is_hard_negative_scenario": false,
+      "mean_anomaly_score": 17.804588235294112,
+      "median_anomaly_score": 15.17,
+      "flagged_at_top5_count": 0,
+      "flagged_at_top5_rate": 0.0,
+      "flagged_at_top10_count": 0,
+      "flagged_at_top10_rate": 0.0
+    }
+  },
+  "baseline_comparison": {
+    "baseline_1_peer_cost_deviation": {
+      "name": "Peer Cost Deviation",
+      "top1_fraud_rate": 0.0,
+      "top1_enrichment": 0.0,
+      "top5_fraud_rate": 0.0,
+      "top5_enrichment": 0.0,
+      "top10_fraud_rate": 0.096,
+      "top10_enrichment": 0.47761194029850745,
+      "top5_hard_negative_rate": 1.0,
+      "high_value_legitimate_false_positive_rate": 0.9261992619926199
+    },
+    "baseline_2_multi_attribute_zscore": {
+      "name": "Multi-Attribute Robust Z-Score",
+      "top1_fraud_rate": 0.06,
+      "top1_enrichment": 0.29850746268656714,
+      "top5_fraud_rate": 0.048,
+      "top5_enrichment": 0.23880597014925373,
+      "top10_fraud_rate": 0.17,
+      "top10_enrichment": 0.845771144278607,
+      "top5_hard_negative_rate": 0.916,
+      "high_value_legitimate_false_positive_rate": 0.8450184501845018
+    },
+    "isolation_forest": {
+      "name": "Isolation Forest (Stage 2B Model)",
+      "top1_fraud_rate": 0.3,
+      "top1_enrichment": 1.4925373134328357,
+      "top5_fraud_rate": 0.52,
+      "top5_enrichment": 2.587064676616915,
+      "top10_fraud_rate": 0.594,
+      "top10_enrichment": 2.9552238805970146,
+      "top5_hard_negative_rate": 0.48,
+      "high_value_legitimate_false_positive_rate": 0.44280442804428044
+    }
+  }
+}

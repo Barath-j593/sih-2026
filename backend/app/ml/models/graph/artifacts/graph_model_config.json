@@ -1,0 +1,9 @@
+{
+  "model_name": "graph_isolation_forest",
+  "version": "1.0.0",
+  "mode": "early_warning",
+  "n_estimators": 200,
+  "contamination": 0.05,
+  "random_state": 42,
+  "pagerank_alpha": 0.85
+}

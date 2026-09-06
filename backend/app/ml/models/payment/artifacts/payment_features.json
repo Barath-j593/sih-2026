@@ -1,0 +1,29 @@
+{
+  "features": [
+    "payment__unverified_payment_rate",
+    "payment__unverified_payment_count",
+    "payment__round_number_payment_rate",
+    "payment__round_number_payment_count",
+    "payment__payment_timing_anomaly_rate",
+    "payment__payment_timing_anomaly_count",
+    "payment__payment_concentration_max",
+    "payment__final_installment_share",
+    "payment__payment_frequency_mean",
+    "payment__payment_interval_std",
+    "payment__average_days_between_payments",
+    "payment__median_days_between_payments",
+    "financial__fund_utilization_ratio",
+    "financial__release_ratio",
+    "financial__expenditure_ratio",
+    "project__planned_duration_days",
+    "payment__statutory_smurfing_score",
+    "payment__unverified_exposure_index",
+    "payment__disbursement_velocity_ratio",
+    "payment__disbursement_lumpiness_index",
+    "payment__rapid_disbursement_flag",
+    "payment__payment_timing_risk_index",
+    "payment__peer_velocity_mean_z",
+    "payment__peer_concentration_z"
+  ],
+  "count": 24
+}

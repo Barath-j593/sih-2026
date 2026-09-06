@@ -1,0 +1,10 @@
+{
+  "model_name": "progress_isolation_forest",
+  "version": "1.0.0",
+  "mode": "early_warning",
+  "n_estimators": 200,
+  "contamination": 0.05,
+  "random_state": 42,
+  "divergence_threshold": 30.0,
+  "stall_duration_days": 180.0
+}

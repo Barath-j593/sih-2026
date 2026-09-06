@@ -1,0 +1,6 @@
+{
+  "trained_at": "2026-09-06T09:32:21.537385+00:00",
+  "n_projects": 5000,
+  "n_features": 25,
+  "estimator": "IsolationForest"
+}
