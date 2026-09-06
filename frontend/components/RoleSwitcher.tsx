@@ -139,8 +139,14 @@ export function RoleSwitcher() {
     };
   }, []);
 
-  // If on landing page "/", forensic audit ledger "/works", or graph page "/graph", don't show sticky role switcher
-  if (pathname === "/" || pathname?.startsWith("/works") || pathname?.startsWith("/graph")) {
+  // Only display the governance tier switcher on pages that directly utilize role-scoped views (/dashboard and /reports)
+  const isRoleScopedPage =
+    pathname === "/dashboard" ||
+    pathname?.startsWith("/dashboard/") ||
+    pathname === "/reports" ||
+    pathname?.startsWith("/reports/");
+
+  if (!isRoleScopedPage) {
     return null;
   }
 
