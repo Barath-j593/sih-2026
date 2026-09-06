@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from app.core.config import settings
 from app.core.database import engine, Base, SessionLocal
 from app.api.routers import (
-    auth, dashboard, works, geo, graph, alerts, cases, reports, model_metrics, future_stubs
+    auth, dashboard, works, geo, graph, alerts, cases, reports, model_metrics, future_stubs, risk_intelligence
 )
 from app.ml.models.model_registry import get_model_registry
 from app.ml.data.real_data_loader import load_real_mplads_data
@@ -59,6 +59,7 @@ app.include_router(cases.router, prefix=settings.API_V1_STR)
 app.include_router(reports.router, prefix=settings.API_V1_STR)
 app.include_router(model_metrics.router, prefix=settings.API_V1_STR)
 app.include_router(future_stubs.router, prefix=settings.API_V1_STR)
+app.include_router(risk_intelligence.router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 def root():
