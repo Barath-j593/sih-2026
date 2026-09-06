@@ -64,11 +64,11 @@ class MultiAttributeRobustZScoreBaseline:
         return self
 
     def _compute_composite(self, df_features: pd.DataFrame) -> np.ndarray:
-        cost_z = np.abs(df_features.get("peer__cost_work_type_robust_z", np.zeros(len(df_features))).values)
-        unit_z = np.abs(df_features.get("peer__unit_cost_work_type_robust_z", np.zeros(len(df_features))).values)
-        vel_z = np.maximum(0.0, df_features.get("peer__payment_velocity_work_type_robust_z", np.zeros(len(df_features))).values)
-        unverified = df_features.get("payment__unverified_payment_rate", np.zeros(len(df_features))).values
-        c_val_chg = np.maximum(0.0, df_features.get("contract__contract_value_change", np.zeros(len(df_features))).values)
+        cost_z = np.abs(df_features.get("peer__cost_work_type_robust_z", pd.Series(0.0, index=df_features.index)).values)
+        unit_z = np.abs(df_features.get("peer__unit_cost_work_type_robust_z", pd.Series(0.0, index=df_features.index)).values)
+        vel_z = np.maximum(0.0, df_features.get("peer__payment_velocity_work_type_robust_z", pd.Series(0.0, index=df_features.index)).values)
+        unverified = df_features.get("payment__unverified_payment_rate", pd.Series(0.0, index=df_features.index)).values
+        c_val_chg = np.maximum(0.0, df_features.get("contract__contract_value_change", pd.Series(0.0, index=df_features.index)).values)
 
         composite = (
             0.30 * cost_z +

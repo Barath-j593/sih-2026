@@ -100,7 +100,7 @@ class FinancialPreprocessor:
 
     def _engineer_peer_features(self, df: pd.DataFrame) -> pd.DataFrame:
         """Create robust peer-relative deviation and z-score features."""
-        peer_df = pd.DataFrame(index=df.index)
+        peer_dict = {}
 
         def get_stats(col: str, group_key: str, group_col: str):
             medians = []
@@ -128,49 +128,49 @@ class FinancialPreprocessor:
         if "financial__estimated_cost" in df.columns:
             cost_med, cost_mad = get_stats("financial__estimated_cost", "work_type", self.config.primary_peer_column)
             raw_cost = df["financial__estimated_cost"].values
-            peer_df["peer__cost_diff_work_type_median"] = raw_cost - cost_med
-            peer_df["peer__cost_ratio_work_type_median"] = (raw_cost + eps) / (cost_med + eps)
-            peer_df["peer__cost_work_type_robust_z"] = (raw_cost - cost_med) / (mult * cost_mad + eps)
+            peer_dict["peer__cost_diff_work_type_median"] = raw_cost - cost_med
+            peer_dict["peer__cost_ratio_work_type_median"] = (raw_cost + eps) / (cost_med + eps)
+            peer_dict["peer__cost_work_type_robust_z"] = (raw_cost - cost_med) / (mult * cost_mad + eps)
 
         # Peer Cost per unit features (work type)
         if "financial__cost_per_unit" in df.columns:
             unit_med, unit_mad = get_stats("financial__cost_per_unit", "work_type", self.config.primary_peer_column)
             raw_unit = df["financial__cost_per_unit"].values
-            peer_df["peer__unit_cost_ratio_work_type_median"] = (raw_unit + eps) / (unit_med + eps)
-            peer_df["peer__unit_cost_work_type_robust_z"] = (raw_unit - unit_med) / (mult * unit_mad + eps)
+            peer_dict["peer__unit_cost_ratio_work_type_median"] = (raw_unit + eps) / (unit_med + eps)
+            peer_dict["peer__unit_cost_work_type_robust_z"] = (raw_unit - unit_med) / (mult * unit_mad + eps)
 
         # Peer Cost deviation robust z (work type)
         if "financial__cost_deviation" in df.columns:
             cdev_med, cdev_mad = get_stats("financial__cost_deviation", "work_type", self.config.primary_peer_column)
             raw_cdev = df["financial__cost_deviation"].values
-            peer_df["peer__cost_deviation_work_type_robust_z"] = (raw_cdev - cdev_med) / (mult * cdev_mad + eps)
+            peer_dict["peer__cost_deviation_work_type_robust_z"] = (raw_cdev - cdev_med) / (mult * cdev_mad + eps)
 
         # Peer Payment Velocity robust z (work type)
         if "payment__payment_velocity_mean" in df.columns:
             vel_med, vel_mad = get_stats("payment__payment_velocity_mean", "work_type", self.config.primary_peer_column)
             raw_vel = df["payment__payment_velocity_mean"].values
-            peer_df["peer__payment_velocity_ratio_work_type_median"] = (raw_vel + eps) / (vel_med + eps)
-            peer_df["peer__payment_velocity_work_type_robust_z"] = (raw_vel - vel_med) / (mult * vel_mad + eps)
+            peer_dict["peer__payment_velocity_ratio_work_type_median"] = (raw_vel + eps) / (vel_med + eps)
+            peer_dict["peer__payment_velocity_work_type_robust_z"] = (raw_vel - vel_med) / (mult * vel_mad + eps)
 
         # Peer Payment Concentration robust z (work type)
         if "payment__payment_concentration_max" in df.columns:
             conc_med, conc_mad = get_stats("payment__payment_concentration_max", "work_type", self.config.primary_peer_column)
             raw_conc = df["payment__payment_concentration_max"].values
-            peer_df["peer__payment_concentration_work_type_robust_z"] = (raw_conc - conc_med) / (mult * conc_mad + eps)
+            peer_dict["peer__payment_concentration_work_type_robust_z"] = (raw_conc - conc_med) / (mult * conc_mad + eps)
 
         # Peer Contract Value Change robust z (work type)
         if "contract__contract_value_change" in df.columns:
             cvc_med, cvc_mad = get_stats("contract__contract_value_change", "work_type", self.config.primary_peer_column)
             raw_cvc = df["contract__contract_value_change"].values
-            peer_df["peer__contract_value_change_work_type_robust_z"] = (raw_cvc - cvc_med) / (mult * cvc_mad + eps)
+            peer_dict["peer__contract_value_change_work_type_robust_z"] = (raw_cvc - cvc_med) / (mult * cvc_mad + eps)
 
         # Peer Cost Category robust z (category)
         if "financial__estimated_cost" in df.columns:
             cat_med, cat_mad = get_stats("financial__estimated_cost", "category", self.config.secondary_peer_column)
             raw_cost = df["financial__estimated_cost"].values
-            peer_df["peer__cost_category_robust_z"] = (raw_cost - cat_med) / (mult * cat_mad + eps)
+            peer_dict["peer__cost_category_robust_z"] = (raw_cost - cat_med) / (mult * cat_mad + eps)
 
-        return peer_df
+        return pd.DataFrame(peer_dict, index=df.index)
 
     def fit(self, df: pd.DataFrame) -> "FinancialPreprocessor":
         """Fit the preprocessor on master features."""

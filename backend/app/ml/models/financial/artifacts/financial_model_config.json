@@ -12,7 +12,7 @@
   "peer_mad_multiplier": 1.4826,
   "peer_epsilon": 1e-06,
   "anomaly_percentile_cutoff": 95.0,
-  "base_financial_features_count": 50,
+  "base_financial_features_count": 29,
   "retrospective_features_count": 5,
   "quarantined_labels_count": 9,
   "master_features_path": "backend/app/ml/data/processed/project_master_features.csv",

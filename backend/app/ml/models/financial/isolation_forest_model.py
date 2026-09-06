@@ -107,6 +107,7 @@ class FinancialIsolationForestModel:
             if unverified_rate > 0.0:
                 cand_reasons.append((
                     unverified_rate * 5.0,
+                    
                     f"High unverified disbursement rate ({unverified_rate*100:.1f}% unverified payments)"
                 ))
 

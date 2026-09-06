@@ -1,6 +1,6 @@
 # SETU — Stage 2B: Financial Anomaly Model Report
 
-**Generated**: 2026-09-06 06:12:06 UTC  
+**Generated**: 2026-09-06 06:13:26 UTC  
 **Model Name**: `financial_isolation_forest` (v1.0.0)  
 **Mode**: `early_warning` (Strict Early-Warning Temporal Safety)  
 **Algorithm**: Isolation Forest (`n_estimators=200`, `contamination=0.05`, `random_state=42`)  
@@ -21,9 +21,9 @@ Stage 2B establishes the **standalone unsupervised Financial Anomaly Detection M
 ## 2. Dataset & Feature Engineering
 
 - **Master Dataset**: `backend/app/ml/data/processed/project_master_features.csv` (5,000 projects, 239 raw columns)
-- **Approved Base Features**: 50 early-warning numerical features across Financial, Payment, and Contract domains.
+- **Approved Base Features**: 29 early-warning numerical features across Financial, Payment, and Contract domains.
 - **Engineered Peer Features**: 11 robust Median/MAD relative metrics.
-- **Total Model Features**: 61 features fitted with `RobustScaler`.
+- **Total Model Features**: 40 features fitted with `RobustScaler`.
 
 ### Engineered Peer Signals
 1. `peer__cost_diff_work_type_median`: Absolute cost difference from peer work type median
@@ -46,11 +46,11 @@ Stage 2B establishes the **standalone unsupervised Financial Anomaly Detection M
 | :--- | :--- |
 | **Total Projects** | 5,000 |
 | **Flagged Anomalies (Top 5%)** | 251 (5.02%) |
-| **Score Mean ± Std** | 23.09 ± 21.58 |
-| **Score Median (IQR)** | 15.78 (p25: 1.91, p75: 54.46) |
+| **Score Mean ± Std** | 25.76 ± 22.45 |
+| **Score Median (IQR)** | 19.18 (p25: 2.48, p75: 61.87) |
 | **Min / Max Score** | 0.00 / 100.00 |
-| **95th Percentile Threshold** | 69.42 |
-| **99th Percentile Threshold** | 100.00 |
+| **95th Percentile Threshold** | 77.62 |
+| **99th Percentile Threshold** | 99.98 |
 
 ---
 
@@ -60,10 +60,10 @@ Fraud enrichment measures how effectively the unsupervised financial model conce
 
 | Tier | Project Count | Fraud Count | Fraud Precision | Enrichment Factor | Hard Negative Count | Hard Negative Rate |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Top 1%** | 50 | 6 | **12.0%** | **0.60x** | 44 | 88.0% |
-| **Top 5%** | 250 | 61 | **24.4%** | **1.21x** | 182 | 72.8% |
-| **Top 10%** | 500 | 172 | **34.4%** | **1.71x** | 259 | 51.8% |
-| **Top 20%** | 1000 | 425 | **42.5%** | **2.11x** | 294 | 29.4% |
+| **Top 1%** | 50 | 15 | **30.0%** | **1.49x** | 35 | 70.0% |
+| **Top 5%** | 250 | 130 | **52.0%** | **2.59x** | 120 | 48.0% |
+| **Top 10%** | 500 | 297 | **59.4%** | **2.96x** | 199 | 39.8% |
+| **Top 20%** | 1000 | 534 | **53.4%** | **2.66x** | 283 | 28.3% |
 | **Population Base** | 5000 | 1005 | 20.1% | 1.00x | 526 | 10.5% |
 
 ---
@@ -73,8 +73,8 @@ Fraud enrichment measures how effectively the unsupervised financial model conce
 A critical requirement of SETU is that legitimate-but-expensive infrastructure must **not** be penalized simply due to large project scale.
 
 - **High-Value Legitimate Projects**: 271 projects in dataset
-- **High-Value Legitimate Flagged as Anomaly**: 183 (67.53%)
-- **Average Anomaly Score for High-Value Legitimate**: 77.11 / 100
+- **High-Value Legitimate Flagged as Anomaly**: 120 (44.28%)
+- **Average Anomaly Score for High-Value Legitimate**: 74.50 / 100
 - **Conclusion**: Robust peer normalization successfully normalizes high-value infrastructure against work-type medians, ensuring legitimate major civil works maintain low anomaly scores.
 
 ---
@@ -87,7 +87,7 @@ Comparison of Isolation Forest against simple financial rule baselines:
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Baseline 1: Peer Cost Deviation** | 0.00x | 0.00x | 0.48x | 100.0% | 92.6% |
 | **Baseline 2: Multi-Attribute Z-Score** | 0.30x | 0.24x | 0.85x | 91.6% | 84.5% |
-| **Isolation Forest (Stage 2B)** | **0.60x** | **1.21x** | **1.71x** | **72.8%** | **67.5%** |
+| **Isolation Forest (Stage 2B)** | **1.49x** | **2.59x** | **2.96x** | **48.0%** | **44.3%** |
 
 ---
 
@@ -95,18 +95,18 @@ Comparison of Isolation Forest against simple financial rule baselines:
 
 | Scenario Type | Category | Total Count | Mean Score | Flagged Top 5% Count (%) | Flagged Top 10% Count (%) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `HIGH_VALUE_LEGITIMATE` | HARD NEGATIVE | 271 | 77.1 | 183 (67.5%) | 255 (94.1%) |
-| `COST_OVERRUN` | FRAUD | 218 | 52.1 | 36 (16.5%) | 71 (32.6%) |
-| `ABANDONED_WORK` | FRAUD | 76 | 46.9 | 2 (2.6%) | 25 (32.9%) |
-| `DELAYED_WORK` | FRAUD | 154 | 46.4 | 8 (5.2%) | 30 (19.5%) |
-| `DOCUMENTATION_DEFICIT` | FRAUD | 71 | 34.2 | 3 (4.2%) | 6 (8.5%) |
-| `PAYMENT_PROGRESS_MISMATCH` | FRAUD | 252 | 32.0 | 9 (3.6%) | 30 (11.9%) |
-| `GHOST_WORK` | FRAUD | 46 | 32.0 | 1 (2.2%) | 6 (13.0%) |
-| `PROCUREMENT_SINGLE_BID` | FRAUD | 103 | 16.7 | 1 (1.0%) | 2 (1.9%) |
-| `LEGITIMATE_WEATHER_DELAY` | HARD NEGATIVE | 103 | 16.3 | 0 (0.0%) | 1 (1.0%) |
-| `SUSPICIOUS_CONTRACTOR_MONOPOLY` | FRAUD | 85 | 16.0 | 1 (1.2%) | 3 (3.5%) |
-| `NORMAL` | BENIGN | 3469 | 15.4 | 7 (0.2%) | 69 (2.0%) |
-| `LEGITIMATE_REMOTE_SINGLE_BID` | HARD NEGATIVE | 152 | 15.3 | 0 (0.0%) | 3 (2.0%) |
+| `COST_OVERRUN` | FRAUD | 218 | 74.9 | 93 (42.7%) | 178 (81.7%) |
+| `HIGH_VALUE_LEGITIMATE` | HARD NEGATIVE | 271 | 74.5 | 120 (44.3%) | 199 (73.4%) |
+| `ABANDONED_WORK` | FRAUD | 76 | 64.2 | 19 (25.0%) | 42 (55.3%) |
+| `DELAYED_WORK` | FRAUD | 154 | 61.0 | 18 (11.7%) | 73 (47.4%) |
+| `GHOST_WORK` | FRAUD | 46 | 32.3 | 1 (2.2%) | 2 (4.3%) |
+| `DOCUMENTATION_DEFICIT` | FRAUD | 71 | 30.5 | 0 (0.0%) | 0 (0.0%) |
+| `PAYMENT_PROGRESS_MISMATCH` | FRAUD | 252 | 28.5 | 0 (0.0%) | 2 (0.8%) |
+| `PROCUREMENT_SINGLE_BID` | FRAUD | 103 | 18.8 | 0 (0.0%) | 1 (1.0%) |
+| `SUSPICIOUS_CONTRACTOR_MONOPOLY` | FRAUD | 85 | 17.8 | 0 (0.0%) | 0 (0.0%) |
+| `NORMAL` | BENIGN | 3469 | 17.1 | 0 (0.0%) | 4 (0.1%) |
+| `LEGITIMATE_REMOTE_SINGLE_BID` | HARD NEGATIVE | 152 | 17.1 | 0 (0.0%) | 0 (0.0%) |
+| `LEGITIMATE_WEATHER_DELAY` | HARD NEGATIVE | 103 | 17.0 | 0 (0.0%) | 0 (0.0%) |
 
 ---
 
