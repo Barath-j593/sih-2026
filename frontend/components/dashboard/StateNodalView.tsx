@@ -24,6 +24,8 @@ import { DistrictDrilldownMap } from "../maps/DistrictDrilldownMap";
 import { FraudEvidenceVisualizer } from "../ui/FraudEvidenceVisualizer";
 import { StateVendorConcentrationMatrix } from "./visualizers/StateVendorConcentrationMatrix";
 import { MagicCard } from "../ui/MagicCard";
+import { formatTypologyLabel } from "../../lib/typologies";
+import { formatDistrictName } from "../../lib/districts";
 
 interface StateNodalViewProps {
   data: DashboardData;
@@ -101,7 +103,7 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
         />
         <StatCard
           title="Highest Anomaly District"
-          value={highestRiskDistrict ? highestRiskDistrict.district : "N/A"}
+          value={highestRiskDistrict ? formatDistrictName(highestRiskDistrict.district, jurisdiction) : "N/A"}
           subtitle={
             highestRiskDistrict
               ? `${highestRiskDistrict.flagged_count} flagged works (${highestRiskDistrict.risk_percentage}%)`
@@ -147,7 +149,7 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
             {fraud_breakdown.map((item) => (
               <div key={item.fraud_type} className="rounded-lg border border-[#E5DFD3] bg-[#FAF7F2] p-3 shadow-2xs">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#1C1917]">{item.label}</span>
+                  <span className="font-bold text-[#1C1917]">{formatTypologyLabel(item.label || item.fraud_type)}</span>
                   <span className="font-mono font-bold text-[#6E4529]">{item.count} flagged</span>
                 </div>
                 <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-stone-200">

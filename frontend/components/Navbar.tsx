@@ -63,6 +63,7 @@ export function Navbar() {
     { href: "/alerts", label: "Audit Alerts", badge: "14 High", badgeColor: "bg-rose-500/20 text-rose-400 border-rose-500/30", hotkey: "5" },
     { href: "/cases", label: "Case Kanban", badge: "Triage", hotkey: "6" },
     { href: "/reports", label: "Audit Dossiers", badge: "CAG", hotkey: "7" },
+    { href: "/proposals", label: "Proposal Scorer", badge: "Live ML", badgeColor: "bg-amber-500/20 text-amber-400 border-amber-500/30", hotkey: "8" },
   ];
 
   // On landing page "/", completely remove navbar per user instruction

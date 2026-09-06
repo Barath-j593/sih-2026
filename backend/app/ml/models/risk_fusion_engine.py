@@ -69,29 +69,31 @@ class RiskFusionEngine:
         )
         supervised_component = float(fraud_probability) * 100.0
 
-        # Weighted blend: 60% supervised calibrated probability + 40% unsupervised multi-domain intermediate signals
-        fused = 0.60 * supervised_component + 0.40 * unsupervised_component
-
-        # Critical override: If fraud probability >= 0.85, floor risk score at 80.0 (CRITICAL tier)
-        if fraud_probability >= 0.85:
-            fused = max(fused, 80.0)
-
-        # High override: If any domain score >= 95.0 and fraud probability >= 0.35, floor at 65.0 (HIGH tier)
         max_domain = max(
             [float(domain_scores.get(c, 0.0) or 0.0) for c in self.weights.keys()] or [0.0]
         )
-        if max_domain >= 95.0 and fraud_probability >= 0.35:
+
+        # Multi-signal triangulation:
+        # Balanced blend: 40% supervised calibrated probability + 35% unsupervised multi-domain signals + 25% peak domain anomaly
+        fused = 0.40 * supervised_component + 0.35 * unsupervised_component + 0.25 * max_domain
+
+        # Acute overrides: Ensure projects with acute fraud/anomaly signals in any domain are not diluted away
+        if fraud_probability >= 0.70 or max_domain >= 88.0:
+            fused = max(fused, 82.0)
+        elif fraud_probability >= 0.35 or max_domain >= 68.0:
             fused = max(fused, 65.0)
+        elif fraud_probability >= 0.12 or max_domain >= 48.0:
+            fused = max(fused, 42.0)
 
         return round(float(np.clip(fused, 0.0, 100.0)), 1)
 
     def classify_risk_tier(self, score: float, fraud_probability: float) -> str:
         """Classify project into one of 4 administrative risk tiers."""
-        if score >= 80.0 or fraud_probability >= 0.85:
+        if score >= 80.0 or fraud_probability >= 0.70:
             return "CRITICAL"
-        elif score >= 60.0:
+        elif score >= 60.0 or fraud_probability >= 0.35:
             return "HIGH"
-        elif score >= 40.0:
+        elif score >= 40.0 or fraud_probability >= 0.12:
             return "MEDIUM"
         else:
             return "LOW"

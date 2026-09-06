@@ -36,15 +36,15 @@ def get_available_entities(db: Session, state: Optional[str] = None) -> Dict[str
     ).distinct().order_by(Work.state).all()
     states = [s[0] for s in state_rows if s[0]]
 
-    # 2. Distinct Districts / Constituencies (optionally filtered by state)
-    dist_query = db.query(Work.constituency).filter(
-        Work.constituency.isnot(None),
-        Work.constituency != ""
+    # 2. Distinct Districts (optionally filtered by state)
+    dist_query = db.query(Work.city).filter(
+        Work.city.isnot(None),
+        Work.city != ""
     )
     if state and state.strip() and state.strip().lower() not in ["all", "all india", "national"]:
         dist_query = dist_query.filter(func.lower(Work.state) == state.strip().lower())
     
-    dist_rows = dist_query.distinct().order_by(Work.constituency).all()
+    dist_rows = dist_query.distinct().order_by(Work.city).all()
     districts = [d[0] for d in dist_rows if d[0]]
 
     # 3. Distinct MPs (optionally filtered by state)
@@ -322,19 +322,19 @@ def get_network_graph_data(
 
     # Dynamic Inter-District Allocation Matrix for this state
     dist_in_state_q = db.query(
-        Work.constituency,
+        Work.city,
         func.count(Work.id).label("works"),
         func.sum(Work.allocation_amount).label("capital"),
         func.avg(Work.risk_score).label("avg_risk")
     ).filter(
         func.lower(Work.state) == target_state.lower(),
-        Work.constituency.isnot(None),
-        Work.constituency != ""
-    ).group_by(Work.constituency).order_by(desc("capital")).all()
+        Work.city.isnot(None),
+        Work.city != ""
+    ).group_by(Work.city).order_by(desc("capital")).all()
 
     inter_district_matrix = [
         {
-            "district": d.constituency,
+            "district": d.city,
             "works": int(d.works or 0),
             "capital": float(d.capital or 0.0),
             "concentration_share": round((float(d.capital or 0.0) / st_tot_cap) * 100, 1),

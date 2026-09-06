@@ -61,19 +61,23 @@ def get_district_drilldown_data(db: Session, state: str) -> List[Dict[str, Any]]
     query = db.query(Work).filter(func.lower(Work.state) == state.lower())
     
     stats = db.query(
-        Work.constituency,
+        Work.city,
         func.count(Work.id).label("total_works"),
         func.sum(Work.allocation_amount).label("total_allocation"),
         func.avg(Work.risk_score).label("avg_risk_score"),
         func.sum(case((Work.risk_score >= 60, 1), else_=0)).label("flagged_count"),
         func.sum(case((Work.risk_score >= 60, Work.allocation_amount), else_=0)).label("risk_amount")
-    ).filter(func.lower(Work.state) == state.lower()).group_by(Work.constituency).all()
+    ).filter(
+        func.lower(Work.state) == state.lower(),
+        Work.city.isnot(None),
+        Work.city != ""
+    ).group_by(Work.city).all()
 
     st_coords = STATE_COORDINATES.get(state, {"lat": 20.5937, "lng": 78.9629})
     result = []
     for i, row in enumerate(stats):
         avg_r = float(row.avg_risk_score or 0.0)
-        c_name = row.constituency or "District"
+        c_name = row.city or "District"
         # Spread pins nicely around state center
         angle = (i * 360.0 / max(1, len(stats))) * (3.14159 / 180.0)
         radius = 0.5 + (i % 3) * 0.4

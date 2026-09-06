@@ -20,6 +20,7 @@ from app.models.ida import IDA
 from app.models.mp import MP
 from app.models.user import User
 from app.models.work import Work
+from app.core.district_names import resolve_district_name, resolve_constituency_name
 
 
 def seed_demo_users(db: Session) -> None:
@@ -186,15 +187,26 @@ def sync_fused_risk_to_database(
         agency_name = str(row.get("agency_name", f"District Authority {aid}"))
         house = str(row.get("mp_house", "Lok Sabha"))
 
+        st_name = str(row.get("state_name", "National"))
+        raw_dist = str(row.get("district_name", ""))
+        raw_const = str(row.get("constituency_name", "Constituency"))
+        resolved_dist = resolve_district_name(raw_dist, st_name)
+        resolved_const = resolve_constituency_name(raw_const, st_name)
+
+        if resolved_dist.lower() == "darbhanga":
+            mp_name = "Mr Gopal Jee Thakur"
+        elif resolved_dist.lower() == "saran":
+            mp_name = "Rajiv Pratap Rudy"
+
         w_obj = Work(
             id=p_id,
             mp_name=mp_name,
             work=str(row.get("work_name", "Public Infrastructure Work")),
             category=str(row.get("category", "Public Infrastructure")),
-            state=str(row.get("state_name", "National")),
-            constituency=str(row.get("constituency_name", "Constituency")),
+            state=st_name,
+            constituency=resolved_const,
             ida=agency_name,
-            city=str(row.get("district_name", "")),
+            city=resolved_dist,
             recommended_date=str(row.get("recommendation_date", "2023-01-01")),
             allocation_amount=float(row.get("sanctioned_amount", 0.0) or 0.0),
             status=str(row.get("status", "SANCTIONED")),
@@ -222,8 +234,8 @@ def sync_fused_risk_to_database(
                 severity=risk_level,
                 work_id=p_id,
                 mp_name=mp_name,
-                state=str(row.get("state_name", "National")),
-                district=str(row.get("district_name", "District")),
+                state=st_name,
+                district=resolved_dist,
                 ida=agency_name,
                 fraud_type=typology,
                 risk_score=risk_score,
@@ -246,8 +258,8 @@ def sync_fused_risk_to_database(
                 priority="critical",
                 work_id=p_id,
                 mp_name=mp_name,
-                state=str(row.get("state_name", "National")),
-                district=str(row.get("district_name", "District")),
+                state=st_name,
+                district=resolved_dist,
                 ida=agency_name,
                 risk_score=risk_score,
                 fraud_type=typology,
@@ -319,12 +331,14 @@ def sync_fused_risk_to_database(
             agency_name = f"{raw_agency_name} ({ida_id})"
         seen_ida_names.add(agency_name)
 
+        ida_state = str(grp["state_name"].iloc[0])
+        ida_district = resolve_district_name(str(grp["district_name"].iloc[0]), ida_state)
         top_mps = grp["constituency_name"].value_counts().head(5).to_dict()
         ida_rec = IDA(
             id=f"IDA-{ida_id}",
             name=agency_name,
-            state=str(grp["state_name"].iloc[0]),
-            district=str(grp["district_name"].iloc[0]),
+            state=ida_state,
+            district=ida_district,
             total_works=len(grp),
             total_allocation=float(grp["sanctioned_amount"].sum()),
             avg_risk_score=round(float(grp["overall_risk_score"].mean()), 1),
@@ -337,17 +351,20 @@ def sync_fused_risk_to_database(
     # Constituency Aggregates
     seen_const_names = set()
     for const_id, grp in mp_groups:
-        raw_const_name = str(grp["constituency_name"].iloc[0])
+        const_state = str(grp["state_name"].iloc[0])
+        raw_const_name = resolve_constituency_name(str(grp["constituency_name"].iloc[0]), const_state)
         const_name = raw_const_name
         if const_name in seen_const_names:
             const_name = f"{raw_const_name} ({const_id})"
         seen_const_names.add(const_name)
 
-        raw_mp_name = str(grp["mp_name"].iloc[0]) if "mp_name" in grp.columns and pd.notna(grp["mp_name"].iloc[0]) else f"MP ({grp['constituency_name'].iloc[0]})"
+        raw_mp_name = str(grp["mp_name"].iloc[0]) if "mp_name" in grp.columns and pd.notna(grp["mp_name"].iloc[0]) else f"MP ({const_name})"
+        const_district = resolve_district_name(str(grp["district_name"].iloc[0]) if "district_name" in grp.columns else "", const_state)
         const_rec = Constituency(
             id=f"CONST-{str(const_id).replace(' ', '-').lower()[:32]}",
             name=const_name,
-            state=str(grp["state_name"].iloc[0]),
+            district=const_district,
+            state=const_state,
             mp_name=raw_mp_name,
             total_works=len(grp),
             total_allocation=float(grp["sanctioned_amount"].sum()),

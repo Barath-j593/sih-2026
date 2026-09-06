@@ -10,6 +10,7 @@ import { MPConstituencyFundVelocity } from "../../components/graph/authority/MPC
 import { StakeholderGuideModal } from "../../components/graph/StakeholderGuideModal";
 import { MagicCard } from "../../components/ui/MagicCard";
 import { useRole } from "../../context/RoleContext";
+import { formatDistrictName } from "../../lib/districts";
 import { 
   Network, ShieldAlert, Users, Building, Activity, Info, 
   MapPin, SlidersHorizontal, RefreshCw, AlertTriangle, ArrowRight,
@@ -61,7 +62,7 @@ export default function NetworkGraphPage() {
   };
 
   const [selectedState, setSelectedState] = useState<string>(getInitialState);
-  const [selectedDistrict, setSelectedDistrict] = useState<string>("DARBHANGA");
+  const [selectedDistrict, setSelectedDistrict] = useState<string>("Darbhanga");
   const [selectedMp, setSelectedMp] = useState<string>("Mr Gopal Jee Thakur");
   const [entities, setEntities] = useState<{
     states: string[];
@@ -69,7 +70,7 @@ export default function NetworkGraphPage() {
     mps: { name: string; works_count: number; total_capital: number }[];
   }>({
     states: POPULAR_STATES.filter(s => s !== "All India"),
-    districts: ["DARBHANGA", "PATNA", "SARAN", "MADHUBANI", "SAMASTIPUR"],
+    districts: ["Darbhanga", "Patna Sahib", "Saran", "Gaya", "Muzaffarpur"],
     mps: []
   });
 
@@ -97,10 +98,11 @@ export default function NetworkGraphPage() {
 
           // Auto-select valid district if current one not in list
           if (data.districts && data.districts.length > 0) {
-            if (!data.districts.includes(selectedDistrict)) {
-              // Prefer DARBHANGA if available, otherwise first district
-              if (data.districts.includes("DARBHANGA")) {
-                setSelectedDistrict("DARBHANGA");
+            const hasCurrent = data.districts.some(d => d.toLowerCase() === selectedDistrict.toLowerCase());
+            if (!hasCurrent) {
+              const darbhangaMatch = data.districts.find(d => d.toLowerCase() === "darbhanga");
+              if (darbhangaMatch) {
+                setSelectedDistrict(darbhangaMatch);
               } else {
                 setSelectedDistrict(data.districts[0]);
               }
@@ -262,7 +264,7 @@ export default function NetworkGraphPage() {
                 : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
             }`}
           >
-            <span>🛡️ District DM ({selectedDistrict})</span>
+            <span>🛡️ District DM ({formatDistrictName(selectedDistrict, selectedState)})</span>
           </button>
 
           <button
@@ -293,7 +295,7 @@ export default function NetworkGraphPage() {
                 : activeAuthority === "state"
                 ? (selectedState === "All India" ? "BIHAR" : selectedState).toUpperCase()
                 : activeAuthority === "district"
-                ? selectedDistrict.toUpperCase()
+                ? formatDistrictName(selectedDistrict, selectedState).toUpperCase()
                 : selectedMp.toUpperCase()}
             </span>
           </div>
@@ -325,7 +327,7 @@ export default function NetworkGraphPage() {
             >
               {entities.districts.map((d) => (
                 <option key={d} value={d}>
-                  🏛️ {d}
+                  🏛️ {formatDistrictName(d, selectedState)}
                 </option>
               ))}
             </select>

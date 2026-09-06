@@ -15,6 +15,7 @@ import {
   ArrowRight,
   ClipboardList,
   Filter,
+  Zap,
 } from "lucide-react";
 import { DashboardData } from "../../lib/types";
 import { StatCard } from "../ui/StatCard";
@@ -23,6 +24,8 @@ import { ConstituencyMap } from "../maps/ConstituencyMap";
 import { FraudEvidenceVisualizer } from "../ui/FraudEvidenceVisualizer";
 import { DistrictVendorCaptureRadar } from "./visualizers/DistrictVendorCaptureRadar";
 import { MagicCard } from "../ui/MagicCard";
+import { formatTypologyLabel } from "../../lib/typologies";
+import { formatDistrictName } from "../../lib/districts";
 
 interface DistrictMagistrateViewProps {
   data: DashboardData;
@@ -33,9 +36,9 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
   const { summary, fraud_breakdown, top_flagged_works, jurisdiction, extra_insights } = data;
   const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
 
-  // Count structuring works specifically
+  // Count structuring works specifically (case-insensitive and resilient to backend enum)
   const structuringItem = fraud_breakdown.find(
-    (f) => f.fraud_type === "structuring"
+    (f) => f.fraud_type?.toLowerCase().includes("structuring")
   );
   const structuringCount = structuringItem ? structuringItem.count : 0;
   const structuringAmount = structuringItem ? structuringItem.total_amount : 0;
@@ -53,7 +56,7 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="rounded bg-[#3D2312] px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#FDE68A] border border-[#FDE68A]/30">
-                STATUTORY SANCTIONING AUTHORITY • {jurisdiction.toUpperCase()}
+                STATUTORY SANCTIONING AUTHORITY • {formatDistrictName(jurisdiction).toUpperCase()}
               </span>
               <span className="text-[11px] text-[#F5EBE1]/80 font-mono">District Magistrate & Collectorate</span>
             </div>
@@ -66,6 +69,13 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/proposals"
+              className="bg-[#FDE68A] hover:bg-[#FCD34D] text-[#3D2312] px-3.5 py-2 text-xs font-mono font-bold tracking-wider uppercase transition-all duration-200 rounded-[2px] shadow-sm flex items-center gap-1.5"
+            >
+              <Zap className="h-4 w-4 text-[#3D2312]" />
+              <span>Feed Plan & Score ↗</span>
+            </Link>
             <Link
               href="/cases"
               className="border border-[#F5EBE1]/80 hover:bg-[#F5EBE1] hover:text-[#6E4529] text-[#F5EBE1] px-4 py-2 text-xs font-mono font-bold tracking-wider uppercase transition-all duration-200 rounded-[2px] shadow-sm flex items-center gap-2 group"
@@ -172,7 +182,7 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
             {fraud_breakdown.map((item) => (
               <div key={item.fraud_type} className="rounded-lg border border-[#E5DFD3] bg-[#FAF7F2] p-3 shadow-2xs">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#1C1917]">{item.label}</span>
+                  <span className="font-bold text-[#1C1917]">{formatTypologyLabel(item.label || item.fraud_type)}</span>
                   <span className="font-mono font-bold text-[#6E4529]">{item.count} proposals</span>
                 </div>
                 <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-stone-200">
@@ -203,12 +213,21 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
             <h3 className="text-base font-editorial font-bold text-[#1C1917]">Pre-Sanction Approval Queue</h3>
             <p className="text-xs text-stone-500 font-sans">Review and triage proposals before releasing funds</p>
           </div>
-          <Link
-            href="/cases"
-            className="text-xs font-mono font-bold text-[#6E4529] hover:underline flex items-center gap-1"
-          >
-            Manage All Cases in Kanban <ChevronRight className="h-4 w-4" />
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/proposals"
+              className="rounded-md bg-[#6E4529] px-3 py-1.5 text-xs font-mono font-bold text-white hover:bg-[#5A361F] transition-all inline-flex items-center gap-1.5 shadow-2xs"
+            >
+              <Zap className="h-3.5 w-3.5 text-[#FDE68A]" />
+              <span>+ Feed & Score New Proposal</span>
+            </Link>
+            <Link
+              href="/cases"
+              className="text-xs font-mono font-bold text-[#6E4529] hover:underline flex items-center gap-1"
+            >
+              Manage All Cases in Kanban <ChevronRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
 
         <div className="mt-4 overflow-x-auto">

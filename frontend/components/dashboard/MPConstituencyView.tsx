@@ -24,6 +24,7 @@ import { ConstituencyMap } from "../maps/ConstituencyMap";
 import { FraudEvidenceVisualizer } from "../ui/FraudEvidenceVisualizer";
 import { ConstituencyDeliveryPipeline } from "./visualizers/ConstituencyDeliveryPipeline";
 import { MagicCard } from "../ui/MagicCard";
+import { formatTypologyLabel } from "../../lib/typologies";
 
 interface MPConstituencyViewProps {
   data: DashboardData;
@@ -34,10 +35,11 @@ export function MPConstituencyView({ data, pinsData }: MPConstituencyViewProps) 
   const { summary, fraud_breakdown, top_flagged_works, extra_insights, jurisdiction } = data;
   const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
 
-  // Stalled works count
-  const stalledItem = fraud_breakdown.find(
-    (f) => f.fraud_type === "ghost_project"
-  );
+  // Stalled works count (matches delayed_work, abandoned_work, ghost_work, or legacy ghost_project)
+  const stalledItem = fraud_breakdown.find((f) => {
+    const t = f.fraud_type?.toLowerCase() || "";
+    return t.includes("ghost") || t.includes("delayed") || t.includes("abandoned") || t.includes("stall");
+  });
   const stalledCount = stalledItem ? stalledItem.count : 0;
   const stalledAmount = stalledItem ? stalledItem.total_amount : 0;
 
@@ -159,7 +161,7 @@ export function MPConstituencyView({ data, pinsData }: MPConstituencyViewProps) 
             {fraud_breakdown.map((item) => (
               <div key={item.fraud_type} className="rounded-lg border border-[#E5DFD3] bg-[#FAF7F2] p-3 shadow-2xs">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#1C1917]">{item.label}</span>
+                  <span className="font-bold text-[#1C1917]">{formatTypologyLabel(item.label || item.fraud_type)}</span>
                   <span className="font-mono font-bold text-[#6E4529]">{item.count} projects</span>
                 </div>
                 <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-stone-200">

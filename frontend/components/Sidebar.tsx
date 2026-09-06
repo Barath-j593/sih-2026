@@ -13,7 +13,8 @@ import {
   Cpu,
   Sparkles,
   AlertTriangle,
-  Home
+  Home,
+  Sliders,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -28,6 +29,7 @@ export function Sidebar() {
     { label: "Public Portal", href: "/", icon: Home },
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "Works Explorer", href: "/works", icon: Layers },
+    { label: "Plan Risk Scorer", href: "/proposals", icon: Sliders, badge: "Feed Plan" },
     { label: "Geospatial Maps", href: "/maps", icon: Map },
     { label: "Money Flow & Cartels", href: "/graph", icon: Network },
     { label: "Case Workflow", href: "/cases", icon: KanbanSquare },
@@ -71,14 +73,27 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 rounded-md px-3.5 py-2.5 text-xs transition-all ${
+              className={`flex items-center justify-between rounded-md px-3.5 py-2.5 text-xs transition-all ${
                 isActive
                   ? "bg-[#6E4529] text-[#F5EBE1] font-bold shadow-xs border border-[#5A361F]"
                   : "text-stone-700 hover:bg-[#F0ECE1] hover:text-stone-900 font-medium"
               }`}
             >
-              <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-[#FDE68A]" : "text-stone-400"}`} />
-              <span>{item.label}</span>
+              <div className="flex items-center gap-3">
+                <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-[#FDE68A]" : "text-stone-400"}`} />
+                <span>{item.label}</span>
+              </div>
+              {"badge" in item && item.badge && (
+                <span
+                  className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded transition-colors ${
+                    isActive
+                      ? "bg-[#FDE68A] text-[#3D2312]"
+                      : "bg-amber-100 text-amber-900 border border-amber-300"
+                  }`}
+                >
+                  {item.badge}
+                </span>
+              )}
             </Link>
           );
         })}

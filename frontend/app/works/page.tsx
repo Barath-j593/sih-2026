@@ -4,7 +4,8 @@ import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { fetchWorks, fetchFilters } from "../../lib/api";
 import { WorkItem } from "../../lib/types";
-import { RiskBadge } from "../../components/ui/RiskBadge";
+import { RiskBadge, PriorityBadge } from "../../components/ui/RiskBadge";
+import { formatTypologyLabel } from "../../lib/typologies";
 import { MagicCard } from "../../components/ui/MagicCard";
 import {
   Search,
@@ -25,7 +26,9 @@ import {
   Building2,
   Clock,
   Check,
-  X
+  X,
+  Sliders,
+  Zap,
 } from "lucide-react";
 
 export default function WorksExplorerPage() {
@@ -114,23 +117,31 @@ export default function WorksExplorerPage() {
         setRiskLevel("");
         setViewMode("duplicate_groups");
         break;
+      case "cost_overrun":
       case "overpricing":
-        setFraudType("overpricing");
+        setFraudType("cost_overrun");
+        setRiskLevel("");
+        setViewMode("table");
+        break;
+      case "single_bid":
+        setFraudType("single_bid_tender");
         setRiskLevel("");
         setViewMode("table");
         break;
       case "structuring":
-        setFraudType("structuring");
+        setFraudType("payment_structuring");
         setRiskLevel("");
         setViewMode("table");
         break;
+      case "vendor_concentration":
       case "vendor_capture":
-        setFraudType("vendor_capture");
+        setFraudType("vendor_concentration");
         setRiskLevel("");
         setViewMode("table");
         break;
+      case "delayed_work":
       case "ghost_project":
-        setFraudType("ghost_project");
+        setFraudType("delayed_work");
         setRiskLevel("");
         setViewMode("table");
         break;
@@ -231,6 +242,14 @@ export default function WorksExplorerPage() {
           </div>
 
           <Link
+            href="/proposals"
+            className="flex items-center gap-1.5 rounded-xl border border-[#6E4529] bg-[#6E4529] px-3.5 py-2 text-xs font-bold text-[#F5EBE1] hover:bg-[#5A361F] transition-all shadow-xs"
+          >
+            <Zap className="h-3.5 w-3.5 text-[#FDE68A]" />
+            <span>+ Feed Plan & Score</span>
+          </Link>
+
+          <Link
             href="/reports"
             className="flex items-center gap-1.5 rounded-xl border border-[#D9D2C5] bg-[#FFFDF9] px-3.5 py-2 text-xs font-bold text-[#6E4529] hover:bg-white transition-all shadow-xs"
           >
@@ -287,15 +306,28 @@ export default function WorksExplorerPage() {
 
           <button
             type="button"
-            onClick={() => applyPreset("overpricing")}
+            onClick={() => applyPreset("cost_overrun")}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
-              activePreset === "overpricing"
+              activePreset === "cost_overrun"
                 ? "bg-amber-900 text-white shadow-xs ring-2 ring-amber-500"
                 : "border border-[#E5DFD3] bg-[#FFFDF9] text-stone-800 hover:bg-[#F0ECE1]"
             }`}
           >
             <TrendingUp className="h-3.5 w-3.5 text-amber-700" />
-            <span>📈 Cost Escalation (&gt;+2.0σ)</span>
+            <span>📈 Cost Overrun (&gt;+2.0σ)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => applyPreset("single_bid")}
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+              activePreset === "single_bid"
+                ? "bg-amber-900 text-white shadow-xs ring-2 ring-amber-500"
+                : "border border-[#E5DFD3] bg-[#FFFDF9] text-stone-800 hover:bg-[#F0ECE1]"
+            }`}
+          >
+            <Layers className="h-3.5 w-3.5 text-blue-700" />
+            <span>⚡ Single-Bid Tender</span>
           </button>
 
           <button
@@ -307,34 +339,34 @@ export default function WorksExplorerPage() {
                 : "border border-[#E5DFD3] bg-[#FFFDF9] text-stone-800 hover:bg-[#F0ECE1]"
             }`}
           >
-            <Layers className="h-3.5 w-3.5 text-blue-700" />
-            <span>⚡ ₹5L Threshold Structuring</span>
+            <Sliders className="h-3.5 w-3.5 text-purple-700" />
+            <span>⚡ ₹5L Payment Structuring</span>
           </button>
 
           <button
             type="button"
-            onClick={() => applyPreset("vendor_capture")}
+            onClick={() => applyPreset("vendor_concentration")}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
-              activePreset === "vendor_capture"
+              activePreset === "vendor_concentration"
                 ? "bg-amber-900 text-white shadow-xs ring-2 ring-amber-500"
                 : "border border-[#E5DFD3] bg-[#FFFDF9] text-stone-800 hover:bg-[#F0ECE1]"
             }`}
           >
-            <Building2 className="h-3.5 w-3.5 text-purple-700" />
-            <span>🏢 Single-Agency Monopolies</span>
+            <Building2 className="h-3.5 w-3.5 text-sky-700" />
+            <span>🏢 Vendor Concentration</span>
           </button>
 
           <button
             type="button"
-            onClick={() => applyPreset("ghost_project")}
+            onClick={() => applyPreset("delayed_work")}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
-              activePreset === "ghost_project"
+              activePreset === "delayed_work"
                 ? "bg-amber-900 text-white shadow-xs ring-2 ring-amber-500"
                 : "border border-[#E5DFD3] bg-[#FFFDF9] text-stone-800 hover:bg-[#F0ECE1]"
             }`}
           >
             <Clock className="h-3.5 w-3.5 text-stone-600" />
-            <span>⏳ Stalled / Dwell Anomalies</span>
+            <span>⏳ Delayed / Stalled Work</span>
           </button>
         </div>
       </div>
@@ -425,11 +457,22 @@ export default function WorksExplorerPage() {
               className="w-full rounded-xl border border-[#D9D2C5] bg-[#FAF7F2] px-3 py-2 text-xs text-stone-800 font-medium focus:border-[#6E4529] focus:outline-none focus:ring-1 focus:ring-[#6E4529] cursor-pointer transition-all"
             >
               <option value="">All Anomaly Typologies</option>
-              <option value="duplicate">Duplicate Cloned Works</option>
-              <option value="overpricing">Peer Cost Escalation</option>
-              <option value="structuring">Threshold Structuring (&lt;₹5L)</option>
-              <option value="vendor_capture">Single-Agency Capture</option>
-              <option value="ghost_project">Stalled / Ghost Projects</option>
+              <option value="cost_overrun">Cost Overrun</option>
+              <option value="ghost_work">Ghost Work</option>
+              <option value="single_bid_tender">Single-Bid Tender</option>
+              <option value="vendor_concentration">Vendor Concentration</option>
+              <option value="payment_structuring">Payment Structuring</option>
+              <option value="delayed_work">Delayed Work</option>
+              <option value="abandoned_work">Abandoned Work</option>
+              <option value="collusion_ring">Collusion Ring</option>
+              <option value="documentation_deficit">Documentation Deficit</option>
+              <option value="normal">Normal / Compliant Profile</option>
+              {/* Legacy Aliases */}
+              <option value="overpricing">Legacy: Cost Escalation</option>
+              <option value="duplicate">Legacy: Duplicate Cloned Works</option>
+              <option value="structuring">Legacy: Structuring (&lt;₹5L)</option>
+              <option value="vendor_capture">Legacy: Agency Capture</option>
+              <option value="ghost_project">Legacy: Stalled / Ghost</option>
             </select>
           </div>
 
@@ -681,10 +724,15 @@ export default function WorksExplorerPage() {
                         {w.id}
                       </td>
                       <td className="py-3.5 max-w-sm">
-                        <p className="font-semibold text-[#1C1917] line-clamp-1">{w.work}</p>
-                        {w.risk_reasons && w.risk_reasons.length > 0 && (
-                          <p className="text-[11px] text-red-700 line-clamp-1 mt-0.5">
-                            • {w.risk_reasons[0]}
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <p className="font-semibold text-[#1C1917] line-clamp-1">{w.work}</p>
+                          <span className="rounded bg-[#FAF7F2] border border-[#D9D2C5] px-1.5 py-0.5 text-[10px] font-mono font-bold text-[#6E4529]">
+                            {formatTypologyLabel(w.primary_typology || w.predicted_fraud_type)}
+                          </span>
+                        </div>
+                        {(w.synthesized_reasons?.[0] || w.risk_reasons?.[0]) && (
+                          <p className="text-[11px] text-red-700 line-clamp-1 mt-0.5 font-sans">
+                            • {w.synthesized_reasons?.[0] || w.risk_reasons?.[0]}
                           </p>
                         )}
                       </td>
@@ -704,7 +752,12 @@ export default function WorksExplorerPage() {
                         </span>
                       </td>
                       <td className="py-3.5 text-center whitespace-nowrap">
-                        <RiskBadge score={w.risk_score} level={w.risk_level} size="sm" />
+                        <div className="flex flex-col items-center gap-1">
+                          <RiskBadge score={w.overall_risk_score ?? w.risk_score} level={w.risk_level} size="sm" />
+                          {w.investigation_priority && (
+                            <PriorityBadge priority={w.investigation_priority} size="sm" />
+                          )}
+                        </div>
                       </td>
                       <td className="py-3.5 pr-4 text-center whitespace-nowrap">
                         <Link

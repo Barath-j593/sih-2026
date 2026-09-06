@@ -35,33 +35,30 @@ const STATE_OPTIONS = [
 ];
 
 const DISTRICT_OPTIONS = [
-  "DARBHANGA",
-  "DHOLPUR",
-  "KARAULI-DHOLPUR(SC)",
-  "NALANDA",
-  "PATNA",
-  "ALMORA(SC)",
-  "PEDDAPALLE",
-  "ONGOLE",
-  "ZAHIRABAD",
-  "SAMBALPUR",
-  "DUMKA(ST)",
-  "RAJMAHAL(ST)",
-  "TEHRI GARHWAL",
-  "RAJAMPET",
-  "KALAHANDI",
-  "JAGATSINGHPUR(SC)",
-  "ARUNACHAL WEST",
-  "ATTINGAL",
-  "ANANTNAG",
-  "FIROZPUR",
-  "SHILLONG",
-  "LUDHIANA",
-  "MANDI",
-  "NAINITAL UDHAM SINGH NAG.",
-  "JAIPUR",
-  "VARANASI",
-  "PUNE",
+  "Darbhanga",
+  "Patna Sahib",
+  "Saran",
+  "Gaya",
+  "Muzaffarpur",
+  "Bhagalpur",
+  "Chennai",
+  "Coimbatore",
+  "Madurai",
+  "Salem",
+  "Lucknow",
+  "Varanasi",
+  "Kanpur Nagar",
+  "Agra",
+  "Pune",
+  "Nagpur",
+  "Bengaluru Urban",
+  "Mysuru",
+  "Ahmedabad",
+  "Surat",
+  "Jaipur",
+  "Jodhpur",
+  "Kolkata",
+  "Howrah",
 ];
 
 const MP_OPTIONS = [
@@ -93,6 +90,7 @@ const MP_OPTIONS = [
 
 import { SearchableSelect, SearchableOption } from "./ui/SearchableSelect";
 import { fetchGraphEntities } from "../lib/api";
+import { formatDistrictName } from "../lib/districts";
 
 export function RoleSwitcher() {
   const pathname = usePathname();
@@ -112,7 +110,7 @@ export function RoleSwitcher() {
         const data = await fetchGraphEntities();
         if (!isMounted) return;
         if (data?.districts && data.districts.length > 0) {
-          setDistricts(data.districts);
+          setDistricts(Array.from(new Set(data.districts.map((d: string) => formatDistrictName(d)))));
         }
         if (data?.mps && data.mps.length > 0) {
           setMps(
@@ -170,7 +168,7 @@ export function RoleSwitcher() {
     } else if (newRole === "state") {
       setJurisdiction("Bihar");
     } else if (newRole === "district") {
-      setJurisdiction("DARBHANGA");
+      setJurisdiction("Darbhanga");
     } else if (newRole === "mp") {
       setJurisdiction("Mr Gopal Jee Thakur");
     }

@@ -23,6 +23,7 @@ import { StateChoroplethMap } from "../maps/StateChoroplethMap";
 import { NationalCartelFunnel } from "./visualizers/NationalCartelFunnel";
 import { FraudEvidenceVisualizer } from "../ui/FraudEvidenceVisualizer";
 import { MagicCard } from "../ui/MagicCard";
+import { formatTypologyLabel } from "../../lib/typologies";
 
 interface MinistryViewProps {
   data: DashboardData;
@@ -154,7 +155,7 @@ export function MinistryView({ data, stateChoropleth, graphData }: MinistryViewP
             {fraud_breakdown.map((item) => (
               <div key={item.fraud_type} className="rounded-lg border border-[#E5DFD3] bg-[#FAF7F2] p-3.5 shadow-2xs">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#1C1917]">{item.label}</span>
+                  <span className="font-bold text-[#1C1917]">{formatTypologyLabel(item.label || item.fraud_type)}</span>
                   <span className="font-mono font-bold text-[#6E4529]">{item.count} flagged</span>
                 </div>
                 <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-stone-200">

@@ -1,5 +1,8 @@
 export type UserRole = "ministry" | "state" | "district" | "mp";
 
+export type RiskTier = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "Critical" | "High" | "Medium" | "Low";
+export type InvestigationPriority = "IMMEDIATE" | "PRIORITY" | "ROUTINE" | "Immediate" | "Priority" | "Routine";
+
 export interface SummaryCards {
   total_works: number;
   total_allocation: number;
@@ -48,8 +51,15 @@ export interface TopFlaggedWorkItem {
   status: string;
   risk_score: number;
   risk_level: string;
+  overall_risk_score?: number;
+  investigation_priority?: string;
+  primary_typology?: string;
+  fraud_probability?: number;
   predicted_fraud_type?: string;
   risk_reasons: string[];
+  synthesized_reasons?: string[];
+  sub_scores?: Record<string, number>;
+  domain_scores?: DomainScores;
 }
 
 export interface MonthlyTrendItem {
@@ -72,6 +82,18 @@ export interface DashboardData {
   extra_insights: Record<string, any>;
 }
 
+export interface DomainScores {
+  financial: number;
+  geospatial: number;
+  procurement: number;
+  contractor: number;
+  payment: number;
+  progress: number;
+  graph: number;
+  ml_fraud_probability?: number;
+  [key: string]: number | undefined;
+}
+
 export interface WorkItem {
   id: string;
   mp_name: string;
@@ -89,12 +111,29 @@ export interface WorkItem {
   ida_approval: string;
   status: string;
   house: string;
+  // Risk fields
   risk_score: number;
   risk_level: string;
   risk_reasons: string[];
   sub_scores: Record<string, number>;
   predicted_fraud_type?: string;
   days_since_recommended?: number;
+  // 8-Model & Risk Fusion Architecture additions
+  overall_risk_score?: number;
+  investigation_priority?: string;
+  primary_typology?: string;
+  fraud_probability?: number;
+  synthesized_reasons?: string[];
+  domain_scores?: DomainScores;
+  primary_reason?: string;
+  secondary_reason?: string;
+  tertiary_reason?: string;
+}
+
+export interface RadarSignal {
+  signal: string;
+  score: number;
+  fullMark: number;
 }
 
 export interface WorkDetail extends WorkItem {
@@ -105,8 +144,111 @@ export interface WorkDetail extends WorkItem {
     predicted_fraud_type: string;
     reasons: string[];
     sub_scores: Record<string, number>;
-    radar_breakdown: Array<{ signal: string; score: number; fullMark: number }>;
+    radar_breakdown: RadarSignal[];
+    is_auditable?: boolean;
   };
+  // Detailed 8-model dossier fields
+  feature_importance_contributions?: Record<string, number>;
+  scored_at?: string;
+  risk_detail?: ProjectRiskDetailResponse;
+}
+
+export interface ProjectRiskDetailResponse {
+  project_id: string;
+  overall_risk_score: number;
+  risk_level: string;
+  investigation_priority: string;
+  primary_typology: string;
+  fraud_probability: number;
+  synthesized_reasons: string[];
+  primary_reason: string;
+  secondary_reason?: string;
+  tertiary_reason?: string;
+  domain_scores: {
+    financial_anomaly_score: number;
+    geospatial_anomaly_score: number;
+    procurement_anomaly_score: number;
+    contractor_anomaly_score: number;
+    payment_anomaly_score: number;
+    progress_anomaly_score: number;
+    graph_anomaly_score: number;
+    [key: string]: number;
+  };
+  feature_importance_contributions?: Record<string, number>;
+  scored_at: string;
+}
+
+export interface RiskIntelligenceSummaryResponse {
+  total_projects_evaluated: number;
+  risk_tier_distribution: Record<string, number>;
+  investigation_priority_distribution: Record<string, number>;
+  typology_distribution: Record<string, number>;
+  risk_score_statistics: Record<string, number>;
+  generated_at: string;
+}
+
+export interface RawProposalScoringRequest {
+  project_id?: string;
+  work_name: string;
+  category?: string;
+  state?: string;
+  constituency?: string;
+  district?: string;
+  ida?: string;
+  contractor_name?: string;
+  sanctioned_amount: number;
+  estimated_cost?: number;
+  tender_amount?: number;
+  planned_duration_days?: number;
+  work_type?: string;
+  num_bidders?: number;
+  is_single_bid?: boolean;
+  contractor_past_delays?: number;
+  latitude?: number;
+  longitude?: number;
+}
+
+export interface RawProposalScoringResponse {
+  proposal_id: string;
+  overall_risk_score: number;
+  risk_level: string;
+  investigation_priority: string;
+  primary_typology: string;
+  fraud_probability: number;
+  approval_recommendation: string;
+  sub_scores: Record<string, number>;
+  synthesized_reasons: string[];
+  primary_reason: string;
+  secondary_reason?: string;
+  inference_time_ms: number;
+  evaluated_at: string;
+}
+
+export interface LiveFusionRequest {
+  project_id?: string;
+  financial_anomaly_score?: number;
+  geospatial_anomaly_score?: number;
+  procurement_anomaly_score?: number;
+  contractor_anomaly_score?: number;
+  payment_anomaly_score?: number;
+  progress_anomaly_score?: number;
+  graph_anomaly_score?: number;
+  fraud_probability?: number;
+  predicted_typology?: string;
+  domain_reasons?: Record<string, string[]>;
+}
+
+export interface LiveFusionResponse {
+  project_id: string;
+  overall_risk_score: number;
+  risk_level: string;
+  investigation_priority: string;
+  primary_typology: string;
+  fraud_probability: number;
+  synthesized_reasons: string[];
+  primary_reason: string;
+  secondary_reason?: string;
+  tertiary_reason?: string;
 }
 
 export interface CaseNote {

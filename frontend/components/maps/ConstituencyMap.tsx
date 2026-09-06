@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { MapPin, AlertCircle, CheckCircle, ArrowUpRight, Search, Layers } from "lucide-react";
+import Link from "next/link";
 import { RiskBadge } from "../ui/RiskBadge";
+import { formatTypologyLabel } from "../../lib/typologies";
+import { formatDistrictName } from "../../lib/districts";
 
 interface ConstituencyPin {
   id: string;
@@ -17,6 +20,7 @@ interface ConstituencyPin {
   risk_score: number;
   risk_level: string;
   predicted_fraud_type?: string;
+  primary_typology?: string;
   reasons: string[];
   lat: number;
   lng: number;
@@ -139,7 +143,7 @@ export function ConstituencyMap({ pins, title = "Constituency Works Geo-Verifica
                   </div>
                   <div className="flex justify-between rounded-lg bg-[#FFFDF9] p-2.5 border border-[#E5DFD3] shadow-2xs">
                     <span className="text-stone-500 font-mono">Location:</span>
-                    <span className="font-medium text-stone-800">{selectedPin.village || "Panchayat Area"}, {selectedPin.constituency}</span>
+                    <span className="font-medium text-stone-800">{selectedPin.village || "Panchayat Area"}, {formatDistrictName(selectedPin.constituency)}</span>
                   </div>
                   <div className="flex justify-between rounded-lg bg-[#FFFDF9] p-2.5 border border-[#E5DFD3] shadow-2xs">
                     <span className="text-stone-500 font-mono">Executing Agency:</span>
@@ -148,6 +152,12 @@ export function ConstituencyMap({ pins, title = "Constituency Works Geo-Verifica
                   <div className="flex justify-between rounded-lg bg-[#FFFDF9] p-2.5 border border-[#E5DFD3] shadow-2xs">
                     <span className="text-stone-500 font-mono">Current Status:</span>
                     <span className="font-mono font-bold text-emerald-800">{selectedPin.status}</span>
+                  </div>
+                  <div className="flex justify-between rounded-lg bg-[#FFFDF9] p-2.5 border border-[#E5DFD3] shadow-2xs items-center">
+                    <span className="text-stone-500 font-mono">Typology:</span>
+                    <span className="rounded bg-[#FAF7F2] border border-[#D9D2C5] px-2 py-0.5 font-mono font-bold text-[#6E4529] text-[11px]">
+                      {formatTypologyLabel(selectedPin.primary_typology || selectedPin.predicted_fraud_type)}
+                    </span>
                   </div>
                 </div>
 
@@ -164,6 +174,16 @@ export function ConstituencyMap({ pins, title = "Constituency Works Geo-Verifica
                     </ul>
                   </div>
                 )}
+
+                <div className="pt-2">
+                  <Link
+                    href={`/works/${selectedPin.id}`}
+                    className="w-full flex items-center justify-center gap-1.5 rounded-lg bg-[#6E4529] px-3 py-2 text-xs font-mono font-bold text-[#F5EBE1] hover:bg-[#583720] transition-colors shadow-2xs"
+                  >
+                    <span>Inspect Full 8-Model Dossier</span>
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
               </div>
             ) : (
               <div className="py-8 text-center text-xs text-stone-500 font-sans">

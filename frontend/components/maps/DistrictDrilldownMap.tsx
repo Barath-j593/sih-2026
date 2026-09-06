@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Building2, AlertTriangle, ShieldCheck, MapPin, Search } from "lucide-react";
 import { RiskBadge } from "../ui/RiskBadge";
+import { formatDistrictName } from "../../lib/districts";
 
 interface DistrictDrilldownProps {
   districts?: Array<{
@@ -46,9 +47,10 @@ export function DistrictDrilldownMap({
   const [searchTerm, setSearchTerm] = useState("");
   const [activeDistrict, setActiveDistrict] = useState<any>(districtList[0] || null);
 
-  const filtered = districtList.filter((d) =>
-    (d.district || "").toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filtered = districtList.filter((d) => {
+    const displayName = formatDistrictName(d.district, stateLabel);
+    return displayName.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   return (
     <div className="rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)] space-y-5">
@@ -100,7 +102,9 @@ export function DistrictDrilldownMap({
               >
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-[#1C1917]">{d.district}</span>
+                    <span className="text-sm font-bold text-[#1C1917]">
+                      {formatDistrictName(d.district, stateLabel)}
+                    </span>
                     <RiskBadge score={d.avg_risk_score} level={d.risk_level} size="sm" />
                   </div>
                   <p className="mt-1 text-xs text-stone-500 font-mono">
@@ -126,7 +130,9 @@ export function DistrictDrilldownMap({
                 <span className="text-xs font-mono font-bold text-stone-500 uppercase tracking-wider">
                   District Audit Dossier
                 </span>
-                <h4 className="text-xl font-editorial font-bold text-[#1C1917] mt-0.5">{activeDistrict.district}</h4>
+                <h4 className="text-xl font-editorial font-bold text-[#1C1917] mt-0.5">
+                  {formatDistrictName(activeDistrict.district, stateLabel)}
+                </h4>
                 <p className="text-xs text-stone-500 font-sans">State of {stateLabel}</p>
               </div>
 
@@ -163,10 +169,10 @@ export function DistrictDrilldownMap({
 
                 <div className="pt-2">
                   <a
-                    href={`/works?search=${encodeURIComponent(activeDistrict.district)}`}
+                    href={`/works?search=${encodeURIComponent(formatDistrictName(activeDistrict.district, stateLabel))}`}
                     className="block w-full text-center rounded bg-[#6E4529] py-2.5 text-xs font-mono font-bold text-white hover:bg-[#5A361F] transition-all shadow-2xs"
                   >
-                    Inspect Works in {activeDistrict.district} →
+                    Inspect Works in {formatDistrictName(activeDistrict.district, stateLabel)} →
                   </a>
                 </div>
               </div>
