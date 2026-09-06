@@ -7,7 +7,9 @@ from app.services.geo_service import (
     get_district_drilldown_data,
     get_constituency_pins,
     get_all_constituencies_risk_data,
-    get_constituency_detail
+    get_constituency_detail,
+    get_cartel_conduits_data,
+    get_temporal_risk_data
 )
 
 router = APIRouter(prefix="/geo", tags=["Geospatial Maps"])
@@ -45,3 +47,18 @@ def constituency_detail(
     if not res:
         return {"error": "Constituency not found"}
     return res
+
+@router.get("/cartel-conduits")
+def cartel_conduits(
+    min_risk: float = Query(45.0),
+    limit: int = Query(40, le=100),
+    db: Session = Depends(get_db)
+):
+    return get_cartel_conduits_data(db=db, min_risk=min_risk, limit=limit)
+
+@router.get("/temporal-risk")
+def temporal_risk(
+    db: Session = Depends(get_db)
+):
+    return get_temporal_risk_data(db=db)
+

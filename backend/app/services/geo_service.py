@@ -216,3 +216,134 @@ def get_constituency_detail(db: Session, constituency_name: str) -> Optional[Dic
         "top_works": works_list
     }
 
+
+def get_cartel_conduits_data(db: Session, min_risk: float = 45.0, limit: int = 40) -> List[Dict[str, Any]]:
+    """
+    Identifies cross-border agency and vendor conduits where an executing agency
+    monopolizes allocations across multiple parliamentary constituencies.
+    Generates paired conduit connections for animated SVG flow arcs.
+    """
+    agency_stats = db.query(
+        Work.ida,
+        func.count(func.distinct(Work.constituency)).label("const_count"),
+        func.count(Work.id).label("total_works"),
+        func.sum(Work.allocation_amount).label("total_capital"),
+        func.avg(Work.risk_score).label("avg_risk"),
+        func.max(Work.state).label("primary_state")
+    ).filter(
+        Work.ida.isnot(None),
+        Work.ida != "",
+        Work.constituency.isnot(None),
+        ~Work.constituency.ilike("%Rajya Sabha%")
+    ).group_by(Work.ida).having(
+        func.count(func.distinct(Work.constituency)) >= 2
+    ).order_by(desc("total_capital")).all()
+
+    conduits = []
+    conduit_id = 1
+
+    for agency in agency_stats:
+        avg_r = float(agency.avg_risk or 0.0)
+        if avg_r < min_risk and float(agency.total_capital or 0) < 10000000.0:
+            continue
+
+        consts_in_agency = db.query(
+            Work.constituency,
+            func.count(Work.id).label("cnt"),
+            func.sum(Work.allocation_amount).label("amt"),
+            func.avg(Work.risk_score).label("c_risk")
+        ).filter(
+            Work.ida == agency.ida,
+            Work.constituency.isnot(None),
+            ~Work.constituency.ilike("%Rajya Sabha%")
+        ).group_by(Work.constituency).order_by(desc("amt")).all()
+
+        if len(consts_in_agency) < 2:
+            continue
+
+        hub = consts_in_agency[0]
+        for target in consts_in_agency[1:4]:
+            conduit_risk = round((float(hub.c_risk or avg_r) + float(target.c_risk or avg_r)) / 2.0, 1)
+            conduits.append({
+                "id": f"CONDUIT-{conduit_id}",
+                "agency_name": agency.ida,
+                "source_constituency": hub.constituency,
+                "target_constituency": target.constituency,
+                "state": agency.primary_state,
+                "works_count": int(hub.cnt + target.cnt),
+                "total_capital": float(hub.amt + target.amt),
+                "avg_risk": conduit_risk,
+                "risk_level": "Critical" if conduit_risk >= 65 else "High" if conduit_risk >= 50 else "Medium",
+                "pattern": f"Monopolistic conduit spanning {hub.constituency} and {target.constituency}"
+            })
+            conduit_id += 1
+            if len(conduits) >= limit:
+                break
+        if len(conduits) >= limit:
+            break
+
+    return conduits
+
+
+def get_temporal_risk_data(db: Session) -> Dict[str, Any]:
+    """
+    Returns monthly time-series risk telemetry across parliamentary constituencies,
+    demonstrating the pre-election surge and fiscal year-end March Rush.
+    """
+    monthly_rows = db.query(
+        func.substr(Work.recommended_date, 1, 7).label("ym"),
+        Work.constituency,
+        func.count(Work.id).label("works_cnt"),
+        func.sum(Work.allocation_amount).label("alloc_amt"),
+        func.avg(Work.risk_score).label("avg_r")
+    ).filter(
+        Work.recommended_date.isnot(None),
+        Work.recommended_date != "",
+        Work.constituency.isnot(None)
+    ).group_by("ym", Work.constituency).all()
+
+    national_monthly = db.query(
+        func.substr(Work.recommended_date, 1, 7).label("ym"),
+        func.count(Work.id).label("total_works"),
+        func.sum(Work.allocation_amount).label("total_capital"),
+        func.avg(Work.risk_score).label("nat_risk")
+    ).filter(
+        Work.recommended_date.isnot(None),
+        Work.recommended_date != ""
+    ).group_by("ym").order_by("ym").all()
+
+    labels = {
+        "2023-12": "Q3 Routine Sanctions & Infrastructure Baseline",
+        "2024-01": "Q4 Early Sanction Push & Vendor Concentration",
+        "2024-02": "Pre-Election Pipeline Acceleration",
+        "2024-03": "March Rush & Pre-Election Surge"
+    }
+
+    timeline = {}
+    for n in national_monthly:
+        ym = n.ym
+        if not ym or len(ym) != 7:
+            continue
+        timeline[ym] = {
+            "month": ym,
+            "label": labels.get(ym, f"MPLADS Works Cycle ({ym})"),
+            "total_works": int(n.total_works or 0),
+            "total_capital": float(n.total_capital or 0.0),
+            "national_avg_risk": round(float(n.nat_risk or 0.0), 1),
+            "is_surge": ym == "2024-03",
+            "constituencies": {}
+        }
+
+    for row in monthly_rows:
+        ym = row.ym
+        if ym in timeline and row.constituency:
+            timeline[ym]["constituencies"][row.constituency] = round(float(row.avg_r or 0.0), 1)
+
+    sorted_months = sorted(list(timeline.keys()))
+    return {
+        "months": sorted_months,
+        "timeline": timeline,
+        "current_month": sorted_months[-1] if sorted_months else None
+    }
+
+

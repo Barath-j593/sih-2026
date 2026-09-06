@@ -228,3 +228,47 @@ export async function fetchModelMetrics(): Promise<ModelMetricsData> {
   if (!res.ok) throw new Error("Failed to fetch model metrics");
   return res.json();
 }
+
+export interface CartelConduitItem {
+  id: string;
+  agency_name: string;
+  source_constituency: string;
+  target_constituency: string;
+  state: string;
+  works_count: number;
+  total_capital: number;
+  avg_risk: number;
+  risk_level: string;
+  pattern: string;
+}
+
+export interface TemporalMonthSummary {
+  month: string;
+  label: string;
+  total_works: number;
+  total_capital: number;
+  national_avg_risk: number;
+  is_surge: boolean;
+  constituencies: Record<string, number>;
+}
+
+export interface TemporalRiskData {
+  months: string[];
+  timeline: Record<string, TemporalMonthSummary>;
+  current_month: string | null;
+}
+
+export async function fetchCartelConduits(minRisk: number = 45.0, limit: number = 40): Promise<CartelConduitItem[]> {
+  const url = new URL(`${API_BASE}/geo/cartel-conduits`);
+  url.searchParams.append("min_risk", String(minRisk));
+  url.searchParams.append("limit", String(limit));
+  const res = await fetch(url.toString(), { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch cartel conduits");
+  return res.json();
+}
+
+export async function fetchTemporalRisk(): Promise<TemporalRiskData> {
+  const res = await fetch(`${API_BASE}/geo/temporal-risk`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch temporal risk data");
+  return res.json();
+}

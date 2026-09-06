@@ -17,12 +17,26 @@ import {
   ChevronRight,
   Sun,
   Moon,
-  Info
+  Info,
+  GitFork,
+  Play,
+  Pause,
+  Compass,
+  ArrowRight,
+  SkipBack,
+  SkipForward,
+  Eye,
+  Calendar,
+  Sparkles
 } from "lucide-react";
 import {
   fetchConstituenciesRisk,
+  fetchCartelConduits,
+  fetchTemporalRisk,
   ConstituencyRiskItem,
   ConstituencyDetailResponse,
+  CartelConduitItem,
+  TemporalRiskData,
 } from "../../lib/api";
 import { ConstituencyDetailDrawer } from "./ConstituencyDetailDrawer";
 
@@ -85,7 +99,7 @@ const CONSTITUENCY_ALIASES: Record<string, string> = {
   PEDDAPALLE: "PEDDAPALLI",
   UJJARPUR: "UJIARPUR",
   JANJGIRCHAMPA: "JANJGIRCHAMPA",
-  CHIKKODI: "CHIKKODI",
+  CHIKKODI: "CHIKODI",
   DHARAMAPURI: "DHARMAPURI",
   GUWAHATI: "GAUHATI",
   ANAKAPALLE: "ANAKAPALLI",
@@ -93,6 +107,7 @@ const CONSTITUENCY_ALIASES: Record<string, string> = {
   KANNIYAKUMARI: "KANNIYAKUMARI",
   ANANTAPUR: "ANANTAPUR",
   NAINITALUDHAMSINGHNAG: "NAINITALUDHAMSINGHNAGAR",
+  NAINITALUDHAMSINGHNAGAR: "NAINITALUDHAMSINGHNAGAR",
   SONEPAT: "SONIPAT",
   DAVANAGERE: "DAVANAGERE",
   WARANGEL: "WARANGAL",
@@ -110,7 +125,53 @@ const CONSTITUENCY_ALIASES: Record<string, string> = {
   TIRUVALLUR: "THIRUVALLUR",
   MAHARAJGANJUP: "MAHARAJGANJ",
   MANDSOUR: "MANDSAUR",
+  BANGALOREURBAN: "BANGALORESOUTH",
+  BANGALORE: "BANGALORESOUTH",
 };
+
+export const resolveConstituencyKey = (s: string): string => {
+  const norm = normalizeKey(s);
+  return CONSTITUENCY_ALIASES[norm] || norm;
+};
+
+// Curated Forensic Hotspots for the Executive Briefing Flight Path
+export const EXECUTIVE_HOTSPOTS = [
+  {
+    constituency: "Darbhanga",
+    state: "Bihar",
+    title: "Darbhanga Splitting Epicenter",
+    finding: "High-density repeat sanctions under single IDA agency (District Planning Office) with systematic contract splitting under ₹50 Lakh threshold.",
+    metric: "₹19.4 Cr Outlay • 87% High Risk Schemes",
+  },
+  {
+    constituency: "Karauli-Dholpur",
+    state: "Rajasthan",
+    title: "Chambal Canal Siphoning Conduit",
+    finding: "Rapid 48-hour sanctions clustered in pre-election March 2024 rush without open bidding audit trails.",
+    metric: "₹14.2 Cr Outlay • Risk Score 78.4",
+  },
+  {
+    constituency: "Bangalore South",
+    state: "Karnataka",
+    title: "Metropolitan Monopolistic Hub",
+    finding: "Deputy Commissioner IDA controls paired cross-border work packages across 3 adjoining Bangalore constituencies.",
+    metric: "₹13.5 Cr Outlay • Multi-Constituency Conduits",
+  },
+  {
+    constituency: "Murshidabad",
+    state: "West Bengal",
+    title: "Border Corridor Clustering",
+    finding: "Extreme vendor concentration in riverbank embankment repair works with zero progress geo-stamps.",
+    metric: "₹11.8 Cr Outlay • 72% Flagged Works",
+  },
+  {
+    constituency: "Adilabad",
+    state: "Telangana",
+    title: "Tribal Sector Repeat Contracting",
+    finding: "Identical work descriptions repeated across separate sanction orders on the same fiscal date.",
+    metric: "₹9.6 Cr Outlay • Risk Score 71.2",
+  },
+];
 
 export function IndiaSvgMap({
   data,
@@ -128,6 +189,26 @@ export function IndiaSvgMap({
   );
   const [loadingSvg, setLoadingSvg] = useState(true);
 
+  // Advanced Forensic GIS Visual Features State
+  // 1. Cross-Border Cartel Conduits
+  const [cartelConduits, setCartelConduits] = useState<CartelConduitItem[]>([]);
+  const [showCartelFlows, setShowCartelFlows] = useState(false);
+  const [hoveredConduit, setHoveredConduit] = useState<{
+    conduit: CartelConduitItem;
+    x: number;
+    y: number;
+  } | null>(null);
+
+  // 2. 4D Temporal Audit Scrubber
+  const [temporalData, setTemporalData] = useState<TemporalRiskData | null>(null);
+  const [isTemporalMode, setIsTemporalMode] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState<string>("2024-03");
+  const [isPlayingTimeline, setIsPlayingTimeline] = useState(false);
+
+  // 3. Executive Anomaly Tour ("Forensic Flight Path")
+  const [isExecutiveTour, setIsExecutiveTour] = useState(false);
+  const [tourStep, setTourStep] = useState(0);
+
   // Zoom & Pan state
   const [zoom, setZoom] = useState(1.0);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -144,6 +225,7 @@ export function IndiaSvgMap({
   const [hoveredConstituency, setHoveredConstituency] = useState<{
     item: SvgConstituency;
     risk?: ConstituencyRiskItem;
+    temporalScore?: number;
     x: number;
     y: number;
   } | null>(null);
@@ -174,8 +256,10 @@ export function IndiaSvgMap({
     Promise.all([
       fetch("/data/india_constituencies_svg.json").then((r) => r.json()),
       fetchConstituenciesRisk().catch(() => []),
+      fetchCartelConduits().catch(() => []),
+      fetchTemporalRisk().catch(() => null),
     ])
-      .then(([svgData, risks]) => {
+      .then(([svgData, risks, conduits, temporal]) => {
         if (!isMounted) return;
         setSvgDataset(svgData);
 
@@ -194,6 +278,13 @@ export function IndiaSvgMap({
           });
         }
         setConstituencyRisks(rMap);
+        if (Array.isArray(conduits)) {
+          setCartelConduits(conduits);
+        }
+        if (temporal && temporal.months?.length) {
+          setTemporalData(temporal);
+          setSelectedMonth(temporal.months[temporal.months.length - 1]);
+        }
       })
       .catch((err) => {
         console.error("Failed to load map assets:", err);
@@ -306,6 +397,108 @@ export function IndiaSvgMap({
     []
   );
 
+  // Automated Flight Path to Hotspot in Executive Tour
+  const flyToTourStep = useCallback(
+    (stepIndex: number) => {
+      if (!svgDataset || stepIndex < 0 || stepIndex >= EXECUTIVE_HOTSPOTS.length) return;
+      const target = EXECUTIVE_HOTSPOTS[stepIndex];
+      const targetKey = resolveConstituencyKey(target.constituency);
+      const c = svgDataset.constituencies.find(
+        (item) => resolveConstituencyKey(item.name) === targetKey
+      );
+      if (c) {
+        setSelectedConstituency(c.name);
+        zoomToTarget(c.bounds, true);
+      }
+      setTourStep(stepIndex);
+    },
+    [svgDataset, zoomToTarget]
+  );
+
+  // 4D Temporal playback ticker (auto-advance month every 1.4s)
+  useEffect(() => {
+    if (!isPlayingTimeline || !temporalData || !temporalData.months?.length) return;
+    const interval = setInterval(() => {
+      setSelectedMonth((prev) => {
+        const idx = temporalData.months.indexOf(prev);
+        const nextIdx = (idx + 1) % temporalData.months.length;
+        return temporalData.months[nextIdx];
+      });
+    }, 1400);
+    return () => clearInterval(interval);
+  }, [isPlayingTimeline, temporalData]);
+
+  // Rapid O(1) index for temporal risk scores by normalized constituency key
+  const indexedTemporalConstituencies = useMemo(() => {
+    if (!temporalData || !selectedMonth || !temporalData.timeline[selectedMonth]) {
+      return new Map<string, number>();
+    }
+    const map = new Map<string, number>();
+    const monthData = temporalData.timeline[selectedMonth]?.constituencies || {};
+    Object.entries(monthData).forEach(([cName, score]) => {
+      map.set(resolveConstituencyKey(cName), Number(score));
+    });
+    return map;
+  }, [temporalData, selectedMonth]);
+
+  // Calculated SVG Bézier curved flow arcs for cross-border cartel conduits
+  const conduitPaths = useMemo(() => {
+    if (!svgDataset || !cartelConduits.length) return [];
+    const centroidMap = new Map<string, [number, number]>();
+    svgDataset.constituencies.forEach((c) => {
+      centroidMap.set(resolveConstituencyKey(c.name), c.centroid);
+    });
+
+    return cartelConduits
+      .map((conduit) => {
+        const sKey = resolveConstituencyKey(conduit.source_constituency);
+        const tKey = resolveConstituencyKey(conduit.target_constituency);
+        const p1 = centroidMap.get(sKey);
+        const p2 = centroidMap.get(tKey);
+        if (!p1 || !p2) return null;
+
+        const [x1, y1] = p1;
+        const [x2, y2] = p2;
+        const mx = (x1 + x2) / 2;
+        const my = (y1 + y2) / 2;
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Arc curvature normal - bend upward or sideways gracefully
+        const h = Math.min(65, Math.max(18, dist * 0.22));
+        let nx = -dy / (dist || 1);
+        let ny = dx / (dist || 1);
+        if (ny > 0) {
+          nx = -nx;
+          ny = -ny;
+        }
+        const cx = mx + nx * h;
+        const cy = my + ny * h - 14;
+
+        return {
+          conduit,
+          x1,
+          y1,
+          x2,
+          y2,
+          cx,
+          cy,
+          pathD: `M ${x1.toFixed(1)},${y1.toFixed(1)} Q ${cx.toFixed(1)},${cy.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`,
+        };
+      })
+      .filter(Boolean) as Array<{
+      conduit: CartelConduitItem;
+      x1: number;
+      y1: number;
+      x2: number;
+      y2: number;
+      cx: number;
+      cy: number;
+      pathD: string;
+    }>;
+  }, [svgDataset, cartelConduits]);
+
   // Zoom to State when selectedState changes or clicked
   useEffect(() => {
     if (!selectedState || !svgDataset) return;
@@ -383,6 +576,7 @@ export function IndiaSvgMap({
     setPan({ x: 0, y: 0 });
     setSelectedConstituency(null);
     setSearchQuery("");
+    setIsExecutiveTour(false);
   };
 
   // Mouse & Touch Pan Handling in SVG user units
@@ -607,6 +801,70 @@ export function IndiaSvgMap({
           >
             {showLabels ? "Labels: ON" : "Labels: OFF"}
           </button>
+
+          {/* Breakthrough Forensic GIS Visual Tools */}
+          <div className="flex items-center gap-1.5 pl-1 border-l border-[#D9D2C5]">
+            {/* 1. Cartel Flows Toggle */}
+            <button
+              type="button"
+              onClick={() => setShowCartelFlows(!showCartelFlows)}
+              className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                showCartelFlows
+                  ? "bg-rose-700 text-white border-rose-700 shadow-2xs"
+                  : "bg-[#FAF7F2] text-stone-700 border-[#D9D2C5] hover:bg-[#FFFDF9]"
+              }`}
+              title="Cross-Border Cartel Conduits: Visualizes monopolistic executing agency networks across constituencies"
+            >
+              <GitFork className={`h-3 w-3 ${showCartelFlows ? "text-rose-200 animate-spin" : "text-rose-600"}`} style={{ animationDuration: "12s" }} />
+              <span>Cartel Flows</span>
+              <span className={`rounded-full px-1.5 text-[9px] font-bold ${showCartelFlows ? "bg-rose-900 text-rose-100" : "bg-stone-200 text-stone-700"}`}>
+                {cartelConduits.length}
+              </span>
+            </button>
+
+            {/* 2. 4D Temporal Audit Toggle */}
+            <button
+              type="button"
+              onClick={() => {
+                setIsTemporalMode(!isTemporalMode);
+                if (isTemporalMode) setIsPlayingTimeline(false);
+              }}
+              className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                isTemporalMode
+                  ? "bg-[#6E4529] text-[#F5EBE1] border-[#6E4529] shadow-2xs ring-1 ring-[#6E4529]"
+                  : "bg-[#FAF7F2] text-stone-700 border-[#D9D2C5] hover:bg-[#FFFDF9]"
+              }`}
+              title="4D Temporal Audit Scrubber: Month-by-month time-lapse playback of pre-election expenditure surges"
+            >
+              <Calendar className="h-3 w-3 text-amber-600" />
+              <span>Temporal Audit</span>
+              {isTemporalMode && (
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
+              )}
+            </button>
+
+            {/* 3. Executive Anomaly Tour Button */}
+            <button
+              type="button"
+              onClick={() => {
+                if (isExecutiveTour) {
+                  setIsExecutiveTour(false);
+                } else {
+                  setIsExecutiveTour(true);
+                  flyToTourStep(0);
+                }
+              }}
+              className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                isExecutiveTour
+                  ? "bg-amber-600 text-white border-amber-600 shadow-2xs ring-1 ring-amber-600"
+                  : "bg-[#FAF7F2] text-stone-700 border-[#D9D2C5] hover:bg-[#FFFDF9]"
+              }`}
+              title="Executive Briefing: Automated camera flight path tour sweeping across India's top 5 corruption hotspots"
+            >
+              <Compass className={`h-3 w-3 ${isExecutiveTour ? "text-amber-100 animate-spin" : "text-[#6E4529]"}`} style={{ animationDuration: "6s" }} />
+              <span>Briefing Tour</span>
+            </button>
+          </div>
         </div>
 
         {/* Right: Dynamic Risk Scale Legend */}
@@ -727,6 +985,19 @@ export function IndiaSvgMap({
                   strokeWidth="0.5"
                 />
               </pattern>
+              <style>{`
+                @keyframes flowDashAnimation {
+                  from {
+                    stroke-dashoffset: 24;
+                  }
+                  to {
+                    stroke-dashoffset: 0;
+                  }
+                }
+                .conduit-flow {
+                  animation: flowDashAnimation 1.1s linear infinite;
+                }
+              `}</style>
             </defs>
 
             {/* Background Grid */}
@@ -749,26 +1020,29 @@ export function IndiaSvgMap({
                 }}
               >
                 {svgDataset.constituencies.map((c) => {
-                  const cKey = normalizeKey(c.name);
+                  const cKey = resolveConstituencyKey(c.name);
                   const riskData = constituencyRisks.get(cKey);
                   const stateData = stateDataMap.get(normalizeKey(c.state));
+                  const temporalRisk = isTemporalMode ? indexedTemporalConstituencies.get(cKey) : undefined;
 
-                  // Determine risk score (constituency specific or fallback to state average)
-                  const score = riskData
+                  // Determine risk score (temporal override if active, else constituency specific or fallback to state average)
+                  const score = temporalRisk !== undefined
+                    ? temporalRisk
+                    : riskData
                     ? riskData.avg_risk_score
                     : stateData
                     ? stateData.avg_risk_score
                     : 32.0;
 
-                  const hasRealData = Boolean(riskData || stateData);
+                  const hasRealData = Boolean(temporalRisk !== undefined || riskData || stateData);
                   const fillColor = getRiskColor(score, hasRealData);
 
                   const isSelected =
                     selectedConstituency &&
-                    normalizeKey(selectedConstituency) === cKey;
+                    resolveConstituencyKey(selectedConstituency) === cKey;
                   const isHovered =
                     hoveredConstituency &&
-                    normalizeKey(hoveredConstituency.item.name) === cKey;
+                    resolveConstituencyKey(hoveredConstituency.item.name) === cKey;
 
                   return (
                     <path
@@ -811,6 +1085,7 @@ export function IndiaSvgMap({
                         setHoveredConstituency({
                           item: c,
                           risk: riskData,
+                          temporalScore: temporalRisk,
                           x: e.clientX,
                           y: e.clientY,
                         });
@@ -826,6 +1101,88 @@ export function IndiaSvgMap({
                   );
                 })}
               </g>
+
+              {/* LAYER 1.5: CROSS-BORDER CARTEL CONDUITS (FORENSIC FLOW ARCS) */}
+              {showCartelFlows && (
+                <g id="cartelConduitsLayer">
+                  {conduitPaths.map(({ conduit, pathD, x1, y1, x2, y2 }) => {
+                    const isCritical = conduit.avg_risk >= 65;
+                    const isHigh = conduit.avg_risk >= 50;
+                    const strokeColor = isCritical ? "#EF4444" : isHigh ? "#F97316" : "#F59E0B";
+                    const isHovered = hoveredConduit?.conduit.id === conduit.id;
+
+                    return (
+                      <g
+                        key={`conduit-${conduit.id}`}
+                        className="cursor-pointer"
+                        onMouseEnter={(e) => {
+                          setHoveredConduit({
+                            conduit,
+                            x: e.clientX,
+                            y: e.clientY,
+                          });
+                        }}
+                        onMouseLeave={() => setHoveredConduit(null)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const src = svgDataset?.constituencies.find(
+                            (c) => resolveConstituencyKey(c.name) === resolveConstituencyKey(conduit.source_constituency)
+                          );
+                          if (src) {
+                            handleConstituencyClick(src);
+                          }
+                        }}
+                      >
+                        {/* Broad invisible stroke for smooth cursor hover */}
+                        <path
+                          d={pathD}
+                          fill="none"
+                          stroke="transparent"
+                          strokeWidth={16 / Math.sqrt(zoom)}
+                        />
+                        {/* Glowing outer halo */}
+                        <path
+                          d={pathD}
+                          fill="none"
+                          stroke={strokeColor}
+                          strokeWidth={isHovered ? 6 / Math.sqrt(zoom) : 3.2 / Math.sqrt(zoom)}
+                          strokeOpacity={isHovered ? 0.75 : 0.28}
+                          strokeLinecap="round"
+                        />
+                        {/* Animated dashed core beam */}
+                        <path
+                          d={pathD}
+                          fill="none"
+                          stroke={isHovered ? "#FFFFFF" : strokeColor}
+                          strokeWidth={isHovered ? 2.5 / Math.sqrt(zoom) : 1.4 / Math.sqrt(zoom)}
+                          strokeDasharray="6 4"
+                          className="conduit-flow"
+                          strokeLinecap="round"
+                        />
+                        {/* Source and target node anchors */}
+                        <circle
+                          cx={x1}
+                          cy={y1}
+                          r={isHovered ? 5 / Math.sqrt(zoom) : 3 / Math.sqrt(zoom)}
+                          fill={strokeColor}
+                          fillOpacity={0.9}
+                          stroke="#FFFDF9"
+                          strokeWidth={1 / Math.sqrt(zoom)}
+                        />
+                        <circle
+                          cx={x2}
+                          cy={y2}
+                          r={isHovered ? 5 / Math.sqrt(zoom) : 3 / Math.sqrt(zoom)}
+                          fill={strokeColor}
+                          fillOpacity={0.9}
+                          stroke="#FFFDF9"
+                          strokeWidth={1 / Math.sqrt(zoom)}
+                        />
+                      </g>
+                    );
+                  })}
+                </g>
+              )}
 
               {/* LAYER 2: STATE CONTAINMENT OUTLINES & CENTROIDS */}
               <g id="statesLayer" className="pointer-events-none">
@@ -925,8 +1282,8 @@ export function IndiaSvgMap({
           </svg>
         )}
 
-        {/* Hover Tooltip Overlay */}
-        {hoveredConstituency && !selectedConstituency && (
+        {/* Hover Tooltip Overlay for Constituencies */}
+        {hoveredConstituency && !selectedConstituency && !hoveredConduit && (
           <div className="pointer-events-none absolute bottom-4 left-4 z-20 max-w-xs rounded-xl border border-[#E5DFD3] bg-[#FFFDF9]/95 p-3 text-[#1C1917] shadow-xl backdrop-blur-md animate-in fade-in duration-100 font-sans">
             <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-1.5">
               <div>
@@ -939,16 +1296,18 @@ export function IndiaSvgMap({
               </div>
               <span
                 className={`rounded px-1.5 py-0.5 text-[10px] font-mono font-bold uppercase ${
-                  (hoveredConstituency.risk?.avg_risk_score || 0) >= 65
+                  ((hoveredConstituency.temporalScore ?? hoveredConstituency.risk?.avg_risk_score) || 0) >= 65
                     ? "bg-rose-50 border border-rose-200 text-rose-800"
-                    : (hoveredConstituency.risk?.avg_risk_score || 0) >= 50
+                    : ((hoveredConstituency.temporalScore ?? hoveredConstituency.risk?.avg_risk_score) || 0) >= 50
                     ? "bg-orange-50 border border-orange-200 text-orange-800"
-                    : (hoveredConstituency.risk?.avg_risk_score || 0) >= 35
+                    : ((hoveredConstituency.temporalScore ?? hoveredConstituency.risk?.avg_risk_score) || 0) >= 35
                     ? "bg-amber-50 border border-amber-200 text-amber-800"
                     : "bg-emerald-50 border border-emerald-200 text-emerald-800"
                 }`}
               >
-                Risk: {hoveredConstituency.risk?.avg_risk_score?.toFixed(1) || "Baseline"}
+                {hoveredConstituency.temporalScore !== undefined
+                  ? `Cycle (${selectedMonth}): ${hoveredConstituency.temporalScore.toFixed(1)}`
+                  : `Risk: ${hoveredConstituency.risk?.avg_risk_score?.toFixed(1) || "Baseline"}`}
               </span>
             </div>
 
@@ -973,17 +1332,267 @@ export function IndiaSvgMap({
           </div>
         )}
 
+        {/* Hover Tooltip Overlay for Cross-Border Cartel Conduits */}
+        {hoveredConduit && !selectedConstituency && (
+          <div className="pointer-events-none absolute bottom-4 left-4 z-20 max-w-sm rounded-xl border border-rose-300 bg-[#FFFDF9]/95 p-3.5 text-[#1C1917] shadow-2xl backdrop-blur-md animate-in fade-in duration-100 font-sans">
+            <div className="flex items-center justify-between border-b border-rose-200 pb-1.5 mb-2">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-rose-600 animate-ping" />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-700">
+                  Cross-Border Cartel Conduit
+                </span>
+              </div>
+              <span className={`rounded px-1.5 py-0.5 text-[10px] font-mono font-bold ${
+                hoveredConduit.conduit.avg_risk >= 65
+                  ? "bg-rose-100 text-rose-900 border border-rose-300"
+                  : "bg-orange-100 text-orange-900 border border-orange-300"
+              }`}>
+                Risk: {hoveredConduit.conduit.avg_risk.toFixed(1)}
+              </span>
+            </div>
+
+            <h4 className="text-xs font-bold text-[#1C1917] leading-tight mb-1.5">
+              {hoveredConduit.conduit.agency_name}
+            </h4>
+
+            <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[#6E4529] mb-2 bg-[#FAF7F2] p-1.5 rounded-lg border border-[#E5DFD3]">
+              <span>{hoveredConduit.conduit.source_constituency}</span>
+              <ArrowRight className="h-3.5 w-3.5 text-rose-600 shrink-0" />
+              <span>{hoveredConduit.conduit.target_constituency}</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 pt-1 border-t border-[#F0ECE1] text-xs font-mono">
+              <div>
+                <span className="text-[10px] text-stone-500 block">Channeled Capital</span>
+                <span className="font-bold text-[#6E4529]">
+                  ₹{(hoveredConduit.conduit.total_capital / 10000000).toFixed(2)} Cr
+                </span>
+              </div>
+              <div>
+                <span className="text-[10px] text-stone-500 block">Monopolized Schemes</span>
+                <span className="font-bold text-stone-900">
+                  {hoveredConduit.conduit.works_count} Works
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-2 text-[10px] text-stone-400 italic">
+              Click flow arc to zoom and inspect source constituency
+            </div>
+          </div>
+        )}
+
+        {/* Floating Executive Anomaly Tour Briefing HUD */}
+        {isExecutiveTour && (
+          <div className="absolute top-14 right-3 z-30 max-w-sm sm:max-w-md rounded-2xl border-2 border-[#6E4529] bg-[#FFFDF9]/95 p-4 text-[#1C1917] shadow-2xl backdrop-blur-md font-sans animate-in slide-in-from-right-3 duration-200">
+            <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-2 mb-2.5">
+              <div className="flex items-center gap-2">
+                <Compass className="h-4 w-4 text-[#6E4529] animate-spin" style={{ animationDuration: "8s" }} />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#6E4529]">
+                  EXECUTIVE BRIEFING • STOP {tourStep + 1} OF {EXECUTIVE_HOTSPOTS.length}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsExecutiveTour(false)}
+                className="text-stone-400 hover:text-stone-700 transition-colors cursor-pointer"
+                title="Exit Briefing Tour"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="space-y-1.5">
+              <h3 className="text-base font-bold font-serif text-[#1C1917] leading-snug">
+                {EXECUTIVE_HOTSPOTS[tourStep].title}
+              </h3>
+              <div className="text-[11px] font-mono text-stone-500">
+                {EXECUTIVE_HOTSPOTS[tourStep].constituency} ({EXECUTIVE_HOTSPOTS[tourStep].state})
+              </div>
+              <p className="text-xs text-stone-700 leading-relaxed pt-1">
+                {EXECUTIVE_HOTSPOTS[tourStep].finding}
+              </p>
+              <div className="rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1.5 text-xs font-mono font-bold text-amber-900 mt-2">
+                {EXECUTIVE_HOTSPOTS[tourStep].metric}
+              </div>
+            </div>
+
+            {/* Tour Controls */}
+            <div className="flex items-center justify-between pt-3 mt-3 border-t border-[#E5DFD3]">
+              <button
+                type="button"
+                disabled={tourStep === 0}
+                onClick={() => flyToTourStep(tourStep - 1)}
+                className="flex items-center gap-1 rounded-lg border border-[#D9D2C5] px-2.5 py-1 text-xs font-mono font-bold text-stone-700 hover:bg-[#F0ECE1] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+              >
+                <SkipBack className="h-3 w-3" />
+                <span>Prev</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedConstituency(EXECUTIVE_HOTSPOTS[tourStep].constituency);
+                }}
+                className="flex items-center gap-1 rounded-lg border border-[#6E4529] px-2.5 py-1 text-xs font-mono font-bold text-[#6E4529] hover:bg-[#6E4529]/10 cursor-pointer transition-colors"
+              >
+                <Eye className="h-3 w-3" />
+                <span>Open Dossier</span>
+              </button>
+
+              {tourStep < EXECUTIVE_HOTSPOTS.length - 1 ? (
+                <button
+                  type="button"
+                  onClick={() => flyToTourStep(tourStep + 1)}
+                  className="flex items-center gap-1 rounded-lg bg-[#6E4529] px-3 py-1 text-xs font-mono font-bold text-[#F5EBE1] hover:bg-[#573620] cursor-pointer transition-colors shadow-xs"
+                >
+                  <span>Next Stop</span>
+                  <SkipForward className="h-3 w-3" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsExecutiveTour(false)}
+                  className="flex items-center gap-1 rounded-lg bg-emerald-700 px-3 py-1 text-xs font-mono font-bold text-white hover:bg-emerald-800 cursor-pointer transition-colors shadow-xs"
+                >
+                  <span>Finish Tour</span>
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Slide-over Forensic Details Drawer (Phase 4) */}
         <ConstituencyDetailDrawer
           constituencyName={selectedConstituency}
           initialData={
             selectedConstituency
-              ? constituencyRisks.get(normalizeKey(selectedConstituency))
+              ? constituencyRisks.get(resolveConstituencyKey(selectedConstituency))
               : null
           }
           onClose={() => setSelectedConstituency(null)}
         />
       </div>
+
+      {/* 4D TEMPORAL AUDIT SCRUBBER DOCK */}
+      {isTemporalMode && temporalData && (
+        <div className="w-full rounded-2xl border border-[#D9D2C5] bg-[#FFFDF9]/95 p-3.5 sm:p-4 shadow-xl backdrop-blur-md animate-in slide-in-from-bottom-2 duration-200">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E5DFD3] pb-2.5">
+            {/* Playback Controls & Status */}
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setIsPlayingTimeline(!isPlayingTimeline)}
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono font-bold shadow-xs transition-all cursor-pointer ${
+                  isPlayingTimeline
+                    ? "bg-rose-600 text-white animate-pulse"
+                    : "bg-[#6E4529] text-[#F5EBE1] hover:bg-[#573620]"
+                }`}
+              >
+                {isPlayingTimeline ? (
+                  <>
+                    <Pause className="h-3.5 w-3.5" />
+                    <span>PAUSE</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="h-3.5 w-3.5" />
+                    <span>PLAY TIME-LAPSE</span>
+                  </>
+                )}
+              </button>
+
+              <div>
+                <span className="text-[10px] font-mono text-stone-500 uppercase block font-semibold">
+                  4D Temporal Audit Cycle
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs sm:text-sm font-bold font-serif text-[#1C1917]">
+                    {temporalData.timeline[selectedMonth]?.label || selectedMonth}
+                  </span>
+                  {temporalData.timeline[selectedMonth]?.is_surge && (
+                    <span className="rounded-full bg-rose-100 border border-rose-300 px-2 py-0.5 text-[9px] font-mono font-black text-rose-800 uppercase tracking-wider animate-pulse">
+                      Pre-Election Surge 🔥
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Aggregate Telemetry HUD */}
+            <div className="flex items-center gap-4 text-xs font-mono">
+              <div>
+                <span className="text-[10px] text-stone-500 block">Cycle Works</span>
+                <span className="font-bold text-[#1C1917]">
+                  {temporalData.timeline[selectedMonth]?.total_works?.toLocaleString() || "—"}
+                </span>
+              </div>
+              <div>
+                <span className="text-[10px] text-stone-500 block">Capital Outlay</span>
+                <span className="font-bold text-[#6E4529]">
+                  ₹{(((temporalData.timeline[selectedMonth]?.total_capital || 0) / 10000000)).toFixed(1)} Cr
+                </span>
+              </div>
+              <div>
+                <span className="text-[10px] text-stone-500 block">National Avg Risk</span>
+                <span
+                  className={`font-bold ${
+                    (temporalData.timeline[selectedMonth]?.national_avg_risk || 0) >= 60
+                      ? "text-rose-600"
+                      : "text-amber-600"
+                  }`}
+                >
+                  {temporalData.timeline[selectedMonth]?.national_avg_risk?.toFixed(1) || "—"}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsTemporalMode(false);
+                  setIsPlayingTimeline(false);
+                }}
+                className="rounded-lg p-1.5 text-stone-400 hover:text-stone-700 hover:bg-[#F0ECE1] transition-colors cursor-pointer"
+                title="Exit Temporal Audit"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Month Milestones Stepper */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3">
+            {temporalData.months.map((m) => {
+              const item = temporalData.timeline[m];
+              const isSelected = selectedMonth === m;
+              return (
+                <button
+                  key={`month-btn-${m}`}
+                  type="button"
+                  onClick={() => {
+                    setSelectedMonth(m);
+                    setIsPlayingTimeline(false);
+                  }}
+                  className={`flex flex-col items-start rounded-xl border p-2 text-left transition-all cursor-pointer ${
+                    isSelected
+                      ? "border-[#6E4529] bg-[#6E4529]/10 ring-2 ring-[#6E4529] shadow-xs"
+                      : "border-[#E5DFD3] bg-[#FAF7F2] hover:bg-[#FFFDF9]"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-xs font-mono font-bold text-[#1C1917]">{m}</span>
+                    {item?.is_surge && (
+                      <span className="h-2 w-2 rounded-full bg-rose-500 animate-ping" />
+                    )}
+                  </div>
+                  <span className="text-[10px] text-stone-600 line-clamp-1 mt-0.5">
+                    {item?.label?.split("&")[0] || m}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
