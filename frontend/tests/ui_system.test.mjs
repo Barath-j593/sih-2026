@@ -175,3 +175,150 @@ describe("UI Bug & Contract Discrepancy Diagnostics", () => {
     assert.ok(hasTitleCase, "Database alert severities are Titlecase, confirming frontend TS2367 mismatch");
   });
 });
+
+describe("React Bits MagicBento Component Verification", () => {
+  it("should have SETU_CORE_CAPABILITIES with all 6 statutory cards configured", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const tsxPath = path.resolve("./components/ui/MagicBento.tsx");
+    const tsxContent = fs.readFileSync(tsxPath, "utf-8");
+
+    assert.ok(tsxContent.includes("export const SETU_CORE_CAPABILITIES"), "Must export SETU_CORE_CAPABILITIES");
+    assert.ok(tsxContent.includes('DEFAULT_SOVEREIGN_GLOW = "245, 158, 11"'), "Must use sovereign warm amber/gold RGB");
+
+    const expectedLabels = ["GFR §155", "HHI > 0.65", "Forensic GIS", "March Rush", "Multi-Tier", "CAG Ready"];
+    for (const label of expectedLabels) {
+      assert.ok(tsxContent.includes(`label: "${label}"`), `Card must have label ${label}`);
+    }
+  });
+
+  it("should contain institutional styles and accessibility guards in MagicBento.css", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve("./components/ui/MagicBento.css");
+    const cssContent = fs.readFileSync(cssPath, "utf-8");
+
+    assert.ok(cssContent.includes("--bento-glow-color: 245, 158, 11;"), "Must use SETU amber/gold glow token");
+    assert.ok(cssContent.includes("#0D1527"), "Must use SETU midnight slate navy background token");
+    assert.ok(cssContent.includes("magic-bento-grid"), "Must define responsive grid");
+    assert.ok(cssContent.includes("prefers-reduced-motion"), "Must provide accessibility guard for reduced motion");
+  });
+
+  it("should mount MagicBento inside Act II on the landing page", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const pagePath = path.resolve("./app/page.tsx");
+    const pageContent = fs.readFileSync(pagePath, "utf-8");
+
+    assert.ok(pageContent.includes("MagicBento"), "Landing page must import and render MagicBento");
+    assert.ok(pageContent.includes('glowColor="245, 158, 11"'), "Landing page must set sovereign amber glow");
+  });
+});
+
+describe("Universal MagicCard Component & Site-Wide Integration Verification", () => {
+  it("should define MagicCard with polymorphic typing and GSAP tilt/glow in MagicCard.tsx", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cardTsxPath = path.resolve("./components/ui/MagicCard.tsx");
+    const content = fs.readFileSync(cardTsxPath, "utf-8");
+
+    assert.ok(content.includes("export const MagicCard"), "Must export MagicCard");
+    assert.ok(content.includes("enableBorderGlow"), "Must support enableBorderGlow prop");
+    assert.ok(content.includes("enableTilt"), "Must support enableTilt prop");
+    assert.ok(content.includes("clickEffect"), "Must support clickEffect prop");
+    assert.ok(content.includes("gsap"), "Must utilize GSAP for smooth spring physics");
+  });
+
+  it("should integrate MagicCard inside StatCard to power all 16 command center KPI cards", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const statCardPath = path.resolve("./components/ui/StatCard.tsx");
+    const content = fs.readFileSync(statCardPath, "utf-8");
+
+    assert.ok(content.includes("import { MagicCard }"), "StatCard must import MagicCard");
+    assert.ok(content.includes("<MagicCard"), "StatCard must wrap elements in MagicCard");
+  });
+
+  it("should apply MagicCard across all major pages (landing, dashboard, cases, alerts, reports, metrics, roadmap, works, maps, graph)", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+
+    const pagesToVerify = [
+      "./app/page.tsx",
+      "./components/dashboard/MinistryView.tsx",
+      "./components/dashboard/StateNodalView.tsx",
+      "./components/dashboard/DistrictMagistrateView.tsx",
+      "./components/dashboard/MPConstituencyView.tsx",
+      "./app/cases/page.tsx",
+      "./app/alerts/page.tsx",
+      "./app/reports/page.tsx",
+      "./app/model-metrics/page.tsx",
+      "./app/roadmap/page.tsx",
+      "./app/works/page.tsx",
+      "./app/works/[id]/page.tsx",
+      "./app/maps/page.tsx",
+      "./app/graph/page.tsx"
+    ];
+
+    for (const relativePath of pagesToVerify) {
+      const fullPath = path.resolve(relativePath);
+      const content = fs.readFileSync(fullPath, "utf-8");
+      assert.ok(content.includes("MagicCard"), `${relativePath} must use MagicCard component`);
+    }
+  });
+});
+
+describe("SETU Sovereign SpecularButton Adaptation Verification", () => {
+  it("should define SpecularButton with OGL WebGL shader and SETU sovereign tokens", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const buttonTsxPath = path.resolve("./components/ui/SpecularButton.tsx");
+    const content = fs.readFileSync(buttonTsxPath, "utf-8");
+
+    assert.ok(content.includes("export const SpecularButton"), "Must export SpecularButton");
+    assert.ok(content.includes("SETU_VARIANTS"), "Must define SETU sovereign variant mapping");
+    assert.ok(content.includes("#1C1917"), "Primary variant must use sovereign midnight slate #1C1917");
+    assert.ok(content.includes("#FDE68A"), "Primary variant must use royal golden rim highlight #FDE68A");
+    assert.ok(content.includes("#D97706"), "Amber variant must use brand saffron/amber #D97706");
+    assert.ok(content.includes("#FAF7F2"), "Parchment variant must use archival vellum #FAF7F2");
+    assert.ok(content.includes("#991B1B"), "Danger variant must use audit crimson #991B1B");
+    assert.ok(content.includes("#065F46"), "Success variant must use verified emerald #065F46");
+    assert.ok(content.includes("from \"ogl\""), "Must utilize OGL for WebGL specular shader rendering");
+  });
+
+  it("should contain sovereign institutional styling and accessibility in SpecularButton.css", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const cssPath = path.resolve("./components/ui/SpecularButton.css");
+    const content = fs.readFileSync(cssPath, "utf-8");
+
+    assert.ok(content.includes(".specular-button"), "Must define .specular-button class");
+    assert.ok(content.includes(".specular-button:focus-visible"), "Must define visible focus states");
+    assert.ok(content.includes(".specular-button:disabled"), "Must handle disabled state");
+    assert.ok(content.includes("prefers-reduced-motion"), "Must provide reduced-motion accessibility guard");
+    assert.ok(content.includes(".specular-button--sm"), "Must provide sm sizing");
+    assert.ok(content.includes(".specular-button--md"), "Must provide md sizing");
+    assert.ok(content.includes(".specular-button--lg"), "Must provide lg sizing");
+  });
+
+  it("should integrate SpecularButton in key user action flows (landing, works detail, reports, cases, dashboard)", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+
+    const keyFiles = [
+      "./app/page.tsx",
+      "./app/works/[id]/page.tsx",
+      "./app/reports/page.tsx",
+      "./app/dashboard/page.tsx",
+      "./app/cases/page.tsx"
+    ];
+
+    for (const relativePath of keyFiles) {
+      const fullPath = path.resolve(relativePath);
+      const content = fs.readFileSync(fullPath, "utf-8");
+      assert.ok(content.includes("SpecularButton"), `${relativePath} must import and use SpecularButton`);
+    }
+  });
+});
+
+

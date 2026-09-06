@@ -15,6 +15,7 @@ import { MinistryView } from "../../components/dashboard/MinistryView";
 import { StateNodalView } from "../../components/dashboard/StateNodalView";
 import { DistrictMagistrateView } from "../../components/dashboard/DistrictMagistrateView";
 import { MPConstituencyView } from "../../components/dashboard/MPConstituencyView";
+import { SpecularButton } from "../../components/ui/SpecularButton";
 
 import {
   AlertTriangle,
@@ -105,12 +106,14 @@ export default function OperationalDashboardPage() {
         <p className="mt-1 text-xs text-rose-800 font-sans">
           {error || "Could not retrieve live risk telemetry."}
         </p>
-        <button
+        <SpecularButton
           onClick={() => window.location.reload()}
-          className="mt-4 rounded-md bg-[#6E4529] px-4 py-2 text-xs font-mono font-bold tracking-wider uppercase text-white hover:bg-[#5A361F] transition-all shadow-xs"
+          variant="amber"
+          size="sm"
+          className="mt-4"
         >
           Retry Connection
-        </button>
+        </SpecularButton>
       </div>
     );
   }

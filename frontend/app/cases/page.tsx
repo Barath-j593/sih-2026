@@ -5,6 +5,8 @@ import Link from "next/link";
 import { fetchCases, updateCaseStatus, addCaseNote } from "../../lib/api";
 import { CaseItem } from "../../lib/types";
 import { RiskBadge } from "../../components/ui/RiskBadge";
+import { MagicCard } from "../../components/ui/MagicCard";
+import { SpecularButton } from "../../components/ui/SpecularButton";
 import {
   KanbanSquare,
   ShieldAlert,
@@ -206,9 +208,13 @@ export default function CasesPage() {
 
                 <div className="mt-3 space-y-3 max-h-[580px] overflow-y-auto pr-1">
                   {flaggedCases.map((c) => (
-                    <div
+                    <MagicCard
                       key={c.id}
                       onClick={() => setSelectedCase(c)}
+                      glowColor="239, 68, 68"
+                      enableTilt={true}
+                      enableBorderGlow={true}
+                      clickEffect={true}
                       className={`cursor-pointer rounded-xl border p-3.5 transition-all ${
                         selectedCase?.id === c.id
                           ? "border-red-500 bg-white shadow-md ring-2 ring-red-500/20"
@@ -244,7 +250,7 @@ export default function CasesPage() {
                           Start Review →
                         </button>
                       </div>
-                    </div>
+                    </MagicCard>
                   ))}
                 </div>
               </div>
@@ -261,9 +267,13 @@ export default function CasesPage() {
 
                 <div className="mt-3 space-y-3 max-h-[580px] overflow-y-auto pr-1">
                   {reviewCases.map((c) => (
-                    <div
+                    <MagicCard
                       key={c.id}
                       onClick={() => setSelectedCase(c)}
+                      glowColor="245, 158, 11"
+                      enableTilt={true}
+                      enableBorderGlow={true}
+                      clickEffect={true}
                       className={`cursor-pointer rounded-xl border p-3.5 transition-all ${
                         selectedCase?.id === c.id
                           ? "border-amber-500 bg-white shadow-md ring-2 ring-amber-500/20"
@@ -299,7 +309,7 @@ export default function CasesPage() {
                           Resolve ✓
                         </button>
                       </div>
-                    </div>
+                    </MagicCard>
                   ))}
                 </div>
               </div>
@@ -316,9 +326,13 @@ export default function CasesPage() {
 
                 <div className="mt-3 space-y-3 max-h-[580px] overflow-y-auto pr-1">
                   {resolvedCases.map((c) => (
-                    <div
+                    <MagicCard
                       key={c.id}
                       onClick={() => setSelectedCase(c)}
+                      glowColor="16, 185, 129"
+                      enableTilt={true}
+                      enableBorderGlow={true}
+                      clickEffect={true}
                       className={`cursor-pointer rounded-xl border p-3.5 transition-all ${
                         selectedCase?.id === c.id
                           ? "border-emerald-500 bg-white shadow-md ring-2 ring-emerald-500/20"
@@ -334,7 +348,7 @@ export default function CasesPage() {
                         <span>{c.district}, {c.state}</span>
                         <span className="text-emerald-700 font-bold">Closed</span>
                       </div>
-                    </div>
+                    </MagicCard>
                   ))}
                 </div>
               </div>
@@ -342,7 +356,12 @@ export default function CasesPage() {
           </div>
 
           {/* Right: Selected Case Details & Audit Log */}
-          <div className="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+          <MagicCard 
+            glowColor="245, 158, 11"
+            enableBorderGlow={true}
+            enableTilt={false}
+            className="lg:col-span-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4"
+          >
             {selectedCase ? (
               <>
                 <div className="border-b border-slate-100 pb-3">
@@ -376,13 +395,15 @@ export default function CasesPage() {
                 </div>
 
                 {/* Direct Link to Work Detail */}
-                <Link
+                <SpecularButton
                   href={`/works/${selectedCase.work_id}`}
-                  className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-slate-50 py-2 text-xs font-bold text-slate-800 hover:bg-slate-100 transition-all shadow-2xs"
+                  variant="secondary"
+                  size="sm"
+                  className="w-full"
                 >
                   <span>Open Full AI Explainability Audit</span>
                   <ExternalLink className="h-3.5 w-3.5" />
-                </Link>
+                </SpecularButton>
 
                 {/* Audit Notes Log */}
                 <div className="border-t border-slate-100 pt-3 space-y-2">
@@ -431,12 +452,13 @@ export default function CasesPage() {
                       onKeyDown={(e) => e.key === "Enter" && handleAddNote()}
                       className="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:border-slate-900 focus:outline-none"
                     />
-                    <button
+                    <SpecularButton
                       onClick={() => handleAddNote()}
-                      className="rounded-xl bg-slate-900 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-800"
+                      variant="primary"
+                      size="sm"
                     >
                       <Send className="h-3.5 w-3.5" />
-                    </button>
+                    </SpecularButton>
                   </div>
                 </div>
               </>
@@ -445,7 +467,7 @@ export default function CasesPage() {
                 Select a case from the board to inspect audit details.
               </div>
             )}
-          </div>
+          </MagicCard>
         </div>
       )}
     </div>

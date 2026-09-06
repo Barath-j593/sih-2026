@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { ComingSoonModal } from "../../components/ui/ComingSoonModal";
+import { MagicCard } from "../../components/ui/MagicCard";
 import {
   Sparkles,
   Calendar,
@@ -132,9 +133,13 @@ export default function RoadmapPage() {
         {roadmapItems.map((item) => {
           const Icon = item.icon;
           return (
-            <div
+            <MagicCard
               key={item.title}
               onClick={() => setSelectedFeature(item)}
+              glowColor="245, 158, 11"
+              enableTilt={true}
+              enableBorderGlow={true}
+              clickEffect={true}
               className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-xs cursor-pointer hover:border-amber-500 hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
@@ -162,7 +167,7 @@ export default function RoadmapPage() {
                 <span>View Architecture Spec</span>
                 <span>→</span>
               </div>
-            </div>
+            </MagicCard>
           );
         })}
       </div>

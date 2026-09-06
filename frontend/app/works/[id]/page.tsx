@@ -7,6 +7,8 @@ import { fetchWorkDetail, createCase } from "../../../lib/api";
 import { WorkDetail } from "../../../lib/types";
 import { RiskBadge } from "../../../components/ui/RiskBadge";
 import { FraudEvidenceVisualizer } from "../../../components/ui/FraudEvidenceVisualizer";
+import { MagicCard } from "../../../components/ui/MagicCard";
+import { SpecularButton } from "../../../components/ui/SpecularButton";
 import {
   ArrowLeft,
   ShieldAlert,
@@ -146,14 +148,15 @@ export default function WorkDetailPage() {
               <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Case Flagged in Kanban
             </span>
           ) : (
-            <button
+            <SpecularButton
               onClick={handleFlagInvestigation}
               disabled={submittingCase}
-              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800 transition-all shadow-sm disabled:opacity-50"
+              variant="danger"
+              size="md"
             >
               <FileWarning className="h-4 w-4" />
               <span>{submittingCase ? "Creating Case..." : "Flag for Investigation"}</span>
-            </button>
+            </SpecularButton>
           )}
         </div>
       </div>
@@ -164,7 +167,7 @@ export default function WorkDetailPage() {
       {/* 2. Main Grid: Parameters + Risk Score Engine */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Project Parameters Card */}
-        <div className="lg:col-span-4 space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <MagicCard glowColor="245, 158, 11" className="lg:col-span-4 space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-2.5">
             Project Baseline Parameters
           </h3>
@@ -215,10 +218,10 @@ export default function WorkDetailPage() {
               </div>
             </div>
           </div>
-        </div>
+        </MagicCard>
 
         {/* Explainability Engine Card */}
-        <div className="lg:col-span-8 space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <MagicCard glowColor={work.risk_score >= 70 ? "239, 68, 68" : "245, 158, 11"} className="lg:col-span-8 space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
               <h3 className="text-base font-bold text-slate-900">SETU AI Risk Fusion & Explainability Trace</h3>
@@ -299,7 +302,7 @@ export default function WorkDetailPage() {
               </div>
             </div>
           </div>
-        </div>
+        </MagicCard>
       </div>
     </div>
   );

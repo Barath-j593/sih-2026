@@ -23,6 +23,7 @@ import { RiskBadge } from "../ui/RiskBadge";
 import { DistrictDrilldownMap } from "../maps/DistrictDrilldownMap";
 import { FraudEvidenceVisualizer } from "../ui/FraudEvidenceVisualizer";
 import { StateVendorConcentrationMatrix } from "./visualizers/StateVendorConcentrationMatrix";
+import { MagicCard } from "../ui/MagicCard";
 
 interface StateNodalViewProps {
   data: DashboardData;
@@ -37,7 +38,12 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
   return (
     <div className="space-y-6">
       {/* State Nodal Vigilance Directive Banner */}
-      <div className="relative overflow-hidden rounded-xl border border-[#4E2F1A] bg-[#6E4529] p-5 text-[#F5EBE1] shadow-[0_4px_20px_rgba(40,20,10,0.12)]">
+      <MagicCard 
+        glowColor="245, 158, 11"
+        enableBorderGlow={true}
+        enableTilt={true}
+        className="relative overflow-hidden rounded-xl border border-[#4E2F1A] bg-[#6E4529] p-5 text-[#F5EBE1] shadow-[0_4px_20px_rgba(40,20,10,0.12)]"
+      >
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -64,7 +70,7 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
             </Link>
           </div>
         </div>
-      </div>
+      </MagicCard>
 
       {/* 4 State KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -121,7 +127,12 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
       {/* State Typologies & Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* State Anomaly Breakdown */}
-        <div className="lg:col-span-6 rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)]">
+        <MagicCard 
+          glowColor="245, 158, 11"
+          enableBorderGlow={true}
+          enableTilt={false}
+          className="lg:col-span-6 rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)]"
+        >
           <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-3">
             <div>
               <h3 className="text-base font-editorial font-bold text-[#1C1917]">{jurisdiction} Anomaly Typologies</h3>
@@ -152,7 +163,7 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
               </div>
             ))}
           </div>
-        </div>
+        </MagicCard>
       </div>
 
       {/* Highest Risk State Project Spotlight */}
@@ -175,7 +186,12 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
       )}
 
       {/* State Priority Inspection Works Table */}
-      <div className="rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)]">
+      <MagicCard 
+        glowColor="245, 158, 11"
+        enableBorderGlow={true}
+        enableTilt={false}
+        className="rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)]"
+      >
         <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-4">
           <div>
             <h3 className="text-base font-editorial font-bold text-[#1C1917]">{jurisdiction} Priority Inspection Queue</h3>
@@ -224,7 +240,7 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
             </tbody>
           </table>
         </div>
-      </div>
+      </MagicCard>
     </div>
   );
 }

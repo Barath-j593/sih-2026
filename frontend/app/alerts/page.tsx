@@ -5,6 +5,7 @@ import Link from "next/link";
 import { fetchAlerts, markAlertAsRead } from "../../lib/api";
 import { AlertItem } from "../../lib/types";
 import { RiskBadge } from "../../components/ui/RiskBadge";
+import { MagicCard } from "../../components/ui/MagicCard";
 import {
   Bell,
   CheckCheck,
@@ -100,69 +101,76 @@ export default function AlertsPage() {
             <p className="text-sm font-bold text-slate-800">No active alerts for the selected filter.</p>
           </div>
         ) : (
-          filtered.map((alert) => (
-            <div
-              key={alert.id}
-              className={`rounded-2xl border p-4 sm:p-5 transition-all shadow-xs ${
-                alert.is_read
-                  ? "border-slate-200 bg-white opacity-85"
-                  : "border-red-200 bg-red-50/25 ring-1 ring-red-500/20"
-              }`}
-            >
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="flex items-start gap-3">
-                  <div
-                    className={`mt-0.5 rounded-xl p-2.5 ${
-                      alert.severity.toLowerCase() === "critical"
-                        ? "bg-red-100 text-red-600"
-                        : "bg-amber-100 text-amber-600"
-                    }`}
-                  >
-                    <ShieldAlert className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-slate-500">{alert.work_id}</span>
-                      <span
-                        className={`rounded px-1.5 py-0.5 text-[10px] font-bold uppercase ${
-                          alert.severity.toLowerCase() === "critical"
-                            ? "bg-red-100 text-red-800 border border-red-200"
-                            : "bg-amber-100 text-amber-800 border border-amber-200"
-                        }`}
-                      >
-                        {alert.severity}
-                      </span>
-                      <span className="text-[11px] text-slate-400 font-mono">
-                        {alert.created_at ? new Date(alert.created_at).toLocaleDateString() : "Live Trigger"}
-                      </span>
-                    </div>
-                    <h4 className="mt-1 text-sm font-bold text-slate-900">{alert.title}</h4>
-                    <p className="mt-1 text-xs text-slate-600 leading-relaxed">{alert.description}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  <Link
-                    href={`/works/${alert.work_id}`}
-                    className="flex items-center gap-1 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-2xs"
-                  >
-                    <span>Inspect Work</span>
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </Link>
-
-                  {!alert.is_read && (
-                    <button
-                      onClick={() => handleMarkRead(alert.id)}
-                      className="flex items-center gap-1 rounded-xl bg-slate-900 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-800 shadow-2xs"
+          filtered.map((alert) => {
+            const isCritical = alert.severity.toLowerCase() === "critical";
+            return (
+              <MagicCard
+                key={alert.id}
+                glowColor={isCritical ? "239, 68, 68" : "245, 158, 11"}
+                enableTilt={true}
+                enableBorderGlow={true}
+                clickEffect={true}
+                className={`rounded-2xl border p-4 sm:p-5 transition-all shadow-xs ${
+                  alert.is_read
+                    ? "border-slate-200 bg-white opacity-85"
+                    : "border-red-200 bg-red-50/25 ring-1 ring-red-500/20"
+                }`}
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={`mt-0.5 rounded-xl p-2.5 ${
+                        isCritical
+                          ? "bg-red-100 text-red-600"
+                          : "bg-amber-100 text-amber-600"
+                      }`}
                     >
-                      <Check className="h-3.5 w-3.5" />
-                      <span>Dismiss</span>
-                    </button>
-                  )}
+                      <ShieldAlert className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-bold text-slate-500">{alert.work_id}</span>
+                        <span
+                          className={`rounded px-1.5 py-0.5 text-[10px] font-bold uppercase ${
+                            isCritical
+                              ? "bg-red-100 text-red-800 border border-red-200"
+                              : "bg-amber-100 text-amber-800 border border-amber-200"
+                          }`}
+                        >
+                          {alert.severity}
+                        </span>
+                        <span className="text-[11px] text-slate-400 font-mono">
+                          {alert.created_at ? new Date(alert.created_at).toLocaleDateString() : "Live Trigger"}
+                        </span>
+                      </div>
+                      <h4 className="mt-1 text-sm font-bold text-slate-900">{alert.title}</h4>
+                      <p className="mt-1 text-xs text-slate-600 leading-relaxed">{alert.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Link
+                      href={`/works/${alert.work_id}`}
+                      className="flex items-center gap-1 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-2xs"
+                    >
+                      <span>Inspect Work</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </Link>
+
+                    {!alert.is_read && (
+                      <button
+                        onClick={() => handleMarkRead(alert.id)}
+                        className="flex items-center gap-1 rounded-xl bg-slate-900 px-3 py-1.5 text-xs font-bold text-white hover:bg-slate-800 shadow-2xs"
+                      >
+                        <Check className="h-3.5 w-3.5" />
+                        <span>Dismiss</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))
+              </MagicCard>
+            );
+          })
         )}
       </div>
     </div>

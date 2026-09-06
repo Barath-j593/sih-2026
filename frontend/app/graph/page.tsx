@@ -8,6 +8,7 @@ import { SNAStateVendorConcentration } from "../../components/graph/authority/SN
 import { DADistrictVendorCapture } from "../../components/graph/authority/DADistrictVendorCapture";
 import { MPConstituencyFundVelocity } from "../../components/graph/authority/MPConstituencyFundVelocity";
 import { StakeholderGuideModal } from "../../components/graph/StakeholderGuideModal";
+import { MagicCard } from "../../components/ui/MagicCard";
 import { useRole } from "../../context/RoleContext";
 import { 
   Network, ShieldAlert, Users, Building, Activity, Info, 
@@ -217,7 +218,7 @@ export default function NetworkGraphPage() {
       </div>
 
       {/* Streamlined Stakeholder Command & Scope Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 p-2.5 rounded-2xl border border-slate-200 bg-white shadow-xs">
+      <MagicCard glowColor="245, 158, 11" className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 p-2.5 rounded-2xl border border-slate-200 bg-white shadow-xs">
         {/* Segmented Authority Pill Control */}
         <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200/80 overflow-x-auto">
           <button
@@ -345,7 +346,7 @@ export default function NetworkGraphPage() {
             </select>
           )}
         </div>
-      </div>
+      </MagicCard>
 
       {/* Interactive In-App Stakeholder Guide & Case Studies Modal */}
       <StakeholderGuideModal
@@ -429,9 +430,9 @@ export default function NetworkGraphPage() {
                 </span>
                 <span className="text-[11px] text-slate-500">Full Graph Raw Exploration</span>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
+              <MagicCard glowColor="59, 130, 246" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
                 <MPIDANetworkGraph data={graphData} />
-              </div>
+              </MagicCard>
             </div>
           )}
         </div>

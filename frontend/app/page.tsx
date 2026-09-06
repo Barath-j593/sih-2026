@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { TextPressure } from "../components/ui/TextPressure";
+import { MagicCard } from "../components/ui/MagicCard";
+import { SpecularButton } from "../components/ui/SpecularButton";
 
 const CircularText = dynamic(() => import("../components/ui/CircularText"), {
   ssr: false,
@@ -26,6 +28,10 @@ const WarpText = dynamic(() => import("../components/ui/WarpText"), {
 });
 
 const ShinyText = dynamic(() => import("../components/ui/ShinyText"), {
+  ssr: false,
+});
+
+const MagicBento = dynamic(() => import("../components/ui/MagicBento"), {
   ssr: false,
 });
 
@@ -186,12 +192,14 @@ export default function SetuLandingPage() {
             </div>
             <span>28 States • 8 Union Territories</span>
             <span>Real-Time Anomaly Scoring</span>
-            <Link 
+            <SpecularButton 
               href="/dashboard" 
-              className="mt-1 inline-flex items-center gap-1 text-xs font-bold text-[#FDE68A] hover:text-white underline transition-colors"
+              variant="amber"
+              size="sm"
+              className="mt-1 font-bold"
             >
               <span>Explore Operational Cockpit →</span>
-            </Link>
+            </SpecularButton>
           </div>
 
         </div>
@@ -244,20 +252,23 @@ export default function SetuLandingPage() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs font-bold tracking-wider uppercase">
-            <a
+            <SpecularButton
               href="#ledger"
-              className="px-6 py-3 bg-[#1C1917] text-[#F7F5EE] hover:bg-[#B45309] transition-all inline-flex items-center gap-2 shadow-paper"
+              variant="primary"
+              size="lg"
+              className="shadow-paper"
             >
               <span>Explore Audit Checks</span>
               <ArrowRight className="h-3.5 w-3.5" />
-            </a>
-            <Link
+            </SpecularButton>
+            <SpecularButton
               href="/graph"
-              className="px-6 py-3 border border-[#1C1917]/30 text-[#1C1917] hover:border-[#1C1917] hover:bg-[#EFECE4] transition-all inline-flex items-center gap-2"
+              variant="secondary"
+              size="lg"
             >
               <span>Inspect Contractor Networks</span>
               <ArrowUpRight className="h-3.5 w-3.5 text-[#B45309]" />
-            </Link>
+            </SpecularButton>
           </div>
         </div>
 
@@ -265,9 +276,13 @@ export default function SetuLandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 relative z-10">
           
           {/* EXHIBIT 01: Parliamentary Sanction Order */}
-          <div 
+          <MagicCard 
             onClick={() => setActiveExhibit(1)}
-            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift transition-all ${
+            glowColor="245, 158, 11"
+            enableTilt={true}
+            enableBorderGlow={true}
+            clickEffect={true}
+            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift rounded-xl transition-all ${
               activeExhibit === 1 ? "ring-2 ring-[#B45309] border-transparent" : ""
             }`}
           >
@@ -292,12 +307,16 @@ export default function SetuLandingPage() {
                 100d Past Limit
               </span>
             </div>
-          </div>
+          </MagicCard>
 
           {/* EXHIBIT 02: Satellite Ground-Truth Orthophoto */}
-          <div 
+          <MagicCard 
             onClick={() => setActiveExhibit(2)}
-            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift transition-all ${
+            glowColor="16, 185, 129"
+            enableTilt={true}
+            enableBorderGlow={true}
+            clickEffect={true}
+            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift rounded-xl transition-all ${
               activeExhibit === 2 ? "ring-2 ring-[#B45309] border-transparent" : ""
             }`}
           >
@@ -318,12 +337,16 @@ export default function SetuLandingPage() {
               <span className="text-[#78716C]">Paid Out: <strong className="text-[#1C1917]">₹21.5 L</strong></span>
               <span className="text-rose-700 font-bold font-mono">Ghost Project</span>
             </div>
-          </div>
+          </MagicCard>
 
           {/* EXHIBIT 03: GFR Rule 155 Smurfing Radar */}
-          <div 
+          <MagicCard 
             onClick={() => setActiveExhibit(3)}
-            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift transition-all ${
+            glowColor="239, 68, 68"
+            enableTilt={true}
+            enableBorderGlow={true}
+            clickEffect={true}
+            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift rounded-xl transition-all ${
               activeExhibit === 3 ? "ring-2 ring-[#B45309] border-transparent" : ""
             }`}
           >
@@ -348,12 +371,16 @@ export default function SetuLandingPage() {
             <div className="mt-3 pt-2.5 border-t border-[#1C1917]/10 text-[10px] text-rose-800 font-bold uppercase font-mono">
               ⚠ Split to bypass open public tenders
             </div>
-          </div>
+          </MagicCard>
 
           {/* EXHIBIT 04: Federal HHI Cartel Barometer */}
-          <div 
+          <MagicCard 
             onClick={() => setActiveExhibit(4)}
-            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift transition-all ${
+            glowColor="245, 158, 11"
+            enableTilt={true}
+            enableBorderGlow={true}
+            clickEffect={true}
+            className={`cursor-pointer border border-[#1C1917]/15 bg-[#FAF9F5] p-5 shadow-paper-lift rounded-xl transition-all ${
               activeExhibit === 4 ? "ring-2 ring-[#B45309] border-transparent" : ""
             }`}
           >
@@ -375,7 +402,7 @@ export default function SetuLandingPage() {
                 Inspect ➔
               </Link>
             </div>
-          </div>
+          </MagicCard>
         </div>
       </section>
 
@@ -415,110 +442,20 @@ export default function SetuLandingPage() {
             </p>
           </div>
 
-          {/* 2-Column Ledger Directory with Hairline Rules */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-0 border-t border-white/15">
-            
-            {/* Capability 01 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  01 / Split-Contract Radar (GFR Rule 155)
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">RULE §155</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Government rules require an open, competitive online tender for any public work exceeding ₹5.00 Lakh. When officials split a large project into smaller contracts (such as three projects of ₹4.95 Lakh each) to bypass open competition and handpick contractors, SETU flags it immediately.
-              </p>
-              <Link href="/alerts" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>View Flagged Split Contracts</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 02 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  02 / Single-Contractor Monopolies (Cartel Radar)
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">HHI SCORE</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                When one favored contractor wins almost all public works in a district, competition disappears and project quality drops. SETU uses economic concentration formulas (the Herfindahl-Hirschman Index) to highlight districts where public works are monopolized by a single favored agency.
-              </p>
-              <Link href="/graph" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Inspect Contractor Network</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 03 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  03 / Approval Delay Tracker (45-Day Legal Window)
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">45-DAY LIMIT</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Under Section 4.2 of official MPLADS guidelines, the District Authority (headed by the District Magistrate) must formally approve or reject an MP&apos;s project recommendation within 45 days. SETU flags every day of delay so vital community roads and drinking water works aren&apos;t stuck in bureaucratic paperwork.
-              </p>
-              <Link href="/dashboard" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Check Approval Delays</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 04 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  04 / Satellite Ground Verification (ISRO / GIS)
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">ISRO / GIS</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Sometimes contractors submit completion certificates and collect payment for roads, water tanks, or community halls that were never actually built (&quot;ghost assets&quot;). SETU compares satellite images taken before and after the project date to verify that physical construction actually exists on the ground.
-              </p>
-              <Link href="/maps" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Open Geospatial Map</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 05 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  05 / Portals for Every Level of Government
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">4 GOVERNANCE TIERS</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                Public accountability requires clear responsibility. SETU provides dedicated views tailored to each role: central ministry officials monitor nationwide trends, state secretariats ensure regional fairness, district magistrates manage local execution, and MPs track their community recommendations.
-              </p>
-              <Link href="/dashboard" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Switch Authority View</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Capability 06 */}
-            <div className="py-8 border-b border-white/15 group">
-              <div className="flex items-baseline justify-between mb-2">
-                <h3 className="font-editorial text-xl sm:text-2xl text-[#F7F5EE] group-hover:text-[#F59E0B] transition-colors">
-                  06 / Audit-Ready Case Files
-                </h3>
-                <span className="text-xs font-mono font-bold text-[#F59E0B]">AUDIT-READY</span>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-                When a project shows serious red flags, SETU generates a structured investigation brief. It bundles financial rule violations, contractor bidding history, and satellite coordinates so that official audit bodies (like the Comptroller and Auditor General, CAG) and anti-corruption authorities can take immediate action.
-              </p>
-              <Link href="/cases" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#F59E0B] hover:text-white transition-colors">
-                <span>Review Active Case Files</span>
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
+          {/* Interactive Sovereign Magic Bento Grid */}
+          <div className="border-t border-white/10 pt-8">
+            <MagicBento
+              textAutoHide={true}
+              enableStars={true}
+              enableSpotlight={true}
+              enableBorderGlow={true}
+              enableTilt={true}
+              enableMagnetism={true}
+              clickEffect={true}
+              spotlightRadius={320}
+              particleCount={10}
+              glowColor="245, 158, 11"
+            />
           </div>
         </div>
       </section>
@@ -564,50 +501,43 @@ export default function SetuLandingPage() {
 
             {/* Interactive Tier Buttons */}
             <div className="flex flex-wrap gap-2 pt-2">
-              <button
+              <SpecularButton
                 onClick={() => setActiveTier("mospi")}
-                className={`px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${
-                  activeTier === "mospi"
-                    ? "bg-[#1C1917] text-[#F7F5EE] shadow-paper"
-                    : "bg-[#FAF9F5] text-[#57534E] border border-[#1C1917]/15 hover:border-[#1C1917]"
-                }`}
+                variant={activeTier === "mospi" ? "primary" : "secondary"}
+                size="sm"
               >
                 🏛️ Central Ministry (MoSPI)
-              </button>
-              <button
+              </SpecularButton>
+              <SpecularButton
                 onClick={() => setActiveTier("sna")}
-                className={`px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${
-                  activeTier === "sna"
-                    ? "bg-[#1C1917] text-[#F7F5EE] shadow-paper"
-                    : "bg-[#FAF9F5] text-[#57534E] border border-[#1C1917]/15 hover:border-[#1C1917]"
-                }`}
+                variant={activeTier === "sna" ? "primary" : "secondary"}
+                size="sm"
               >
                 ⚖️ State Government (SNA)
-              </button>
-              <button
+              </SpecularButton>
+              <SpecularButton
                 onClick={() => setActiveTier("da")}
-                className={`px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${
-                  activeTier === "da"
-                    ? "bg-[#1C1917] text-[#F7F5EE] shadow-paper"
-                    : "bg-[#FAF9F5] text-[#57534E] border border-[#1C1917]/15 hover:border-[#1C1917]"
-                }`}
+                variant={activeTier === "da" ? "primary" : "secondary"}
+                size="sm"
               >
                 🛡️ District Magistrate (DM)
-              </button>
-              <button
+              </SpecularButton>
+              <SpecularButton
                 onClick={() => setActiveTier("mp")}
-                className={`px-3.5 py-2 text-xs font-bold transition-all cursor-pointer ${
-                  activeTier === "mp"
-                    ? "bg-[#1C1917] text-[#F7F5EE] shadow-paper"
-                    : "bg-[#FAF9F5] text-[#57534E] border border-[#1C1917]/15 hover:border-[#1C1917]"
-                }`}
+                variant={activeTier === "mp" ? "primary" : "secondary"}
+                size="sm"
               >
                 🗳️ Member of Parliament (MP)
-              </button>
+              </SpecularButton>
             </div>
 
             {/* Dynamic Active Tier Dossier */}
-            <div className="border border-[#1C1917]/15 bg-[#FAF9F5] p-6 shadow-paper mt-4 space-y-3">
+            <MagicCard 
+              enableBorderGlow={true}
+              enableTilt={true}
+              glowColor="180, 83, 9"
+              className="border border-[#1C1917]/15 bg-[#FAF9F5] p-6 shadow-paper mt-4 space-y-3 rounded-2xl"
+            >
               {activeTier === "mospi" && (
                 <>
                   <div className="flex items-center justify-between">
@@ -677,12 +607,17 @@ export default function SetuLandingPage() {
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
-            </div>
+            </MagicCard>
           </div>
 
           {/* Right Column: Architectural Heritage & Provenance Frame */}
           <div className="lg:col-span-5">
-            <div className="border border-[#1C1917]/20 bg-[#FAF9F5] p-8 shadow-paper space-y-6 relative overflow-hidden">
+            <MagicCard 
+              enableBorderGlow={true}
+              enableTilt={true}
+              glowColor="180, 83, 9"
+              className="border border-[#1C1917]/20 bg-[#FAF9F5] p-8 shadow-paper space-y-6 relative overflow-hidden rounded-2xl"
+            >
               <div className="border-b border-[#1C1917]/10 pb-4">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#78716C] block">
                   LEGAL STANDARDS WE ENFORCE
@@ -722,7 +657,7 @@ export default function SetuLandingPage() {
                 <span>Status: <strong className="text-emerald-700">Enforced by Code</strong></span>
                 <span>Audit Trail: <strong className="text-[#1C1917]">Tamper-Proof &amp; Verifiable</strong></span>
               </div>
-            </div>
+            </MagicCard>
           </div>
         </div>
       </section>

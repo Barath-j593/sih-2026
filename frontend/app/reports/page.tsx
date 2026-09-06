@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { useRole } from "../../context/RoleContext";
 import { API_BASE } from "../../lib/api";
 import { FileText, Download, CheckCircle, ShieldAlert, Sparkles, FileSpreadsheet, Lock } from "lucide-react";
+import { MagicCard } from "../../components/ui/MagicCard";
+import { SpecularButton } from "../../components/ui/SpecularButton";
 
 export default function ReportsPage() {
   const { role, jurisdiction, roleConfig } = useRole();
@@ -92,7 +94,13 @@ export default function ReportsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* PDF Executive Audit Report Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-5">
+        <MagicCard 
+          glowColor="239, 68, 68"
+          enableTilt={true}
+          enableBorderGlow={true}
+          clickEffect={true}
+          className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-5"
+        >
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="rounded-xl bg-red-100 p-3 text-red-600">
@@ -118,18 +126,26 @@ export default function ReportsPage() {
             </ul>
           </div>
 
-          <button
+          <SpecularButton
             onClick={handleDownloadPdf}
             disabled={downloadingPdf}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3 text-xs font-bold text-white hover:bg-slate-800 transition-all shadow-sm disabled:opacity-50"
+            variant="primary"
+            size="md"
+            className="w-full"
           >
             <Download className="h-4 w-4" />
             <span>{downloadingPdf ? "Generating Audit PDF..." : `Download ${currentReport.badge}`}</span>
-          </button>
-        </div>
+          </SpecularButton>
+        </MagicCard>
 
         {/* CSV Raw Data Export Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-5">
+        <MagicCard 
+          glowColor="16, 185, 129"
+          enableTilt={true}
+          enableBorderGlow={true}
+          clickEffect={true}
+          className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between space-y-5"
+        >
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="rounded-xl bg-emerald-100 p-3 text-emerald-600">
@@ -161,15 +177,17 @@ export default function ReportsPage() {
             </ul>
           </div>
 
-          <button
+          <SpecularButton
             onClick={handleDownloadCsv}
             disabled={downloadingCsv}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-slate-50 py-3 text-xs font-bold text-slate-900 hover:bg-slate-100 transition-all shadow-2xs disabled:opacity-50"
+            variant="success"
+            size="md"
+            className="w-full"
           >
             <Download className="h-4 w-4" />
             <span>{downloadingCsv ? "Exporting CSV..." : "Export ML Feature Matrix (CSV)"}</span>
-          </button>
-        </div>
+          </SpecularButton>
+        </MagicCard>
       </div>
     </div>
   );

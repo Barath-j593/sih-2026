@@ -1,5 +1,6 @@
 import React from "react";
 import { LucideIcon } from "lucide-react";
+import { MagicCard } from "./MagicCard";
 
 interface StatCardProps {
   title: string;
@@ -37,9 +38,21 @@ export function StatCard({
     accent: "text-[#6E4529] bg-[#F0ECE1] border border-[#E5DFD3]",
   };
 
+  const glowColors: Record<string, string> = {
+    danger: "239, 68, 68",
+    warning: "245, 158, 11",
+    success: "16, 185, 129",
+    default: "245, 158, 11",
+    accent: "245, 158, 11",
+  };
+
   return (
-    <div
-      className={`relative overflow-hidden rounded-xl border p-4 sm:p-5 shadow-[0_2px_10px_rgba(40,20,10,0.03)] transition-all duration-200 hover:shadow-[0_6px_20px_rgba(40,20,10,0.06)] hover:-translate-y-0.5 ${variantStyles[variant]}`}
+    <MagicCard
+      glowColor={glowColors[variant] || "245, 158, 11"}
+      enableTilt={true}
+      enableBorderGlow={true}
+      clickEffect={true}
+      className={`rounded-xl border p-4 sm:p-5 shadow-[0_2px_10px_rgba(40,20,10,0.03)] transition-all duration-200 hover:shadow-[0_6px_20px_rgba(40,20,10,0.06)] ${variantStyles[variant]}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
@@ -64,6 +77,6 @@ export function StatCard({
           )}
         </div>
       )}
-    </div>
+    </MagicCard>
   );
 }

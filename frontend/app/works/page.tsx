@@ -5,6 +5,7 @@ import Link from "next/link";
 import { fetchWorks, fetchFilters } from "../../lib/api";
 import { WorkItem } from "../../lib/types";
 import { RiskBadge } from "../../components/ui/RiskBadge";
+import { MagicCard } from "../../components/ui/MagicCard";
 import {
   Search,
   Filter,
@@ -339,7 +340,12 @@ export default function WorksExplorerPage() {
       </div>
 
       {/* Forensic Multi-Facet Query & Filter Bar */}
-      <div className="rounded-2xl border border-[#E5DFD3] bg-[#FFFDF9] p-4 shadow-xs">
+      <MagicCard 
+        glowColor="245, 158, 11"
+        enableBorderGlow={true}
+        enableTilt={false}
+        className="rounded-2xl border border-[#E5DFD3] bg-[#FFFDF9] p-4 shadow-xs"
+      >
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {/* Universal Search Box */}
           <div className="sm:col-span-2 relative">
@@ -519,7 +525,7 @@ export default function WorksExplorerPage() {
             </strong>
           </div>
         </div>
-      </div>
+      </MagicCard>
 
       {/* VIEW 1: GROUPED DUPLICATE CLUSTERS VIEW */}
       {viewMode === "duplicate_groups" ? (
@@ -626,7 +632,12 @@ export default function WorksExplorerPage() {
         </div>
       ) : (
         /* VIEW 2: STANDARD DATA TABLE VIEW */
-        <div className="rounded-2xl border border-[#E5DFD3] bg-[#FFFDF9] shadow-xs overflow-hidden">
+        <MagicCard 
+          glowColor="245, 158, 11"
+          enableBorderGlow={true}
+          enableTilt={false}
+          className="rounded-2xl border border-[#E5DFD3] bg-[#FFFDF9] shadow-xs overflow-hidden"
+        >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
@@ -737,7 +748,7 @@ export default function WorksExplorerPage() {
               </button>
             </div>
           </div>
-        </div>
+        </MagicCard>
       )}
     </div>
   );

@@ -14,6 +14,7 @@ import {
   BarChart3,
   TrendingUp
 } from "lucide-react";
+import { MagicCard } from "../../components/ui/MagicCard";
 
 export default function ModelMetricsPage() {
   const [metrics, setMetrics] = useState<ModelMetricsData | null>(null);
@@ -60,35 +61,64 @@ export default function ModelMetricsPage() {
 
       {/* 4 Core ML Performance KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/40 p-5 shadow-xs">
+        <MagicCard 
+          glowColor="16, 185, 129"
+          enableTilt={true}
+          enableBorderGlow={true}
+          clickEffect={true}
+          className="rounded-2xl border border-emerald-200 bg-emerald-50/40 p-5 shadow-xs"
+        >
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-900">Area Under ROC (AUC)</span>
           <p className="mt-2 text-3xl font-black text-slate-900 font-mono">{metrics.roc_auc.toFixed(3)}</p>
           <p className="mt-1 text-[11px] text-emerald-700">High discrimination power across fraud types</p>
-        </div>
+        </MagicCard>
 
-        <div className="rounded-2xl border border-blue-200 bg-blue-50/40 p-5 shadow-xs">
+        <MagicCard 
+          glowColor="59, 130, 246"
+          enableTilt={true}
+          enableBorderGlow={true}
+          clickEffect={true}
+          className="rounded-2xl border border-blue-200 bg-blue-50/40 p-5 shadow-xs"
+        >
           <span className="text-xs font-bold uppercase tracking-wider text-blue-900">Precision</span>
           <p className="mt-2 text-3xl font-black text-slate-900 font-mono">{(metrics.precision * 100).toFixed(1)}%</p>
           <p className="mt-1 text-[11px] text-blue-700">Low false-positive rate for audit efficiency</p>
-        </div>
+        </MagicCard>
 
-        <div className="rounded-2xl border border-purple-200 bg-purple-50/40 p-5 shadow-xs">
+        <MagicCard 
+          glowColor="168, 85, 247"
+          enableTilt={true}
+          enableBorderGlow={true}
+          clickEffect={true}
+          className="rounded-2xl border border-purple-200 bg-purple-50/40 p-5 shadow-xs"
+        >
           <span className="text-xs font-bold uppercase tracking-wider text-purple-900">Recall / Sensitivity</span>
           <p className="mt-2 text-3xl font-black text-slate-900 font-mono">{(metrics.recall * 100).toFixed(1)}%</p>
           <p className="mt-1 text-[11px] text-purple-700">Captures ~80% of all injected synthetic anomalies</p>
-        </div>
+        </MagicCard>
 
-        <div className="rounded-2xl border border-amber-200 bg-amber-50/40 p-5 shadow-xs">
+        <MagicCard 
+          glowColor="245, 158, 11"
+          enableTilt={true}
+          enableBorderGlow={true}
+          clickEffect={true}
+          className="rounded-2xl border border-amber-200 bg-amber-50/40 p-5 shadow-xs"
+        >
           <span className="text-xs font-bold uppercase tracking-wider text-amber-900">Overall Accuracy</span>
           <p className="mt-2 text-3xl font-black text-slate-900 font-mono">{(metrics.accuracy * 100).toFixed(1)}%</p>
           <p className="mt-1 text-[11px] text-amber-700">Evaluated on 4,000 holdout test split</p>
-        </div>
+        </MagicCard>
       </div>
 
       {/* Confusion Matrix + Feature Importances */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Confusion Matrix */}
-        <div className="lg:col-span-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <MagicCard 
+          glowColor="245, 158, 11"
+          enableBorderGlow={true}
+          enableTilt={false}
+          className="lg:col-span-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        >
           <div className="border-b border-slate-100 pb-3 mb-4">
             <h3 className="text-base font-bold text-slate-900">Holdout Confusion Matrix</h3>
             <p className="text-xs text-slate-500">Test split classification matrix (N = {totalPreds})</p>
@@ -123,10 +153,15 @@ export default function ModelMetricsPage() {
               <p className="text-[10px] text-blue-700 mt-0.5">Successfully captured anomalies</p>
             </div>
           </div>
-        </div>
+        </MagicCard>
 
         {/* Feature Importance */}
-        <div className="lg:col-span-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-between">
+        <MagicCard 
+          glowColor="245, 158, 11"
+          enableBorderGlow={true}
+          enableTilt={false}
+          className="lg:col-span-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-between"
+        >
           <div>
             <div className="border-b border-slate-100 pb-3 mb-4">
               <h3 className="text-base font-bold text-slate-900">XGBoost & Ensemble Feature Weights</h3>
@@ -154,11 +189,16 @@ export default function ModelMetricsPage() {
           <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500">
             <span>Primary drivers: Peer cost deviation (z-score), duplicate density, and agency monopoly ratio.</span>
           </div>
-        </div>
+        </MagicCard>
       </div>
 
       {/* Dataset & Methodology Disclosure Banner */}
-      <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-5 shadow-xs">
+      <MagicCard 
+        glowColor="59, 130, 246"
+        enableBorderGlow={true}
+        enableTilt={true}
+        className="rounded-2xl border border-blue-200 bg-blue-50/50 p-5 shadow-xs"
+      >
         <div className="flex items-start gap-3">
           <Info className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
           <div className="text-xs space-y-1">
@@ -169,7 +209,7 @@ export default function ModelMetricsPage() {
             </p>
           </div>
         </div>
-      </div>
+      </MagicCard>
     </div>
   );
 }
