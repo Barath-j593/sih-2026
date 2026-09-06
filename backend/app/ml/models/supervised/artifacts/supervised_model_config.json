@@ -1,0 +1,25 @@
+{
+  "random_state": 42,
+  "n_splits": 5,
+  "n_estimators": 150,
+  "max_depth": 4,
+  "learning_rate": 0.05,
+  "calibration_method": "isotonic",
+  "calibration_cv": 3,
+  "score_columns": [
+    "financial_anomaly_score",
+    "geospatial_anomaly_score",
+    "procurement_anomaly_score",
+    "contractor_anomaly_score",
+    "payment_anomaly_score",
+    "progress_anomaly_score",
+    "graph_anomaly_score"
+  ],
+  "context_columns": [
+    "project__planned_duration_days",
+    "project_size_code",
+    "geo__population_density",
+    "geo__infrastructure_gap_index",
+    "financial__sanctioned_amount"
+  ]
+}

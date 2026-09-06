@@ -1,0 +1,11 @@
+{
+  "model_version": "1.0.0",
+  "model_family": "XGBoost + Isotonic Calibrated Ensemble",
+  "artifacts": [
+    "supervised_fraud_model.joblib",
+    "supervised_preprocessor.joblib",
+    "supervised_features.json",
+    "supervised_model_config.json",
+    "training_summary.json"
+  ]
+}
