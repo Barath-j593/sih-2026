@@ -144,3 +144,75 @@ def get_constituency_pins(db: Session, constituency_name: Optional[str] = None, 
             "lng": round(base_coords["lng"] + d_lng, 5)
         })
     return pins
+
+def get_all_constituencies_risk_data(db: Session, state: Optional[str] = None) -> List[Dict[str, Any]]:
+    query = db.query(Constituency)
+    if state and state != "All India":
+        query = query.filter(func.lower(Constituency.state) == state.lower())
+    rows = query.all()
+
+    result = []
+    for r in rows:
+        avg_r = float(r.avg_risk_score or 0.0)
+        result.append({
+            "id": r.id,
+            "name": r.name,
+            "state": r.state,
+            "district": r.district,
+            "mp_name": r.mp_name,
+            "total_works": int(r.total_works or 0),
+            "total_allocation": float(r.total_allocation or 0.0),
+            "avg_risk_score": round(avg_r, 1),
+            "flagged_works_count": int(r.flagged_works_count or 0),
+            "risk_level": "Critical" if avg_r >= 65 else "High" if avg_r >= 50 else "Medium" if avg_r >= 35 else "Low",
+            "lat": r.latitude,
+            "lng": r.longitude
+        })
+    return sorted(result, key=lambda x: x["avg_risk_score"], reverse=True)
+
+def get_constituency_detail(db: Session, constituency_name: str) -> Optional[Dict[str, Any]]:
+    clean_name = constituency_name.strip().lower()
+    c = db.query(Constituency).filter(
+        or_(
+            func.lower(Constituency.name) == clean_name,
+            func.lower(Constituency.district) == clean_name,
+            func.lower(Constituency.name).like(f"%{clean_name}%")
+        )
+    ).first()
+
+    if not c:
+        return None
+
+    # Fetch top 5 flagged works in this constituency
+    top_works = db.query(Work).filter(
+        func.lower(Work.constituency) == func.lower(c.name)
+    ).order_by(desc(Work.risk_score)).limit(5).all()
+
+    works_list = []
+    for w in top_works:
+        works_list.append({
+            "id": w.id,
+            "work": w.work,
+            "allocation_amount": w.allocation_amount,
+            "status": w.status,
+            "risk_score": w.risk_score,
+            "risk_level": w.risk_level,
+            "ida": w.ida,
+            "reasons": w.risk_reasons or []
+        })
+
+    avg_r = float(c.avg_risk_score or 0.0)
+    return {
+        "id": c.id,
+        "name": c.name,
+        "state": c.state,
+        "district": c.district,
+        "mp_name": c.mp_name,
+        "total_works": int(c.total_works or 0),
+        "total_allocation": float(c.total_allocation or 0.0),
+        "avg_risk_score": round(avg_r, 1),
+        "flagged_works_count": int(c.flagged_works_count or 0),
+        "risk_level": "Critical" if avg_r >= 65 else "High" if avg_r >= 50 else "Medium" if avg_r >= 35 else "Low",
+        "top_works": works_list
+    }
+

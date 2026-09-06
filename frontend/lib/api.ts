@@ -71,6 +71,50 @@ export async function fetchConstituencyPins(constituency?: string, mpName?: stri
   return res.json();
 }
 
+export interface ConstituencyRiskItem {
+  id: string;
+  name: string;
+  state: string;
+  district: string;
+  mp_name: string;
+  total_works: number;
+  total_allocation: number;
+  avg_risk_score: number;
+  flagged_works_count: number;
+  risk_level: string;
+  lat?: number;
+  lng?: number;
+}
+
+export interface ConstituencyDetailResponse extends ConstituencyRiskItem {
+  top_works: Array<{
+    id: string;
+    work: string;
+    allocation_amount: number;
+    status: string;
+    risk_score: number;
+    risk_level: string;
+    ida: string;
+    reasons: string[];
+  }>;
+}
+
+export async function fetchConstituenciesRisk(state?: string): Promise<ConstituencyRiskItem[]> {
+  const url = new URL(`${API_BASE}/geo/constituencies-risk`);
+  if (state && state !== "All India") url.searchParams.append("state", state);
+  const res = await fetch(url.toString(), { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch constituencies risk data");
+  return res.json();
+}
+
+export async function fetchConstituencyDetail(name: string): Promise<ConstituencyDetailResponse> {
+  const url = new URL(`${API_BASE}/geo/constituency-detail`);
+  url.searchParams.append("name", name);
+  const res = await fetch(url.toString(), { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch constituency detail");
+  return res.json();
+}
+
 export async function fetchGraphEntities(state?: string): Promise<{
   states: string[];
   districts: string[];

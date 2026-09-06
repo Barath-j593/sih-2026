@@ -2,7 +2,6 @@ import "./globals.css";
 import React from "react";
 import { RoleProvider } from "../context/RoleContext";
 import { RoleSwitcher } from "../components/RoleSwitcher";
-import { Navbar } from "../components/Navbar";
 import { AppShell } from "../components/AppShell";
 
 export const metadata = {
@@ -13,12 +12,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="light">
-      <body className="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased">
+      <body className="bg-[#F7F5EE] text-[#111827] min-h-screen flex flex-col antialiased selection:bg-[#D97706]/20 selection:text-[#B45309]">
         <RoleProvider>
           {/* Top Sticky Tier Switcher for Operational Governance */}
           <RoleSwitcher />
-          {/* Official Government Navbar */}
-          <Navbar />
           {/* Main Body Shell (Dynamically handles landing vs dashboard layouts) */}
           <AppShell>{children}</AppShell>
         </RoleProvider>

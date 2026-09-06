@@ -1,14 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Syne:wght@500..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Syne:wght@500..800&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card-bg: #ffffff;
-  --card-border: #e2e8f0;
+  --background: #F7F5EE;
+  --foreground: #111827;
+  --brand-brown: #6E4529;
+  --brand-brown-dark: #3D2312;
+  --brand-amber: #D97706;
+  --paper-ivory: #F7F5EE;
+  --paper-parchment: #FAF7F2;
+  --paper-card: #FFFDF9;
+  --border-hairline: #E5DFD3;
+  --border-subtle: #D9D2C5;
+  --card-bg: #FFFDF9;
+  --card-border: #E5DFD3;
   --navy-950: #070b19;
   --navy-900: #0b132b;
   --navy-800: #14213d;
@@ -24,7 +32,7 @@ body {
   color: var(--foreground);
   background-color: var(--background);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11", "calt" 1;
-  background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 0);
+  background-image: radial-gradient(rgba(110, 69, 41, 0.07) 1px, transparent 0);
   background-size: 24px 24px;
 }
 
@@ -49,16 +57,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #F0ECE1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #D9D2C5;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #8C5D3B;
 }
 
 /* Modern Glass & Panel Styling */

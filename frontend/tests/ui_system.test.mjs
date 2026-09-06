@@ -112,6 +112,29 @@ describe("Geospatial & Graph Integration Contracts", () => {
     assert.ok(Array.isArray(graph.nodes), "Network graph must contain nodes");
     assert.ok(Array.isArray(graph.links), "Network graph must contain links");
   });
+
+  it("Constituencies risk endpoint should return all nationwide constituencies with risk metrics", async () => {
+    const res = await fetch(`${BACKEND_BASE}/geo/constituencies-risk`);
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.ok(Array.isArray(data), "Must return array of constituencies");
+    assert.ok(data.length > 300, `Expected >300 constituencies, got ${data.length}`);
+    const sample = data[0];
+    assert.ok(sample.name && sample.state);
+    assert.ok(typeof sample.avg_risk_score === "number");
+    assert.ok(typeof sample.total_works === "number");
+  });
+
+  it("Constituency detail endpoint should return deep forensic telemetry for a selected constituency", async () => {
+    const res = await fetch(`${BACKEND_BASE}/geo/constituency-detail?name=DARBHANGA`);
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.name, "DARBHANGA");
+    assert.equal(data.state, "Bihar");
+    assert.ok(data.mp_name);
+    assert.ok(Array.isArray(data.top_works), "Must return top flagged works");
+    assert.ok(data.top_works.length > 0, "Darbhanga must have top flagged works");
+  });
 });
 
 describe("UI Bug & Contract Discrepancy Diagnostics", () => {

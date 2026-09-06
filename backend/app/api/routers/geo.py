@@ -5,7 +5,9 @@ from app.core.database import get_db
 from app.services.geo_service import (
     get_state_choropleth_data,
     get_district_drilldown_data,
-    get_constituency_pins
+    get_constituency_pins,
+    get_all_constituencies_risk_data,
+    get_constituency_detail
 )
 
 router = APIRouter(prefix="/geo", tags=["Geospatial Maps"])
@@ -26,3 +28,20 @@ def constituency_pins(
     db: Session = Depends(get_db)
 ):
     return get_constituency_pins(db=db, constituency_name=constituency, mp_name=mp_name, limit=limit)
+
+@router.get("/constituencies-risk")
+def constituencies_risk(
+    state: Optional[str] = Query(None),
+    db: Session = Depends(get_db)
+):
+    return get_all_constituencies_risk_data(db=db, state=state)
+
+@router.get("/constituency-detail")
+def constituency_detail(
+    name: str = Query(...),
+    db: Session = Depends(get_db)
+):
+    res = get_constituency_detail(db=db, constituency_name=name)
+    if not res:
+        return {"error": "Constituency not found"}
+    return res

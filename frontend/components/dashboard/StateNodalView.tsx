@@ -37,19 +37,19 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
   return (
     <div className="space-y-6">
       {/* State Nodal Vigilance Directive Banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-blue-900 bg-gradient-to-r from-slate-950 via-blue-950 to-slate-900 p-5 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl border border-[#4E2F1A] bg-[#6E4529] p-5 text-[#F5EBE1] shadow-[0_4px_20px_rgba(40,20,10,0.12)]">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="rounded bg-blue-500/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-blue-300 border border-blue-400/30">
+              <span className="rounded bg-[#3D2312] px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#FDE68A] border border-[#FDE68A]/30">
                 STATE NODAL OVERSIGHT • {jurisdiction.toUpperCase()}
               </span>
-              <span className="text-[11px] text-blue-200">Department of Planning & Development</span>
+              <span className="text-[11px] text-[#F5EBE1]/80 font-mono">Department of Planning & Development</span>
             </div>
-            <h2 className="text-xl font-black tracking-tight text-white sm:text-2xl">
+            <h2 className="text-xl sm:text-2xl font-editorial font-bold tracking-tight text-white">
               {jurisdiction} Statewide Implementation & Equity Monitor
             </h2>
-            <p className="text-xs text-blue-100 max-w-2xl">
+            <p className="text-xs text-[#F5EBE1]/90 max-w-2xl font-sans">
               Surveillance of inter-district fund allocation parity, cross-constituency contractor syndicates, and state-level audit compliance.
             </p>
           </div>
@@ -57,10 +57,10 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
           <div className="flex items-center gap-2">
             <Link
               href="/reports"
-              className="flex items-center gap-2 rounded-xl bg-blue-500 px-4 py-2.5 text-xs font-bold text-white hover:bg-blue-400 transition-all shadow-md hover:shadow-lg"
+              className="border border-[#F5EBE1]/80 hover:bg-[#F5EBE1] hover:text-[#6E4529] text-[#F5EBE1] px-4 py-2 text-xs font-mono font-bold tracking-wider uppercase transition-all duration-200 rounded-[2px] shadow-sm flex items-center gap-2 group"
             >
-              <Download className="h-4 w-4" />
-              <span>Export State Compliance CSV</span>
+              <Download className="h-4 w-4 text-[#FDE68A] group-hover:text-[#6E4529]" />
+              <span>Export State Compliance CSV ↗</span>
             </Link>
           </div>
         </div>
@@ -98,56 +98,54 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
           value={highestRiskDistrict ? highestRiskDistrict.district : "N/A"}
           subtitle={
             highestRiskDistrict
-              ? `Avg Risk Score: ${highestRiskDistrict.avg_risk_score.toFixed(1)}/100`
+              ? `${highestRiskDistrict.flagged_count} flagged works (${highestRiskDistrict.risk_percentage}%)`
               : "No district anomalies"
           }
-          icon={MapPin}
-          variant="warning"
+          icon={Activity}
+          variant={highestRiskDistrict && highestRiskDistrict.risk_percentage > 20 ? "danger" : "warning"}
         />
       </div>
 
-      {/* District Drill-down Map of the State */}
-      {districtData.length > 0 && (
-        <div className="space-y-2">
-          <DistrictDrilldownMap districts={districtData} selectedStateName={jurisdiction} />
-        </div>
-      )}
+      {/* District Drilldown Geospatial Visualizer */}
+      <div className="space-y-2">
+        <DistrictDrilldownMap stateName={jurisdiction} data={districtData} />
+      </div>
 
-      {/* Bespoke SNA Visualizer: Statewide Vendor Concentration & District Equity */}
+      {/* Bespoke SNA Visualizer: Dynamic Vendor Treemap & Cartel Matrix */}
       <StateVendorConcentrationMatrix 
-        jurisdiction={jurisdiction} 
-        extraInsights={extra_insights} 
+        stateName={jurisdiction} 
+        summary={summary} 
         districtData={districtData} 
       />
 
       {/* State Typologies & Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* State Anomaly Breakdown */}
-        <div className="lg:col-span-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="lg:col-span-6 rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)]">
+          <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-3">
             <div>
-              <h3 className="text-base font-bold text-slate-900">{jurisdiction} Anomaly Typologies</h3>
-              <p className="text-xs text-slate-500">Breakdown of ML detections across state districts</p>
+              <h3 className="text-base font-editorial font-bold text-[#1C1917]">{jurisdiction} Anomaly Typologies</h3>
+              <p className="text-xs text-stone-500 font-sans">Breakdown of ML detections across state districts</p>
             </div>
-            <span className="rounded bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-700 border border-slate-200">
+            <span className="rounded bg-[#FAF7F2] px-2.5 py-0.5 text-xs font-mono font-bold text-[#6E4529] border border-[#D9D2C5]">
               State Profile
             </span>
           </div>
 
           <div className="mt-4 space-y-3">
             {fraud_breakdown.map((item) => (
-              <div key={item.fraud_type} className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+              <div key={item.fraud_type} className="rounded-lg border border-[#E5DFD3] bg-[#FAF7F2] p-3 shadow-2xs">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-800">{item.label}</span>
-                  <span className="font-mono font-bold text-amber-700">{item.count} flagged</span>
+                  <span className="font-bold text-[#1C1917]">{item.label}</span>
+                  <span className="font-mono font-bold text-[#6E4529]">{item.count} flagged</span>
                 </div>
-                <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-stone-200">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-blue-500 to-amber-500"
+                    className="h-full rounded-full bg-gradient-to-r from-amber-500 via-[#6E4529] to-rose-600"
                     style={{ width: `${Math.min(100, Math.max(8, item.percentage))}%` }}
                   />
                 </div>
-                <div className="mt-1.5 flex justify-between text-[11px] text-slate-500">
+                <div className="mt-1.5 flex justify-between text-[11px] text-stone-500 font-mono">
                   <span>₹{(item.total_amount / 100000).toFixed(1)}L Affected</span>
                   <span>{item.percentage}%</span>
                 </div>
@@ -161,13 +159,13 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
       {topFlaggedWork && (
         <div className="space-y-2">
           <div className="flex items-center justify-between px-1">
-            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-              <ShieldAlert className="h-4 w-4 text-red-600" />
+            <span className="text-xs font-mono font-bold text-[#6E4529] uppercase tracking-wider flex items-center gap-1.5">
+              <ShieldAlert className="h-4 w-4 text-rose-600" />
               State Inspection Priority ({topFlaggedWork.id})
             </span>
             <Link
               href={`/works/${topFlaggedWork.id}`}
-              className="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1"
+              className="text-xs font-mono font-bold text-[#6E4529] hover:text-[#3D2312] hover:underline flex items-center gap-1"
             >
               Issue State Inquiry Notice <ChevronRight className="h-3.5 w-3.5" />
             </Link>
@@ -177,15 +175,15 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
       )}
 
       {/* State Priority Inspection Works Table */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+      <div className="rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)]">
+        <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-4">
           <div>
-            <h3 className="text-base font-bold text-slate-900">{jurisdiction} Priority Inspection Queue</h3>
-            <p className="text-xs text-slate-500">Flagged projects requiring state nodal inspection notices</p>
+            <h3 className="text-base font-editorial font-bold text-[#1C1917]">{jurisdiction} Priority Inspection Queue</h3>
+            <p className="text-xs text-stone-500 font-sans">Flagged projects requiring state nodal inspection notices</p>
           </div>
           <Link
             href="/works"
-            className="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1"
+            className="text-xs font-mono font-bold text-[#6E4529] hover:underline flex items-center gap-1"
           >
             View All State Works <ChevronRight className="h-4 w-4" />
           </Link>
@@ -194,31 +192,31 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider bg-slate-50">
-                <th className="py-3 pl-3">Work ID</th>
-                <th className="py-3">Description</th>
-                <th className="py-3">District & MP</th>
-                <th className="py-3">Agency (IDA)</th>
-                <th className="py-3 text-right">Amount</th>
-                <th className="py-3 text-center">Risk Score</th>
-                <th className="py-3 pr-3">Anomaly Category</th>
+              <tr className="border-b border-[#D9D2C5] text-stone-600 uppercase tracking-wider bg-[#F0ECE1] font-mono text-[11px]">
+                <th className="py-2.5 pl-3">Work ID</th>
+                <th className="py-2.5">Description</th>
+                <th className="py-2.5">District & MP</th>
+                <th className="py-2.5">Agency (IDA)</th>
+                <th className="py-2.5 text-right">Amount</th>
+                <th className="py-2.5 text-center">Risk Score</th>
+                <th className="py-2.5 pr-3">Anomaly Category</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-[#E5DFD3]/60">
               {top_flagged_works.map((w) => (
-                <tr key={w.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3 pl-3 font-mono font-bold text-slate-900">{w.id}</td>
-                  <td className="py-3 font-medium text-slate-800 max-w-xs truncate">{w.work}</td>
-                  <td className="py-3 text-slate-600">
-                    <p className="font-semibold text-slate-900">{w.constituency}</p>
-                    <p className="text-[10px] text-slate-400">{w.mp_name}</p>
+                <tr key={w.id} className="hover:bg-[#FAF7F2] transition-colors">
+                  <td className="py-3 pl-3 font-mono font-bold text-[#1C1917]">{w.id}</td>
+                  <td className="py-3 font-medium text-stone-800 max-w-xs truncate">{w.work}</td>
+                  <td className="py-3 text-stone-600">
+                    <p className="font-bold text-[#1C1917]">{w.constituency}</p>
+                    <p className="text-[10px] text-stone-500 font-mono">{w.mp_name}</p>
                   </td>
-                  <td className="py-3 text-slate-500 max-w-[140px] truncate">{w.ida}</td>
-                  <td className="py-3 text-right font-mono font-bold text-slate-900">₹{w.allocation_amount.toLocaleString()}</td>
+                  <td className="py-3 text-stone-600 max-w-[140px] truncate font-mono">{w.ida}</td>
+                  <td className="py-3 text-right font-mono font-bold text-[#1C1917] font-tabular">₹{w.allocation_amount.toLocaleString()}</td>
                   <td className="py-3 text-center">
                     <RiskBadge score={w.risk_score} level={w.risk_level} size="sm" />
                   </td>
-                  <td className="py-3 pr-3 text-slate-600 max-w-sm truncate text-[11px]">
+                  <td className="py-3 pr-3 text-stone-600 max-w-sm truncate text-[11px]">
                     {w.risk_reasons[0] || "High risk score"}
                   </td>
                 </tr>

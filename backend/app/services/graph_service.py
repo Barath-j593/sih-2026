@@ -59,7 +59,7 @@ def get_available_entities(db: Session, state: Optional[str] = None) -> Dict[str
     if state and state.strip() and state.strip().lower() not in ["all", "all india", "national"]:
         mp_query = mp_query.filter(func.lower(Work.state) == state.strip().lower())
     
-    mp_rows = mp_query.group_by(Work.mp_name).order_by(desc("tot_alloc")).limit(50).all()
+    mp_rows = mp_query.group_by(Work.mp_name).order_by(Work.mp_name).all()
     mps = [{"name": m.mp_name, "works_count": m.work_cnt, "total_capital": float(m.tot_alloc or 0.0)} for m in mp_rows]
 
     return {
