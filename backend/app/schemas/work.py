@@ -48,6 +48,7 @@ class WorkResponse(WorkBase):
 class WorkFilterParams(BaseModel):
     page: int = 1
     limit: int = 50
+    category: Optional[str] = None
     state: Optional[str] = None
     constituency: Optional[str] = None
     mp_name: Optional[str] = None

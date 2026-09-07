@@ -18,6 +18,8 @@ def get_works_paginated(db: Session, params: WorkFilterParams) -> PaginatedWorks
         query = query.filter(func.lower(Work.ida).like(f"%{params.ida.lower()}%"))
     if params.status:
         query = query.filter(func.lower(Work.status) == params.status.lower())
+    if params.category:
+        query = query.filter(func.lower(Work.category) == params.category.lower())
     if params.risk_level:
         query = query.filter(func.lower(Work.risk_level) == params.risk_level.lower())
     if params.min_risk_score is not None:

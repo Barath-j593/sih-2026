@@ -7,6 +7,7 @@ import { WorkItem } from "../../lib/types";
 import { RiskBadge, PriorityBadge } from "../../components/ui/RiskBadge";
 import { formatTypologyLabel } from "../../lib/typologies";
 import { MagicCard } from "../../components/ui/MagicCard";
+import { WorkCategoryAnalytics } from "../../components/analytics/WorkCategoryDistributionChart";
 import {
   Search,
   Filter,
@@ -42,6 +43,8 @@ export default function WorksExplorerPage() {
   // Filters (Uncoupled from persona/role switcher for pure forensic autonomy)
   const [search, setSearch] = useState("");
   const [state, setState] = useState("");
+  const [category, setCategory] = useState("");
+  const [showAnalytics, setShowAnalytics] = useState(true);
   const [riskLevel, setRiskLevel] = useState("");
   const [fraudType, setFraudType] = useState("");
   const [sortBy, setSortBy] = useState("risk_score");
@@ -76,6 +79,7 @@ export default function WorksExplorerPage() {
           limit: viewMode === "duplicate_groups" ? 100 : 25,
           search: search || undefined,
           state: state || undefined,
+          category: category || undefined,
           risk_level: riskLevel || undefined,
           fraud_type: fraudType || undefined,
           sort_by: sortBy,
@@ -91,7 +95,7 @@ export default function WorksExplorerPage() {
       }
     }
     loadWorks();
-  }, [page, search, state, riskLevel, fraudType, sortBy, sortOrder, viewMode]);
+  }, [page, search, state, riskLevel, fraudType, sortBy, sortOrder, viewMode, category]);
 
   // Handle Preset Clicks
   const applyPreset = (presetKey: string) => {
@@ -151,6 +155,7 @@ export default function WorksExplorerPage() {
   const clearAllFilters = () => {
     setSearch("");
     setState("");
+    setCategory("");
     setRiskLevel("");
     setFraudType("");
     setSortBy("risk_score");
@@ -258,6 +263,18 @@ export default function WorksExplorerPage() {
           </Link>
         </div>
       </div>
+
+      {/* Visual Analytics: Work Categories Donut & Sector Delays */}
+      {showAnalytics && (
+        <WorkCategoryAnalytics
+          totalWorks={total}
+          selectedCategory={category}
+          onSelectCategory={(cat) => {
+            setCategory(cat);
+            setPage(1);
+          }}
+        />
+      )}
 
       {/* Forensic Audit Anomaly Presets (One-Click Investigation Filters) */}
       <div className="space-y-2">

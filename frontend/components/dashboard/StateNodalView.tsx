@@ -26,6 +26,7 @@ import { StateVendorConcentrationMatrix } from "./visualizers/StateVendorConcent
 import { MagicCard } from "../ui/MagicCard";
 import { formatTypologyLabel } from "../../lib/typologies";
 import { formatDistrictName } from "../../lib/districts";
+import { SectorAnalyticsGrid } from "../analytics/SectorAnalyticsGrid";
 
 interface StateNodalViewProps {
   data: DashboardData;
@@ -126,47 +127,11 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
         districtData={districtData} 
       />
 
-      {/* State Typologies & Breakdown */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* State Anomaly Breakdown */}
-        <MagicCard 
-          glowColor="245, 158, 11"
-          enableBorderGlow={true}
-          enableTilt={false}
-          className="lg:col-span-6 rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)]"
-        >
-          <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-3">
-            <div>
-              <h3 className="text-base font-editorial font-bold text-[#1C1917]">{jurisdiction} Anomaly Typologies</h3>
-              <p className="text-xs text-stone-500 font-sans">Breakdown of ML detections across state districts</p>
-            </div>
-            <span className="rounded bg-[#FAF7F2] px-2.5 py-0.5 text-xs font-mono font-bold text-[#6E4529] border border-[#D9D2C5]">
-              State Profile
-            </span>
-          </div>
-
-          <div className="mt-4 space-y-3">
-            {fraud_breakdown.map((item) => (
-              <div key={item.fraud_type} className="rounded-lg border border-[#E5DFD3] bg-[#FAF7F2] p-3 shadow-2xs">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#1C1917]">{formatTypologyLabel(item.label || item.fraud_type)}</span>
-                  <span className="font-mono font-bold text-[#6E4529]">{item.count} flagged</span>
-                </div>
-                <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-stone-200">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-amber-500 via-[#6E4529] to-rose-600"
-                    style={{ width: `${Math.min(100, Math.max(8, item.percentage))}%` }}
-                  />
-                </div>
-                <div className="mt-1.5 flex justify-between text-[11px] text-stone-500 font-mono">
-                  <span>₹{(item.total_amount / 100000).toFixed(1)}L Affected</span>
-                  <span>{item.percentage}%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </MagicCard>
-      </div>
+      {/* State Visual Analytics: Anomaly Distribution & Infrastructure Delays */}
+      <SectorAnalyticsGrid
+        fraudBreakdown={fraud_breakdown}
+        totalFlagged={summary.flagged_works_count}
+      />
 
       {/* Highest Risk State Project Spotlight */}
       {topFlaggedWork && (

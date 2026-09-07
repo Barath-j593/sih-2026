@@ -14,6 +14,7 @@ router = APIRouter(prefix="/works", tags=["Works"])
 def list_works(
     page: int = Query(1, ge=1),
     limit: int = Query(50, ge=1, le=200),
+    category: Optional[str] = None,
     state: Optional[str] = None,
     constituency: Optional[str] = None,
     mp_name: Optional[str] = None,
@@ -31,6 +32,7 @@ def list_works(
     params = WorkFilterParams(
         page=page,
         limit=limit,
+        category=category,
         state=state,
         constituency=constituency,
         mp_name=mp_name,
