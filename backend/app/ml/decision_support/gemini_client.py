@@ -39,8 +39,8 @@ class GeminiDecisionSupportClient:
         initial_backoff: float = 1.0,
     ):
         self.api_key = api_key or os.getenv("GEMINI_API_KEY") or settings.GEMINI_API_KEY
-        self.model_name = model_name or settings.GEMINI_MODEL_NAME or "gemini-2.5-flash"
-        self.timeout_seconds = timeout_seconds or settings.DECISION_SUPPORT_TIMEOUT_SECONDS or 5.0
+        self.model_name = model_name or settings.GEMINI_MODEL_NAME or "gemini-3.5-flash"
+        self.timeout_seconds = timeout_seconds or settings.DECISION_SUPPORT_TIMEOUT_SECONDS or 15.0
         self.max_retries = max_retries
         self.initial_backoff = initial_backoff
         self._client: Optional[Any] = None
@@ -72,39 +72,62 @@ class GeminiDecisionSupportClient:
             response_mime_type="application/json",
             response_schema=response_schema,
             temperature=0.2,  # Low temperature for deterministic, strictly grounded procedural text
-            max_output_tokens=1024,
+            max_output_tokens=4096,
         )
 
-        backoff = self.initial_backoff
+        candidate_models = [
+            self.model_name or "gemini-3.5-flash-lite",
+            "gemini-3.5-flash-lite",
+            "gemini-3.7-flash",
+            "gemini-3.8-flash",
+            "gemini-flash-latest",
+            "gemini-3.5-flash",
+            "gemini-3.6-flash",
+        ]
+        candidate_models = list(dict.fromkeys(candidate_models))
         last_exception = None
 
-        for attempt in range(1, self.max_retries + 1):
-            try:
-                # Execute API call
-                response = client.models.generate_content(
-                    model=self.model_name,
-                    contents=contents,
-                    config=config,
-                )
-                if response and response.text:
-                    return response.text
-                raise RuntimeError("Empty response received from Gemini API.")
-            except Exception as e:
-                last_exception = e
-                err_str = str(e)
-                # Check for rate-limiting 429 or ResourceExhausted
-                is_rate_limit = "429" in err_str or "RESOURCE_EXHAUSTED" in err_str.upper()
-
-                if is_rate_limit and attempt < self.max_retries:
-                    logger.warning(
-                        "Gemini rate limit (429) hit on attempt %d/%d. Backing off %.1fs...",
-                        attempt, self.max_retries, backoff
+        for model_candidate in candidate_models:
+            backoff = self.initial_backoff
+            skip_to_next_model = False
+            for attempt in range(1, self.max_retries + 1):
+                try:
+                    response = client.models.generate_content(
+                        model=model_candidate,
+                        contents=contents,
+                        config=config,
                     )
-                    time.sleep(backoff)
-                    backoff *= 2.0
-                    continue
+                    if response and response.text:
+                        logger.info("Gemini decision support successfully generated using model: %s", model_candidate)
+                        return response.text
+                    raise RuntimeError(f"Empty response received from Gemini model {model_candidate}.")
+                except Exception as e:
+                    last_exception = e
+                    err_str = str(e)
+                    is_rate_limit = "429" in err_str or "RESOURCE_EXHAUSTED" in err_str.upper()
+                    is_not_found = "404" in err_str or "NOT_FOUND" in err_str.upper() or "no longer available" in err_str.lower()
+                    is_transient = "503" in err_str or "UNAVAILABLE" in err_str.upper() or "DEADLINE" in err_str.upper()
 
-                logger.warning("Gemini call failed on attempt %d: %s", attempt, err_str)
-                break
+                    # Fast-fallback: If daily quota is exhausted or model is sunset, switch candidate immediately!
+                    if is_rate_limit or is_not_found:
+                        logger.warning(
+                            "Gemini model %s quota exhausted or unavailable (%s). Fast-falling back to next model candidate...",
+                            model_candidate, err_str[:120]
+                        )
+                        skip_to_next_model = True
+                        break
 
-        raise last_exception or RuntimeError("Gemini API call failed with unknown error.")
+                    if is_transient and attempt < self.max_retries:
+                        logger.warning(
+                            "Gemini model %s transient error on attempt %d/%d. Backing off %.1fs...",
+                            model_candidate, attempt, self.max_retries, backoff
+                        )
+                        time.sleep(backoff)
+                        backoff *= 1.5
+                        continue
+                    break
+
+            if skip_to_next_model:
+                continue
+
+        raise last_exception or RuntimeError("Gemini API call failed with unknown error across all candidate models.")
