@@ -25,6 +25,7 @@ import { FraudEvidenceVisualizer } from "../ui/FraudEvidenceVisualizer";
 import { DistrictVendorCaptureRadar } from "./visualizers/DistrictVendorCaptureRadar";
 import { MagicCard } from "../ui/MagicCard";
 import { formatTypologyLabel } from "../../lib/typologies";
+import { SectorAnalyticsGrid } from "../analytics/SectorAnalyticsGrid";
 import { formatDistrictName } from "../../lib/districts";
 
 interface DistrictMagistrateViewProps {
@@ -175,48 +176,11 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
         extraInsights={extra_insights} 
       />
 
-      {/* Pre-Sanction Directives & Typologies */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-        {/* District Anomaly Breakdown */}
-        <MagicCard 
-          glowColor="245, 158, 11"
-          enableBorderGlow={true}
-          enableTilt={false}
-          className="lg:col-span-6 rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-[0_2px_12px_rgba(40,20,10,0.03)]"
-        >
-          <div className="flex items-center justify-between border-b border-[#E5DFD3] pb-3">
-            <div>
-              <h3 className="text-base font-editorial font-bold text-[#1C1917]">District Anomaly Signatures</h3>
-              <p className="text-xs text-stone-500 font-sans">Distribution of flagged proposals in {jurisdiction}</p>
-            </div>
-            <span className="rounded bg-[#FAF7F2] px-2.5 py-0.5 text-xs font-mono font-bold text-[#6E4529] border border-[#D9D2C5]">
-              Block Level
-            </span>
-          </div>
-
-          <div className="mt-4 space-y-3">
-            {fraud_breakdown.map((item) => (
-              <div key={item.fraud_type} className="rounded-lg border border-[#E5DFD3] bg-[#FAF7F2] p-3 shadow-2xs">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#1C1917]">{formatTypologyLabel(item.label || item.fraud_type)}</span>
-                  <span className="font-mono font-bold text-[#6E4529]">{item.count} proposals</span>
-                </div>
-                <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-stone-200">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-amber-500 via-[#6E4529] to-rose-600"
-                    style={{ width: `${Math.min(100, Math.max(8, item.percentage))}%` }}
-                  />
-                </div>
-                <div className="mt-1.5 flex justify-between text-[11px] text-stone-500 font-mono">
-                  <span>₹{(item.total_amount / 100000).toFixed(1)}L affected</span>
-                  <span>{item.percentage}% of district flags</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </MagicCard>
-      </div>
+      {/* District Visual Analytics: Pre-Sanction Anomalies & Infrastructure Delays */}
+      <SectorAnalyticsGrid
+        fraudBreakdown={fraud_breakdown}
+        totalFlagged={summary.flagged_works_count}
+      />
 
       {/* DM Pre-Sanction Triage Table */}
       <MagicCard 

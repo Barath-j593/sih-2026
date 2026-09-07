@@ -15,7 +15,9 @@ logger = logging.getLogger("setu.decision_support.gemini")
 # Lazy import to avoid loading issues when package is optional
 try:
     from google import genai
+    # pyrefly: ignore [missing-import]
     from google.genai import types
+    # pyrefly: ignore [missing-import]
     from google.genai.errors import APIError
     HAS_GENAI = True
 except ImportError:
