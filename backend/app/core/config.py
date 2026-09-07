@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import List, Union
+from typing import List, Union, Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -34,6 +34,13 @@ class Settings(BaseSettings):
     SAVED_MODELS_DIR: str = str(BASE_DIR / "app" / "ml" / "saved_models")
     GEO_DATA_DIR: str = str(BASE_DIR / "data" / "geo")
     PROCESSED_DATA_DIR: str = str(BASE_DIR / "data" / "processed")
+
+    # Gemini Decision Support
+    GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY", None)
+    GEMINI_MODEL_NAME: str = os.getenv("GEMINI_MODEL_NAME", "gemini-2.5-flash")
+    DECISION_SUPPORT_ENABLED: bool = os.getenv("DECISION_SUPPORT_ENABLED", "true").lower() in ("true", "1", "t")
+    DECISION_SUPPORT_TIMEOUT_SECONDS: float = float(os.getenv("DECISION_SUPPORT_TIMEOUT_SECONDS", "5.0"))
+    DECISION_SUPPORT_MAX_CONCURRENCY: int = int(os.getenv("DECISION_SUPPORT_MAX_CONCURRENCY", "5"))
     
     model_config = SettingsConfigDict(case_sensitive=True, env_file=".env", extra="ignore")
 

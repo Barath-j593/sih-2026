@@ -12,6 +12,7 @@ import {
   RawProposalScoringResponse,
   LiveFusionRequest,
   LiveFusionResponse,
+  DecisionSupportResponse,
 } from "./types";
 
 export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
@@ -415,5 +416,21 @@ export async function fetchCartelConduits(minRisk: number = 45.0, limit: number 
 export async function fetchTemporalRisk(): Promise<TemporalRiskData> {
   const res = await fetch(`${API_BASE}/geo/temporal-risk`, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch temporal risk data");
+  return res.json();
+}
+
+
+export async function fetchDecisionSupport(
+  workId: string,
+  role?: string
+): Promise<DecisionSupportResponse> {
+  const url = new URL(`${API_BASE}/works/${workId}/decision-support`);
+  if (role) {
+    url.searchParams.append("role", role);
+  }
+  const res = await fetch(url.toString(), { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch decision support for ${workId}`);
+  }
   return res.json();
 }

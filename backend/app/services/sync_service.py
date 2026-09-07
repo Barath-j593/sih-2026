@@ -373,13 +373,25 @@ def sync_fused_risk_to_database(
         )
         db.add(const_rec)
 
+# Trailing Decision Support Generation Step (Optional / Fully Decoupled)
+    ds_stats = None
+    if generate_decisions:
+        try:
+            from app.ml.decision_support.batch_generator import run_batch_decision_support
+            ds_stats = run_batch_decision_support(db, limit=decision_limit)
+        except Exception as e:
+            print(f"Warning: Decision support generation step skipped: {e}")
+
     db.commit()
     print("Database synchronization complete!")
 
-    return {
+    result = {
         "works_synced": 5000,
         "alerts_created": len(alert_objects),
         "cases_created": len(case_objects),
         "mps_populated": len(mp_groups),
         "idas_populated": len(ida_groups),
     }
+    if ds_stats:
+        result["decision_support"] = ds_stats
+    return result

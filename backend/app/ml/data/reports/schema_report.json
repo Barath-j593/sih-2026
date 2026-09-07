@@ -46,7 +46,7 @@
     ],
     "columns": {
       "project_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -58,7 +58,7 @@
         ]
       },
       "work_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -70,7 +70,7 @@
         ]
       },
       "title": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -82,7 +82,7 @@
         ]
       },
       "work_type": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -94,7 +94,7 @@
         ]
       },
       "category": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -106,7 +106,7 @@
         ]
       },
       "project_category": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -118,7 +118,7 @@
         ]
       },
       "project_type": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -130,7 +130,7 @@
         ]
       },
       "project_size": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -142,7 +142,7 @@
         ]
       },
       "district_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -154,7 +154,7 @@
         ]
       },
       "district_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -166,7 +166,7 @@
         ]
       },
       "state_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -178,7 +178,7 @@
         ]
       },
       "state_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -190,7 +190,7 @@
         ]
       },
       "constituency_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -202,7 +202,7 @@
         ]
       },
       "constituency_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -214,7 +214,7 @@
         ]
       },
       "contractor_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -226,7 +226,7 @@
         ]
       },
       "agency_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -238,7 +238,7 @@
         ]
       },
       "recommendation_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -250,7 +250,7 @@
         ]
       },
       "sanction_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -262,7 +262,7 @@
         ]
       },
       "start_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -274,7 +274,7 @@
         ]
       },
       "expected_completion_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -286,7 +286,7 @@
         ]
       },
       "target_completion_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -298,7 +298,7 @@
         ]
       },
       "actual_completion_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 4227,
         "null_percentage": 84.54,
@@ -346,7 +346,7 @@
         ]
       },
       "status": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -358,7 +358,7 @@
         ]
       },
       "project_status": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -443,7 +443,7 @@
     ],
     "columns": {
       "project_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -829,7 +829,7 @@
     ],
     "columns": {
       "payment_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -841,7 +841,7 @@
         ]
       },
       "project_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -853,7 +853,7 @@
         ]
       },
       "contractor_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -901,7 +901,7 @@
         ]
       },
       "payment_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -913,7 +913,7 @@
         ]
       },
       "voucher_number": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1074,7 +1074,7 @@
     ],
     "columns": {
       "progress_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1086,7 +1086,7 @@
         ]
       },
       "project_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1098,7 +1098,7 @@
         ]
       },
       "record_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1359,7 +1359,7 @@
     ],
     "columns": {
       "tender_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1371,7 +1371,7 @@
         ]
       },
       "project_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1395,7 +1395,7 @@
         ]
       },
       "procurement_method": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1407,7 +1407,7 @@
         ]
       },
       "tender_publication_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1479,7 +1479,7 @@
         ]
       },
       "tender_type": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1690,7 +1690,7 @@
     ],
     "columns": {
       "contract_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1702,7 +1702,7 @@
         ]
       },
       "project_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1714,7 +1714,7 @@
         ]
       },
       "contractor_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1822,7 +1822,7 @@
         ]
       },
       "award_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1834,7 +1834,7 @@
         ]
       },
       "original_completion_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -1846,7 +1846,7 @@
         ]
       },
       "revised_completion_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2009,7 +2009,7 @@
     ],
     "columns": {
       "contractor_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2021,7 +2021,7 @@
         ]
       },
       "contractor_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2033,7 +2033,7 @@
         ]
       },
       "home_district_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2045,7 +2045,7 @@
         ]
       },
       "home_state_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2057,7 +2057,7 @@
         ]
       },
       "registration_category": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2456,7 +2456,7 @@
     ],
     "columns": {
       "agency_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2468,7 +2468,7 @@
         ]
       },
       "agency_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2480,7 +2480,7 @@
         ]
       },
       "district_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2492,7 +2492,7 @@
         ]
       },
       "state_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2504,7 +2504,7 @@
         ]
       },
       "agency_type": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2572,7 +2572,7 @@
     ],
     "columns": {
       "district_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2584,7 +2584,7 @@
         ]
       },
       "district_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2596,7 +2596,7 @@
         ]
       },
       "state_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2608,7 +2608,7 @@
         ]
       },
       "state_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2704,7 +2704,7 @@
         ]
       },
       "geographic_cluster_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2741,7 +2741,7 @@
     ],
     "columns": {
       "constituency_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2753,7 +2753,7 @@
         ]
       },
       "constituency_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2765,7 +2765,7 @@
         ]
       },
       "district_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2777,7 +2777,7 @@
         ]
       },
       "state_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2789,7 +2789,7 @@
         ]
       },
       "mp_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2801,7 +2801,7 @@
         ]
       },
       "mp_house": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2887,7 +2887,7 @@
     ],
     "columns": {
       "document_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -2899,7 +2899,7 @@
         ]
       },
       "project_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3067,7 +3067,7 @@
         ]
       },
       "document_type": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3079,7 +3079,7 @@
         ]
       },
       "document_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3103,7 +3103,7 @@
         ]
       },
       "document_entity": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3115,7 +3115,7 @@
         ]
       },
       "document_project_reference": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3175,7 +3175,7 @@
         ]
       },
       "document_duplicate_hash": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3259,7 +3259,7 @@
         ]
       },
       "data_validation_status": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3271,7 +3271,7 @@
         ]
       },
       "data_source": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3283,7 +3283,7 @@
         ]
       },
       "source_system": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3295,7 +3295,7 @@
         ]
       },
       "last_updated_timestamp": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3355,7 +3355,7 @@
         ]
       },
       "asset_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3391,7 +3391,7 @@
         ]
       },
       "asset_location": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3439,7 +3439,7 @@
         ]
       },
       "asset_photo_date": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "date",
         "null_count": 4227,
         "null_percentage": 84.54,
@@ -3463,7 +3463,7 @@
         ]
       },
       "asset_status": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3475,7 +3475,7 @@
         ]
       },
       "asset_verification_status": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3553,7 +3553,7 @@
     ],
     "columns": {
       "project_id": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3613,7 +3613,7 @@
         ]
       },
       "risk_level": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3625,7 +3625,7 @@
         ]
       },
       "scenario_type": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3637,7 +3637,7 @@
         ]
       },
       "scenario_name": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
@@ -3649,19 +3649,19 @@
         ]
       },
       "overall_risk_score": {
-        "dtype": "float64",
+        "dtype": "int64",
         "inferred_type": "numeric",
         "null_count": 0,
         "null_percentage": 0.0,
         "unique_count": 4,
         "sample_values": [
-          "20.0",
-          "20.0",
-          "20.0"
+          "20",
+          "20",
+          "20"
         ]
       },
       "investigation_priority": {
-        "dtype": "object",
+        "dtype": "str",
         "inferred_type": "categorical",
         "null_count": 0,
         "null_percentage": 0.0,
