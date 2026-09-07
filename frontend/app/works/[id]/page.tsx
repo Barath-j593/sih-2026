@@ -4,7 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchWorkDetail, createCase } from "../../../lib/api";
+import { fetchDecisionSupport } from "../../../lib/api";
 import { WorkDetail } from "../../../lib/types";
+import { DecisionSupportResponse } from "../../../lib/types";
 import { formatTypologyLabel, normalizeRiskLevel, normalizePriority } from "../../../lib/typologies";
 import { RiskBadge, PriorityBadge } from "../../../components/ui/RiskBadge";
 import { FraudEvidenceVisualizer } from "../../../components/ui/FraudEvidenceVisualizer";
@@ -50,6 +52,9 @@ export default function WorkDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [caseCreated, setCaseCreated] = useState(false);
   const [submittingCase, setSubmittingCase] = useState(false);
+  const [decisionSupport, setDecisionSupport] = useState<DecisionSupportResponse | null>(null);
+  const [selectedRoleTab, setSelectedRoleTab] = useState<string>("ministry");
+  const [loadingDecision, setLoadingDecision] = useState(false);
 
   useEffect(() => {
     if (!workId) return;
@@ -57,6 +62,10 @@ export default function WorkDetailPage() {
       .then(setWork)
       .catch((err) => setError(err.message || "Failed to load work details"))
       .finally(() => setLoading(false));
+
+    fetchDecisionSupport(workId)
+      .then(setDecisionSupport)
+      .catch((err) => console.warn("Decision support not available:", err));
   }, [workId]);
 
   const handleFlagInvestigation = async () => {
@@ -499,6 +508,139 @@ export default function WorkDetailPage() {
           </div>
         </MagicCard>
       </div>
+
+      {/* 3. AI Statutory Decision Support & Action Directives */}
+      <MagicCard
+        glowColor={overallScore >= 70 ? "239, 68, 68" : "14, 165, 233"}
+        className="space-y-4 rounded-xl border border-[#E5DFD3] bg-[#FFFDF9] p-5 shadow-2xs"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E5DFD3] pb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-amber-600" />
+              <h3 className="text-base font-editorial font-bold text-[#1C1917]">
+                AI Statutory Decision Support & Action Directives
+              </h3>
+              {decisionSupport?.source === "gemini" ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 text-[10px] font-mono font-bold text-indigo-700">
+                  <Sparkles className="h-3 w-3 text-indigo-500" /> Gemini 2.5 Flash Grounded
+                </span>
+              ) : decisionSupport?.source === "fallback" ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 border border-stone-300 px-2.5 py-0.5 text-[10px] font-mono font-bold text-stone-700">
+                  <CheckCircle2 className="h-3 w-3 text-stone-500" /> Statutory Rule Matrix
+                </span>
+              ) : null}
+            </div>
+            <p className="text-xs text-stone-500 font-sans mt-0.5">
+              Role-scoped administrative guidance calibrated against MoSPI MPLADS operational guidelines
+            </p>
+          </div>
+
+          {/* Triggered domains pills */}
+          {decisionSupport?.triggered_domains && decisionSupport.triggered_domains.length > 0 && (
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-[10px] font-mono font-bold text-stone-400 uppercase">Triggered Domains:</span>
+              {decisionSupport.triggered_domains.map((dom) => (
+                <span
+                  key={dom}
+                  className="rounded-md bg-amber-50 border border-amber-200 px-2 py-0.5 text-[10px] font-mono font-bold text-amber-800 uppercase"
+                >
+                  {dom}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Role tabs */}
+        <div className="flex flex-wrap items-center gap-2 border-b border-[#E5DFD3] pb-3">
+          {[
+            { id: "ministry", label: "Central Ministry / Auditor", desc: "National oversight" },
+            { id: "district", label: "District Authority (DM / DC)", desc: "Direct administrative power" },
+            { id: "state", label: "State Nodal Department", desc: "Cross-district review" },
+            { id: "mp", label: "Member of Parliament", desc: "Recommending authority" },
+          ].map((r) => (
+            <button
+              key={r.id}
+              onClick={() => setSelectedRoleTab(r.id)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-mono font-bold transition-all border ${
+                selectedRoleTab === r.id
+                  ? "bg-[#6E4529] text-white border-[#6E4529] shadow-xs"
+                  : "bg-[#FAF7F2] text-stone-600 border-[#D9D2C5] hover:bg-[#F2ECE1] hover:text-[#1C1917]"
+              }`}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Recommendations list */}
+        {decisionSupport?.status === "not_applicable" ? (
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-4 text-xs text-emerald-900 flex items-center gap-3 font-sans">
+            <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+            <div>
+              <p className="font-bold">Routine Monitoring Active</p>
+              <p className="text-emerald-700 text-[11px] mt-0.5">
+                Work risk score is within baseline limits. No elevated multi-signal anomalies warranting active administrative intervention.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {(() => {
+              // Extract recommendations for selected role
+              const recs: string[] = (() => {
+                if (!decisionSupport?.recommendations) return [];
+                if (Array.isArray(decisionSupport.recommendations)) {
+                  return decisionSupport.recommendations;
+                }
+                const recObj = decisionSupport.all_recommendations || decisionSupport.recommendations;
+                return recObj[selectedRoleTab] || [];
+              })();
+
+              if (recs.length === 0) {
+                return (
+                  <p className="text-xs text-stone-500 italic p-3">
+                    No active supervisory directives generated for this role.
+                  </p>
+                );
+              }
+
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {recs.map((rec, i) => (
+                    <div
+                      key={i}
+                      className="rounded-lg border border-[#E5DFD3] bg-[#FAF7F2] p-3.5 space-y-1.5 shadow-2xs hover:border-[#D9D2C5] transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono font-bold text-[#6E4529] uppercase tracking-wider">
+                          Directive 0{i + 1}
+                        </span>
+                        <span className="text-[9px] font-mono text-stone-400">Statutory Action</span>
+                      </div>
+                      <p className="text-xs text-[#1C1917] leading-relaxed font-sans font-medium">
+                        {rec}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Confidence note and timestamp */}
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#E5DFD3] text-[10px] font-mono text-stone-500">
+          <span>
+            {decisionSupport?.confidence_note ||
+              "Grounded strictly on computed domain anomaly signals & evidence traces. Zero raw personal data."}
+          </span>
+          {decisionSupport?.generated_at && (
+            <span>Generated: {new Date(decisionSupport.generated_at).toLocaleString()}</span>
+          )}
+        </div>
+      </MagicCard>
     </div>
   );
 }

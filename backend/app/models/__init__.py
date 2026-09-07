@@ -6,5 +6,6 @@ from app.models.constituency import Constituency
 from app.models.user import User
 from app.models.alert import Alert
 from app.models.case import Case
+from app.models.decision_support import DecisionSupport
 
-__all__ = ["Base", "Work", "MP", "IDA", "Constituency", "User", "Alert", "Case"]
+__all__ = ["Base", "Work", "MP", "IDA", "Constituency", "User", "Alert", "Case", "DecisionSupport"]

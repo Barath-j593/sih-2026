@@ -312,3 +312,16 @@ export interface ModelMetricsData {
   timestamp: string;
   disclosure: string;
 }
+
+export interface DecisionSupportResponse {
+  work_id: string;
+  status: string;
+  role: string;
+  source?: string | null;
+  confidence_note?: string | null;
+  triggered_domains?: string[];
+  recommendations: any;
+  all_recommendations?: any;
+  message?: string;
+  generated_at?: string | null;
+}
