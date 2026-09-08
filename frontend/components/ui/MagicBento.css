@@ -1,9 +1,9 @@
 :root {
-  --bento-glow-color: 245, 158, 11; /* Sovereign Gold/Amber */
-  --bento-border-color: rgba(245, 158, 11, 0.2);
-  --bento-border-subtle: rgba(255, 255, 255, 0.08);
-  --bento-bg-dark: #0D1527;
-  --bento-bg-card: #111C38;
+  --bento-glow-color: 180, 83, 9; /* Warm Brown #B45309 */
+  --bento-border-color: rgba(180, 83, 9, 0.2);
+  --bento-border-subtle: rgba(28, 25, 23, 0.1);
+  --bento-bg-dark: #F0ECE1;
+  --bento-bg-card: #FAF7F2;
 }
 
 .magic-bento-section {
@@ -43,8 +43,8 @@
 
 .magic-bento-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(245, 158, 11, 0.4);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.1);
+  border-color: rgba(180, 83, 9, 0.35);
+  box-shadow: 0 12px 30px -10px rgba(28, 25, 23, 0.12), 0 0 20px rgba(180, 83, 9, 0.08);
 }
 
 .magic-bento-card__header {
@@ -62,9 +62,9 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #FDE68A;
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #6E4529;
+  background: rgba(180, 83, 9, 0.1);
+  border: 1px solid rgba(180, 83, 9, 0.25);
   padding: 0.2rem 0.6rem;
   border-radius: 9999px;
   display: inline-flex;
@@ -76,7 +76,7 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 11px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(28, 25, 23, 0.55);
 }
 
 .magic-bento-card__content {
@@ -92,20 +92,20 @@
   font-weight: 700;
   font-size: 1.15rem;
   line-height: 1.3;
-  color: #FFFFFF;
+  color: #1C1917;
   margin: 0 0 0.4rem 0;
   transition: color 0.2s ease;
 }
 
 .magic-bento-card:hover .magic-bento-card__title {
-  color: #FDE68A;
+  color: #6E4529;
 }
 
 .magic-bento-card__description {
   font-family: system-ui, -apple-system, sans-serif;
   font-size: 0.8rem;
   line-height: 1.45;
-  color: #94A3B8;
+  color: #78716C;
   margin: 0;
 }
 
@@ -115,7 +115,7 @@
   justify-content: space-between;
   margin-top: 1rem;
   padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(28, 25, 23, 0.08);
   z-index: 2;
 }
 
@@ -125,7 +125,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #F59E0B;
+  color: #B45309;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -133,7 +133,7 @@
 }
 
 .magic-bento-card:hover .magic-bento-card__link {
-  color: #FDE68A;
+  color: #6E4529;
   gap: 0.55rem;
 }
 

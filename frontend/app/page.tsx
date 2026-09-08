@@ -410,16 +410,16 @@ export default function SetuLandingPage() {
           ACT II: THE STATUTORY LEDGER
           Constitutional Midnight Navy Canvas with delicate hairline rules
       ──────────────────────────────────────────────────────────── */}
-      <section id="ledger" className="bg-[#0A1128] text-[#F7F5EE] py-28 px-4 sm:px-8">
+      <section id="ledger" className="bg-[#E8E0D0] text-[#1C1917] py-28 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto">
           
           <div className="max-w-3xl mb-16">
-            <span className="text-[11px] font-mono uppercase tracking-widest text-[#F59E0B] block mb-3">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[#B45309] block mb-3">
               ACT II • AUTOMATED AUDIT CHECKS
             </span>
             <WarpText
               text={"Catching Procurement Violations\nBefore Public Funds Are Lost"}
-              color="#F7F5EE"
+              color="#1C1917"
               fontSize="clamp(1.8rem, 3.8vw, 3.2rem)"
               fontWeight={700}
               fontFamily="Fraunces, Georgia, serif"
@@ -429,7 +429,7 @@ export default function SetuLandingPage() {
             />
             <WarpText
               text="Real-time compliance checks across General Financial Rules and contractor cartels"
-              color="#94A3B8"
+              color="#78716C"
               fontSize="clamp(0.95rem, 1.8vw, 1.3rem)"
               fontWeight={400}
               fontFamily="Newsreader, serif"
@@ -437,13 +437,13 @@ export default function SetuLandingPage() {
               speed={0.3}
               style={{ height: "50px", maxWidth: "750px", marginTop: "8px" }}
             />
-            <p className="font-serif-body text-base sm:text-lg text-slate-400 mt-4 leading-relaxed">
+            <p className="font-serif-body text-base sm:text-lg text-[#57534E] mt-4 leading-relaxed">
               Whenever a Member of Parliament (MP) recommends a project, SETU automatically cross-references it against India&apos;s General Financial Rules (GFR), official construction rate manuals, and contractor bidding patterns.
             </p>
           </div>
 
           {/* Interactive Sovereign Magic Bento Grid */}
-          <div className="border-t border-white/10 pt-8">
+          <div className="border-t border-[#1C1917]/10 pt-8">
             <MagicBento
               textAutoHide={true}
               enableStars={true}
@@ -454,7 +454,7 @@ export default function SetuLandingPage() {
               clickEffect={true}
               spotlightRadius={320}
               particleCount={10}
-              glowColor="245, 158, 11"
+              glowColor="180, 83, 9"
             />
           </div>
         </div>

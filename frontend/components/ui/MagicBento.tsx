@@ -32,7 +32,7 @@ export interface MagicBentoCardData {
 
 export const SETU_CORE_CAPABILITIES: MagicBentoCardData[] = [
   {
-    color: "#0F172A",
+    color: "#E8E0D0",
     title: "Split-Contract Radar",
     description: "GFR 2017 Rule 155 compliance engine detecting sub-₹5 Lakh artificial project splitting designed to bypass open e-tenders.",
     label: "GFR §155",
@@ -41,7 +41,7 @@ export const SETU_CORE_CAPABILITIES: MagicBentoCardData[] = [
     icon: ShieldAlert,
   },
   {
-    color: "#0F172A",
+    color: "#E8E0D0",
     title: "Contractor Monopoly Barometer",
     description: "Continuous Herfindahl-Hirschman Index (HHI) tracking to flag blocks and districts with extreme vendor and agency capture.",
     label: "HHI > 0.65",
@@ -50,7 +50,7 @@ export const SETU_CORE_CAPABILITIES: MagicBentoCardData[] = [
     icon: Layers,
   },
   {
-    color: "#0D1527",
+    color: "#E8E0D0",
     title: "Cross-Border Cartel Conduits",
     description: "Forensic SVG Bézier flow arcs mapping executing agency syndicates siphoning capital across adjoining parliamentary seats.",
     label: "Forensic GIS",
@@ -59,7 +59,7 @@ export const SETU_CORE_CAPABILITIES: MagicBentoCardData[] = [
     icon: GitFork,
   },
   {
-    color: "#0F172A",
+    color: "#E8E0D0",
     title: "4D Pre-Election Surge Scrubber",
     description: "Month-by-month time-lapse playback revealing the March Rush and anomalous pre-election sanction spikes across all 543 constituencies.",
     label: "March Rush",
@@ -68,7 +68,7 @@ export const SETU_CORE_CAPABILITIES: MagicBentoCardData[] = [
     icon: Clock,
   },
   {
-    color: "#0F172A",
+    color: "#E8E0D0",
     title: "4-Tier Governance Cockpit",
     description: "Constitutional oversight tailored from Central MoSPI Ministry planners down to District Magistrates and elected MPs.",
     label: "Multi-Tier",
@@ -77,7 +77,7 @@ export const SETU_CORE_CAPABILITIES: MagicBentoCardData[] = [
     icon: Landmark,
   },
   {
-    color: "#0F172A",
+    color: "#E8E0D0",
     title: "Audit-Ready Case Files",
     description: "One-click generation of statutory investigation briefs certified for Comptroller and Auditor General (CAG) and anti-corruption action.",
     label: "CAG Ready",

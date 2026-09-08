@@ -40,7 +40,7 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 border-r border-[#E5DFD3] bg-[#FAF7F2] p-4 flex flex-col justify-between shrink-0 hidden md:flex min-h-[calc(100vh-52px)] shadow-[1px_0_12px_rgba(40,20,10,0.02)]">
+    <aside className="w-64 border-r border-[#E5DFD3] bg-[#FAF7F2] p-4 flex flex-col justify-between shrink-0 hidden md:flex h-[calc(100vh-52px)] sticky top-[52px] overflow-y-auto shadow-[1px_0_12px_rgba(40,20,10,0.02)]">
       <div className="space-y-1">
         {/* Sovereign Brand Lockup */}
         <Link
