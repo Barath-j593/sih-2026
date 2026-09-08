@@ -108,7 +108,10 @@ def get_filter_options(db: Session) -> Dict[str, Any]:
     states = [s[0] for s in db.query(Work.state).distinct().order_by(Work.state).all() if s[0]]
     categories = [c[0] for c in db.query(Work.category).distinct().order_by(Work.category).all() if c[0]]
     statuses = [st[0] for st in db.query(Work.status).distinct().order_by(Work.status).all() if st[0]]
-    fraud_types = ["overpricing", "duplicate", "ghost_project", "vendor_capture", "structuring"]
+    fraud_types = [
+        ft[0] for ft in db.query(Work.predicted_fraud_type).distinct().order_by(Work.predicted_fraud_type).all()
+        if ft[0] and ft[0].lower() != "normal"
+    ]
     
     return {
         "states": states,
@@ -117,3 +120,4 @@ def get_filter_options(db: Session) -> Dict[str, Any]:
         "fraud_types": fraud_types,
         "risk_levels": ["Low", "Medium", "High", "Critical"]
     }
+
