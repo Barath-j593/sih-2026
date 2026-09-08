@@ -7,7 +7,7 @@ import { RiskBadge } from "../ui/RiskBadge";
 import { formatTypologyLabel } from "../../lib/typologies";
 import { formatDistrictName } from "../../lib/districts";
 
-interface ConstituencyPin {
+export interface ConstituencyPin {
   id: string;
   work: string;
   mp_name: string;
@@ -24,25 +24,55 @@ interface ConstituencyPin {
   reasons: string[];
   lat: number;
   lng: number;
+  sub_scores?: Record<string, number>;
+  risk_reasons?: string[];
+  days_since_recommended?: number;
+  duplicate_count?: number;
+  state_mean_alloc?: number;
+  category?: string;
 }
 
 interface ConstituencyMapProps {
   pins: ConstituencyPin[];
   title?: string;
+  selectedPinId?: string;
+  onSelectPin?: (pin: ConstituencyPin) => void;
 }
 
-export function ConstituencyMap({ pins, title = "Constituency Works Geo-Verification" }: ConstituencyMapProps) {
+export function ConstituencyMap({
+  pins,
+  title = "Constituency Works Geo-Verification",
+  selectedPinId,
+  onSelectPin,
+}: ConstituencyMapProps) {
   const [selectedPin, setSelectedPin] = useState<ConstituencyPin | null>(null);
   const [filterLevel, setFilterLevel] = useState<string>("all");
 
-  // Keep selected pin in sync when pins prop changes
+  // Keep selected pin in sync when pins prop or selectedPinId changes
   useEffect(() => {
-    if (pins && pins.length > 0) {
-      setSelectedPin(pins[0]);
-    } else {
+    if (!pins || pins.length === 0) {
       setSelectedPin(null);
+      return;
     }
-  }, [pins]);
+    if (selectedPinId) {
+      const match = pins.find((p) => p.id === selectedPinId);
+      if (match) {
+        setSelectedPin(match);
+        return;
+      }
+    }
+    if (selectedPin && pins.some((p) => p.id === selectedPin.id)) {
+      return;
+    }
+    setSelectedPin(pins[0]);
+  }, [pins, selectedPinId]);
+
+  const handlePinClick = (p: ConstituencyPin) => {
+    setSelectedPin(p);
+    if (onSelectPin) {
+      onSelectPin(p);
+    }
+  };
 
   const filteredPins = (pins || []).filter((p) => {
     if (filterLevel === "all") return true;
@@ -92,7 +122,7 @@ export function ConstituencyMap({ pins, title = "Constituency Works Geo-Verifica
                 return (
                   <div
                     key={p.id}
-                    onClick={() => setSelectedPin(p)}
+                    onClick={() => handlePinClick(p)}
                     className={`flex items-start justify-between rounded-lg border p-3.5 cursor-pointer transition-all ${
                       isSelected
                         ? "border-[#6E4529] bg-[#FFFDF9] shadow-2xs ring-1 ring-[#6E4529]"

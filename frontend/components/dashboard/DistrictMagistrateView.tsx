@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   FileText,
@@ -36,6 +36,13 @@ interface DistrictMagistrateViewProps {
 export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateViewProps) {
   const { summary, fraud_breakdown, top_flagged_works, jurisdiction, extra_insights } = data;
   const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
+  const [selectedWork, setSelectedWork] = useState<any>(null);
+
+  useEffect(() => {
+    setSelectedWork(topFlaggedWork);
+  }, [topFlaggedWork]);
+
+  const activeWork = selectedWork || topFlaggedWork;
 
   // Count structuring works from extra_insights clusters or fraud_breakdown
   const structuringClusters = extra_insights?.structuring_clusters || [];
@@ -146,16 +153,18 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
         <ConstituencyMap
           pins={pinsData}
           title={`${jurisdiction} Local Village & Ward Audit GPS Coordinates`}
+          selectedPinId={activeWork?.id}
+          onSelectPin={(pin) => setSelectedWork(pin)}
         />
       </div>
 
       {/* High-Risk Pre-Sanction Proposal Spotlight */}
-      {topFlaggedWork && (
+      {activeWork && (
         <div className="space-y-2">
           <div className="flex items-center justify-between px-1">
             <span className="text-xs font-mono font-bold text-[#6E4529] uppercase tracking-wider flex items-center gap-1.5">
               <ShieldAlert className="h-4 w-4 text-rose-600" />
-              Pre-Sanction Stop-Work Alert ({topFlaggedWork.id})
+              Pre-Sanction Stop-Work Alert ({activeWork.id})
             </span>
             <div className="flex items-center gap-3">
               <Link
@@ -166,7 +175,7 @@ export function DistrictMagistrateView({ data, pinsData }: DistrictMagistrateVie
               </Link>
             </div>
           </div>
-          <FraudEvidenceVisualizer work={topFlaggedWork} />
+          <FraudEvidenceVisualizer work={activeWork} />
         </div>
       )}
 

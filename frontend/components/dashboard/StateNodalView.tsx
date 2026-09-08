@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Building2,
@@ -37,6 +37,13 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
   const { summary, fraud_breakdown, top_flagged_works, extra_insights, jurisdiction } = data;
   const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
   const highestRiskDistrict = districtData.length > 0 ? districtData[0] : null;
+  const [selectedWork, setSelectedWork] = useState<any>(null);
+
+  useEffect(() => {
+    setSelectedWork(topFlaggedWork);
+  }, [topFlaggedWork]);
+
+  const activeWork = selectedWork || topFlaggedWork;
 
   return (
     <div className="space-y-6">
@@ -134,21 +141,21 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
       />
 
       {/* Highest Risk State Project Spotlight */}
-      {topFlaggedWork && (
+      {activeWork && (
         <div className="space-y-2">
           <div className="flex items-center justify-between px-1">
             <span className="text-xs font-mono font-bold text-[#6E4529] uppercase tracking-wider flex items-center gap-1.5">
               <ShieldAlert className="h-4 w-4 text-rose-600" />
-              State Inspection Priority ({topFlaggedWork.id})
+              State Inspection Priority ({activeWork.id})
             </span>
             <Link
-              href={`/works/${topFlaggedWork.id}`}
+              href={`/works/${activeWork.id}`}
               className="text-xs font-mono font-bold text-[#6E4529] hover:text-[#3D2312] hover:underline flex items-center gap-1"
             >
               Issue State Inquiry Notice <ChevronRight className="h-3.5 w-3.5" />
             </Link>
           </div>
-          <FraudEvidenceVisualizer work={topFlaggedWork} />
+          <FraudEvidenceVisualizer work={activeWork} />
         </div>
       )}
 
@@ -186,8 +193,18 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E5DFD3]/60">
-              {top_flagged_works.map((w) => (
-                <tr key={w.id} className="hover:bg-[#FAF7F2] transition-colors">
+              {top_flagged_works.map((w) => {
+                const isSelected = activeWork?.id === w.id;
+                return (
+                  <tr
+                    key={w.id}
+                    onClick={() => setSelectedWork(w)}
+                    className={`transition-colors cursor-pointer ${
+                      isSelected
+                        ? "bg-[#F5EBE1]/80 ring-1 ring-[#6E4529]/30"
+                        : "hover:bg-[#FAF7F2]"
+                    }`}
+                  >
                   <td className="py-3 pl-3 font-mono font-bold text-[#1C1917]">{w.id}</td>
                   <td className="py-3 font-medium text-stone-800 max-w-xs truncate">{w.work}</td>
                   <td className="py-3 text-stone-600">
@@ -202,8 +219,9 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
                   <td className="py-3 pr-3 text-stone-600 max-w-sm truncate text-[11px]">
                     {w.risk_reasons[0] || "High risk score"}
                   </td>
-                </tr>
-              ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   UserCheck,
@@ -34,6 +34,13 @@ interface MPConstituencyViewProps {
 export function MPConstituencyView({ data, pinsData }: MPConstituencyViewProps) {
   const { summary, fraud_breakdown, top_flagged_works, extra_insights, jurisdiction } = data;
   const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
+  const [selectedWork, setSelectedWork] = useState<any>(null);
+
+  useEffect(() => {
+    setSelectedWork(topFlaggedWork);
+  }, [topFlaggedWork]);
+
+  const activeWork = selectedWork || topFlaggedWork;
 
   // Stalled works count (matches delayed_work, abandoned_work, ghost_work, or legacy ghost_project)
   const stalledItem = fraud_breakdown.find((f) => {
@@ -129,6 +136,8 @@ export function MPConstituencyView({ data, pinsData }: MPConstituencyViewProps) 
         <ConstituencyMap
           pins={pinsData}
           title={`${jurisdiction} Constituency Physical Progress & Asset Audit`}
+          selectedPinId={activeWork?.id}
+          onSelectPin={(pin) => setSelectedWork(pin)}
         />
         {/* Bespoke MP Visualizer: Recommendation-to-Asset Pipeline & Delay Sinks */}
         <ConstituencyDeliveryPipeline 
@@ -181,21 +190,21 @@ export function MPConstituencyView({ data, pinsData }: MPConstituencyViewProps) 
       </div>
 
       {/* Highest Priority Project Spotlight */}
-      {topFlaggedWork && (
+      {activeWork && (
         <div className="space-y-2">
           <div className="flex items-center justify-between px-1">
             <span className="text-xs font-mono font-bold text-[#6E4529] uppercase tracking-wider flex items-center gap-1.5">
               <Sparkles className="h-4 w-4 text-emerald-600" />
-              Constituency High-Priority Project Spotlight ({topFlaggedWork.id})
+              Constituency High-Priority Project Spotlight ({activeWork.id})
             </span>
             <Link
-              href={`/works/${topFlaggedWork.id}`}
+              href={`/works/${activeWork.id}`}
               className="text-xs font-mono font-bold text-[#6E4529] hover:text-[#3D2312] hover:underline flex items-center gap-1"
             >
               Review Execution Trace <ChevronRight className="h-3.5 w-3.5" />
             </Link>
           </div>
-          <FraudEvidenceVisualizer work={topFlaggedWork} />
+          <FraudEvidenceVisualizer work={activeWork} />
         </div>
       )}
 
