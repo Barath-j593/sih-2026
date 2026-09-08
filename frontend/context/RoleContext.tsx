@@ -95,7 +95,7 @@ interface RoleContextType {
   role: UserRole;
   roleConfig: RoleConfig;
   jurisdiction: string;
-  setRole: (r: UserRole) => void;
+  setRole: (r: UserRole, customJurisdiction?: string) => void;
   setJurisdiction: (j: string) => void;
   availableRoles: RoleOption[];
 }
@@ -116,9 +116,9 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const setRole = (newRole: UserRole) => {
+  const setRole = (newRole: UserRole, customJurisdiction?: string) => {
     setRoleState(newRole);
-    const newJur = DEFAULT_ROLES[newRole]?.jurisdiction || "All India";
+    const newJur = customJurisdiction || DEFAULT_ROLES[newRole]?.jurisdiction || "All India";
     setJurisdictionState(newJur);
     try {
       localStorage.setItem("setu_user_role", newRole);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Building2, AlertTriangle, ShieldCheck, MapPin, Search } from "lucide-react";
 import { RiskBadge } from "../ui/RiskBadge";
 import { formatDistrictName } from "../../lib/districts";
@@ -168,12 +169,21 @@ export function DistrictDrilldownMap({
                 </div>
 
                 <div className="pt-2">
-                  <a
-                    href={`/works?search=${encodeURIComponent(formatDistrictName(activeDistrict.district, stateLabel))}`}
-                    className="block w-full text-center rounded bg-[#6E4529] py-2.5 text-xs font-mono font-bold text-white hover:bg-[#5A361F] transition-all shadow-2xs"
-                  >
-                    Inspect Works in {formatDistrictName(activeDistrict.district, stateLabel)} →
-                  </a>
+                  {(() => {
+                    const targetState = stateLabel && stateLabel !== "State" ? stateLabel : (activeDistrict.state || "");
+                    const stateQuery = targetState ? `state=${encodeURIComponent(targetState)}&` : "";
+                    const districtSearchName = formatDistrictName(activeDistrict.district, targetState);
+                    const worksHref = `/works?${stateQuery}search=${encodeURIComponent(districtSearchName)}`;
+
+                    return (
+                      <Link
+                        href={worksHref}
+                        className="block w-full text-center rounded bg-[#6E4529] py-2.5 text-xs font-mono font-bold text-white hover:bg-[#5A361F] transition-all shadow-2xs"
+                      >
+                        Inspect Works in {districtSearchName} →
+                      </Link>
+                    );
+                  })()}
                 </div>
               </div>
             </>

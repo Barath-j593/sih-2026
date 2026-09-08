@@ -165,7 +165,7 @@ export function StateNodalView({ data, districtData }: StateNodalViewProps) {
             <p className="text-xs text-stone-500 font-sans">Flagged projects requiring state nodal inspection notices</p>
           </div>
           <Link
-            href="/works"
+            href={`/works?state=${encodeURIComponent(jurisdiction)}`}
             className="text-xs font-mono font-bold text-[#6E4529] hover:underline flex items-center gap-1"
           >
             View All State Works <ChevronRight className="h-4 w-4" />

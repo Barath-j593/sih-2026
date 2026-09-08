@@ -25,6 +25,7 @@ import { FraudEvidenceVisualizer } from "../ui/FraudEvidenceVisualizer";
 import { MagicCard } from "../ui/MagicCard";
 import { formatTypologyLabel } from "../../lib/typologies";
 import { SectorAnalyticsGrid } from "../analytics/SectorAnalyticsGrid";
+import { useRole } from "../../context/RoleContext";
 
 interface MinistryViewProps {
   data: DashboardData;
@@ -33,6 +34,7 @@ interface MinistryViewProps {
 }
 
 export function MinistryView({ data, stateChoropleth, graphData }: MinistryViewProps) {
+  const { setRole } = useRole();
   const { summary, fraud_breakdown, top_flagged_works, extra_insights } = data;
   const topFlaggedWork = top_flagged_works && top_flagged_works.length > 0 ? top_flagged_works[0] : null;
 
@@ -111,7 +113,13 @@ export function MinistryView({ data, stateChoropleth, graphData }: MinistryViewP
 
       {/* National GIS State Risk Choropleth Map */}
       <div className="space-y-2">
-        <StateChoroplethMap data={stateChoropleth} />
+        <StateChoroplethMap
+          data={stateChoropleth}
+          onSelectState={(stateName) => {
+            setRole("state", stateName);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
       </div>
 
       {/* Highest Risk National Project Spotlight */}

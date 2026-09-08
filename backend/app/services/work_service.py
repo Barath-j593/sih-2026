@@ -36,6 +36,7 @@ def get_works_paginated(db: Session, params: WorkFilterParams) -> PaginatedWorks
                 func.lower(Work.mp_name).like(s),
                 func.lower(Work.ida).like(s),
                 func.lower(Work.constituency).like(s),
+                func.lower(Work.city).like(s),
                 func.lower(Work.id).like(s)
             )
         )

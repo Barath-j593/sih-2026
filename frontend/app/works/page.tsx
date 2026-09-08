@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { fetchWorks, fetchFilters } from "../../lib/api";
 import { WorkItem } from "../../lib/types";
 import { RiskBadge, PriorityBadge } from "../../components/ui/RiskBadge";
@@ -32,7 +33,9 @@ import {
   Zap,
 } from "lucide-react";
 
-export default function WorksExplorerPage() {
+function WorksExplorerContent() {
+  const searchParams = useSearchParams();
+
   const [works, setWorks] = useState<WorkItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
@@ -40,16 +43,16 @@ export default function WorksExplorerPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [viewMode, setViewMode] = useState<"table" | "duplicate_groups">("table");
 
-  // Filters (Uncoupled from persona/role switcher for pure forensic autonomy)
-  const [search, setSearch] = useState("");
-  const [state, setState] = useState("");
-  const [category, setCategory] = useState("");
+  // Filters (initialized from URL search parameters if provided)
+  const [search, setSearch] = useState(() => searchParams.get("search") || searchParams.get("q") || "");
+  const [state, setState] = useState(() => searchParams.get("state") || "");
+  const [category, setCategory] = useState(() => searchParams.get("category") || "");
   const [showAnalytics, setShowAnalytics] = useState(true);
-  const [riskLevel, setRiskLevel] = useState("");
-  const [fraudType, setFraudType] = useState("");
-  const [sortBy, setSortBy] = useState("risk_score");
-  const [sortOrder, setSortOrder] = useState("desc");
-  const [activePreset, setActivePreset] = useState<string | null>(null);
+  const [riskLevel, setRiskLevel] = useState(() => searchParams.get("risk_level") || searchParams.get("riskLevel") || "");
+  const [fraudType, setFraudType] = useState(() => searchParams.get("fraud_type") || searchParams.get("fraudType") || "");
+  const [sortBy, setSortBy] = useState(() => searchParams.get("sort_by") || searchParams.get("sortBy") || "risk_score");
+  const [sortOrder, setSortOrder] = useState(() => searchParams.get("sort_order") || searchParams.get("sortOrder") || "desc");
+  const [activePreset, setActivePreset] = useState<string | null>(() => searchParams.get("preset") || null);
 
   // Filter options from API
   const [options, setOptions] = useState<{
@@ -69,6 +72,28 @@ export default function WorksExplorerPage() {
   useEffect(() => {
     fetchFilters().then(setOptions).catch(console.error);
   }, []);
+
+  // Sync URL query parameters whenever they change
+  useEffect(() => {
+    const qSearch = searchParams.get("search") || searchParams.get("q");
+    const qState = searchParams.get("state");
+    const qCategory = searchParams.get("category");
+    const qRisk = searchParams.get("risk_level") || searchParams.get("riskLevel");
+    const qFraud = searchParams.get("fraud_type") || searchParams.get("fraudType");
+    const qSortBy = searchParams.get("sort_by") || searchParams.get("sortBy");
+    const qSortOrder = searchParams.get("sort_order") || searchParams.get("sortOrder");
+    const qPreset = searchParams.get("preset");
+
+    if (qSearch !== null) setSearch(qSearch);
+    if (qState !== null) setState(qState);
+    if (qCategory !== null) setCategory(qCategory);
+    if (qRisk !== null) setRiskLevel(qRisk);
+    if (qFraud !== null) setFraudType(qFraud);
+    if (qSortBy !== null) setSortBy(qSortBy);
+    if (qSortOrder !== null) setSortOrder(qSortOrder);
+    if (qPreset !== null) setActivePreset(qPreset);
+    setPage(1);
+  }, [searchParams]);
 
   useEffect(() => {
     async function loadWorks() {
@@ -167,6 +192,9 @@ export default function WorksExplorerPage() {
     setActivePreset(null);
     setViewMode("table");
     setPage(1);
+    try {
+      window.history.replaceState(null, "", "/works");
+    } catch {}
   };
 
   const hasActiveFilters = Boolean(
@@ -818,5 +846,20 @@ export default function WorksExplorerPage() {
         </MagicCard>
       )}
     </div>
+  );
+}
+
+export default function WorksExplorerPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-[70vh] flex-col items-center justify-center space-y-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#6E4529] border-t-transparent shadow-sm" />
+          <p className="text-xs font-mono text-stone-500">Loading MPLADS Works Explorer...</p>
+        </div>
+      }
+    >
+      <WorksExplorerContent />
+    </Suspense>
   );
 }
