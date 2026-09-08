@@ -47,6 +47,10 @@ class TopFlaggedWorkItem(BaseModel):
     risk_level: str
     predicted_fraud_type: Optional[str] = None
     risk_reasons: List[str] = []
+    sub_scores: Optional[Dict[str, Any]] = {}
+    days_since_recommended: Optional[int] = 0
+    duplicate_count: Optional[int] = 1
+    state_mean_alloc: Optional[float] = None
 
 class MonthlyTrendItem(BaseModel):
     month: str

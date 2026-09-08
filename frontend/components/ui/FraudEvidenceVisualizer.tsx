@@ -71,10 +71,20 @@ export function FraudEvidenceVisualizer({ work, clusterWorks = [] }: FraudEviden
     : Math.min(100, Math.round(overallScore * 0.9));
 
   // Extract domain scores from domain_scores or sub_scores
-  const subs = work.domain_scores || work.sub_scores || {};
+  let rawSubs: any = work.domain_scores || work.sub_scores || {};
+  if (typeof rawSubs === "string") {
+    try {
+      rawSubs = JSON.parse(rawSubs);
+    } catch {
+      rawSubs = {};
+    }
+  }
+  const subs: Record<string, any> = rawSubs && typeof rawSubs === "object" ? rawSubs : {};
+
   const getDomainScore = (key: string, altKey?: string): number => {
-    const val = subs[key] ?? (altKey ? subs[altKey] : undefined);
-    return typeof val === "number" && !isNaN(val) ? Math.round(val * 10) / 10 : 0;
+    const rawVal = subs[key] ?? (altKey ? subs[altKey] : undefined);
+    const num = typeof rawVal === "number" ? rawVal : parseFloat(rawVal);
+    return !isNaN(num) && isFinite(num) ? Math.round(num * 10) / 10 : 0;
   };
 
   const domainModels = [

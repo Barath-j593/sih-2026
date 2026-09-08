@@ -219,7 +219,11 @@ def get_role_scoped_dashboard(
                 risk_score=w.risk_score,
                 risk_level=w.risk_level,
                 predicted_fraud_type=w.predicted_fraud_type,
-                risk_reasons=w.risk_reasons or []
+                risk_reasons=w.risk_reasons or [],
+                sub_scores=w.sub_scores or {},
+                days_since_recommended=w.days_since_recommended or 0,
+                duplicate_count=w.duplicate_count or 1,
+                state_mean_alloc=w.state_mean_alloc
             )
         )
 
