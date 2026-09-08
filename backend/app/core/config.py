@@ -1,10 +1,16 @@
 import os
 from pathlib import Path
 from typing import List, Union, Optional
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 WORKSPACE_ROOT = BASE_DIR.parent
+
+# Explicitly load .env from backend and workspace root
+load_dotenv(BASE_DIR / ".env")
+load_dotenv(WORKSPACE_ROOT / ".env")
+load_dotenv()
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "SETU — AI-Powered MPLADS Anomaly, Fraud & Inefficiency Detection"
@@ -37,9 +43,9 @@ class Settings(BaseSettings):
 
     # Gemini Decision Support
     GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY", None)
-    GEMINI_MODEL_NAME: str = os.getenv("GEMINI_MODEL_NAME", "gemini-2.5-flash")
+    GEMINI_MODEL_NAME: str = os.getenv("GEMINI_MODEL_NAME", "gemini-3.5-flash")
     DECISION_SUPPORT_ENABLED: bool = os.getenv("DECISION_SUPPORT_ENABLED", "true").lower() in ("true", "1", "t")
-    DECISION_SUPPORT_TIMEOUT_SECONDS: float = float(os.getenv("DECISION_SUPPORT_TIMEOUT_SECONDS", "5.0"))
+    DECISION_SUPPORT_TIMEOUT_SECONDS: float = float(os.getenv("DECISION_SUPPORT_TIMEOUT_SECONDS", "15.0"))
     DECISION_SUPPORT_MAX_CONCURRENCY: int = int(os.getenv("DECISION_SUPPORT_MAX_CONCURRENCY", "5"))
     
     model_config = SettingsConfigDict(case_sensitive=True, env_file=".env", extra="ignore")

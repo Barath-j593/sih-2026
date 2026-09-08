@@ -128,24 +128,28 @@ export default function WorksExplorerPage() {
         setViewMode("table");
         break;
       case "single_bid":
-        setFraudType("single_bid_tender");
+        setFraudType("procurement_single_bid");
         setRiskLevel("");
         setViewMode("table");
         break;
       case "structuring":
-        setFraudType("payment_structuring");
+        setFraudType("payment_progress_mismatch");
         setRiskLevel("");
         setViewMode("table");
         break;
       case "vendor_concentration":
       case "vendor_capture":
-        setFraudType("vendor_concentration");
+        setFraudType("anomalous_profile");
         setRiskLevel("");
         setViewMode("table");
         break;
       case "delayed_work":
-      case "ghost_project":
         setFraudType("delayed_work");
+        setRiskLevel("");
+        setViewMode("table");
+        break;
+      case "ghost_project":
+        setFraudType("ghost_work");
         setRiskLevel("");
         setViewMode("table");
         break;
@@ -474,22 +478,15 @@ export default function WorksExplorerPage() {
               className="w-full rounded-xl border border-[#D9D2C5] bg-[#FAF7F2] px-3 py-2 text-xs text-stone-800 font-medium focus:border-[#6E4529] focus:outline-none focus:ring-1 focus:ring-[#6E4529] cursor-pointer transition-all"
             >
               <option value="">All Anomaly Typologies</option>
-              <option value="cost_overrun">Cost Overrun</option>
-              <option value="ghost_work">Ghost Work</option>
-              <option value="single_bid_tender">Single-Bid Tender</option>
-              <option value="vendor_concentration">Vendor Concentration</option>
-              <option value="payment_structuring">Payment Structuring</option>
-              <option value="delayed_work">Delayed Work</option>
-              <option value="abandoned_work">Abandoned Work</option>
-              <option value="collusion_ring">Collusion Ring</option>
+              <option value="cost_overrun">Cost Overrun & Escalation</option>
+              <option value="payment_progress_mismatch">Payment vs Progress Mismatch</option>
+              <option value="delayed_work">Delayed Execution</option>
+              <option value="abandoned_work">Abandoned Project</option>
               <option value="documentation_deficit">Documentation Deficit</option>
+              <option value="anomalous_profile">Multi-Signal Anomaly</option>
+              <option value="procurement_single_bid">Single-Bid Procurement</option>
+              <option value="ghost_work">Ghost / Non-Existent Project</option>
               <option value="normal">Normal / Compliant Profile</option>
-              {/* Legacy Aliases */}
-              <option value="overpricing">Legacy: Cost Escalation</option>
-              <option value="duplicate">Legacy: Duplicate Cloned Works</option>
-              <option value="structuring">Legacy: Structuring (&lt;₹5L)</option>
-              <option value="vendor_capture">Legacy: Agency Capture</option>
-              <option value="ghost_project">Legacy: Stalled / Ghost</option>
             </select>
           </div>
 

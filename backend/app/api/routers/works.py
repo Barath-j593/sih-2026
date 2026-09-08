@@ -97,8 +97,92 @@ def get_work_decision_support(
 
     # Check for stored decision support row
     ds = db.query(DecisionSupport).filter(DecisionSupport.work_id == work_id).first()
+
+    # If fallback exists but API key is now configured, or if no row exists yet for an elevated work:
+    is_elevated = (
+        (work.risk_score is not None and float(work.risk_score) >= 40.0) or
+        (work.risk_level and str(work.risk_level).upper() in ("MEDIUM", "HIGH", "CRITICAL"))
+    )
+
+    if not ds and is_elevated:
+        # Dynamically generate on-demand using Gemini / Decision Support engine!
+        import uuid
+        from datetime import datetime, timezone
+        from app.ml.decision_support import generate_decision_support
+
+        work_dict = {
+            "id": work.id,
+            "work": work.work,
+            "work_title": work.work,
+            "work_category": work.category or "General",
+            "category": work.category or "General",
+            "allocation_amount": float(work.allocation_amount or 0.0),
+            "status": work.status or "Unsanctioned",
+            "days_since_recommended": int(work.days_since_recommended or 0),
+            "constituency": work.constituency or "",
+            "state": work.state or "",
+            "ida": work.ida or "",
+            "overall_risk_score": float(work.risk_score or 0.0),
+            "risk_level": str(work.risk_level or "MEDIUM").upper(),
+            "primary_typology": getattr(work, "predicted_fraud_type", "GENERAL_ANOMALY") or "GENERAL_ANOMALY",
+            "sub_scores": work.sub_scores or {},
+            "synthesized_reasons": work.risk_reasons or [],
+        }
+        res = generate_decision_support(work_dict)
+        ds = DecisionSupport(
+            id=str(uuid.uuid4()),
+            work_id=work.id,
+            triggered_domains=res.get("triggered_domains", []),
+            recommendations=res.get("recommendations", {}),
+            source=res.get("source", "gemini"),
+            confidence_note=res.get("confidence_note", ""),
+            generated_at=datetime.now(timezone.utc),
+        )
+        try:
+            db.add(ds)
+            db.commit()
+            db.refresh(ds)
+        except Exception:
+            db.rollback()
+
+    elif ds and ds.source == "fallback" and is_elevated:
+        # Upgrade prior fallback record to live Gemini recommendations
+        try:
+            from datetime import datetime, timezone
+            from app.ml.decision_support import generate_decision_support
+
+            work_dict = {
+                "id": work.id,
+                "work": work.work,
+                "work_title": work.work,
+                "work_category": work.category or "General",
+                "category": work.category or "General",
+                "allocation_amount": float(work.allocation_amount or 0.0),
+                "status": work.status or "Unsanctioned",
+                "days_since_recommended": int(work.days_since_recommended or 0),
+                "constituency": work.constituency or "",
+                "state": work.state or "",
+                "ida": work.ida or "",
+                "overall_risk_score": float(work.risk_score or 0.0),
+                "risk_level": str(work.risk_level or "MEDIUM").upper(),
+                "primary_typology": getattr(work, "predicted_fraud_type", "GENERAL_ANOMALY") or "GENERAL_ANOMALY",
+                "sub_scores": work.sub_scores or {},
+                "synthesized_reasons": work.risk_reasons or [],
+            }
+            res = generate_decision_support(work_dict)
+            if res.get("source") == "gemini":
+                ds.triggered_domains = res.get("triggered_domains", [])
+                ds.recommendations = res.get("recommendations", {})
+                ds.source = "gemini"
+                ds.confidence_note = res.get("confidence_note", "")
+                ds.generated_at = datetime.now(timezone.utc)
+                db.commit()
+                db.refresh(ds)
+        except Exception:
+            db.rollback()
+
     if not ds:
-        # If work is Low risk or not yet generated, return graceful not_applicable
+        # Truly low risk work (routine monitoring)
         return {
             "work_id": work_id,
             "status": "not_applicable",

@@ -54,10 +54,12 @@ export default function WorkDetailPage() {
   const [submittingCase, setSubmittingCase] = useState(false);
   const [decisionSupport, setDecisionSupport] = useState<DecisionSupportResponse | null>(null);
   const [selectedRoleTab, setSelectedRoleTab] = useState<string>("ministry");
-  const [loadingDecision, setLoadingDecision] = useState(false);
+  const [loadingDecision, setLoadingDecision] = useState(true);
 
   useEffect(() => {
     if (!workId) return;
+    setLoading(true);
+    setLoadingDecision(true);
     fetchWorkDetail(workId)
       .then(setWork)
       .catch((err) => setError(err.message || "Failed to load work details"))
@@ -65,7 +67,8 @@ export default function WorkDetailPage() {
 
     fetchDecisionSupport(workId)
       .then(setDecisionSupport)
-      .catch((err) => console.warn("Decision support not available:", err));
+      .catch((err) => console.warn("Decision support not available:", err))
+      .finally(() => setLoadingDecision(false));
   }, [workId]);
 
   const handleFlagInvestigation = async () => {
@@ -575,7 +578,23 @@ export default function WorkDetailPage() {
         </div>
 
         {/* Recommendations list */}
-        {decisionSupport?.status === "not_applicable" ? (
+        {loadingDecision ? (
+          <div className="rounded-xl border border-[#E5DFD3] bg-[#FAF7F2]/80 p-5 text-center space-y-3">
+            <div className="flex items-center justify-center gap-2 text-[#6E4529]">
+              <Sparkles className="h-4 w-4 animate-spin text-[#6E4529]" />
+              <span className="text-xs font-mono font-bold tracking-wider uppercase">
+                Synthesizing Role-Scoped Directives via Gemini AI...
+              </span>
+            </div>
+            <p className="text-[11px] text-stone-500 max-w-lg mx-auto font-sans">
+              Calibrating cross-domain anomaly indicators, expenditure outlays, and statutory MoSPI operational procedures for this work.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              <div className="h-20 bg-[#E5DFD3]/40 rounded-lg animate-pulse border border-[#E5DFD3]/60" />
+              <div className="h-20 bg-[#E5DFD3]/40 rounded-lg animate-pulse border border-[#E5DFD3]/60" />
+            </div>
+          </div>
+        ) : decisionSupport?.status === "not_applicable" ? (
           <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-4 text-xs text-emerald-900 flex items-center gap-3 font-sans">
             <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
             <div>
